@@ -24,15 +24,19 @@ flowchart LR
     S["Keyword search<br/>with synonyms"]
     M["Mask NIK and phone<br/>flag hidden instructions"]
     G["Draft-only messaging<br/>send needs approval file"]
+    J["Answer check<br/>ids, numbers, names<br/>must match sources"]
     A["Hash-chained audit log"]
   end
 
   P -- "cari, ambil_sumber, daftar_task" --> F
-  R -- "periksa_sumber" --> F
-  L -- "pemilik_topik, siapkan_pesan, kirim_pesan, catat_jawaban" --> G
+  R -- "periksa_sumber, periksa_jawaban" --> J
+  L -- "catat_jawaban (checked before display)" --> J
+  L -- "pemilik_topik, siapkan_pesan, kirim_pesan" --> G
+  J --> F
   F --> S --> M
   F --> A
   G --> A
+  J --> A
 
   D[("Chats, documents, tasks,<br/>people and group table")] --> F
   H["Person at the approval console<br/>scripts/setujui.ts"] --> G
@@ -47,6 +51,7 @@ flowchart LR
 | Permission filter | Keeps only items whose group list overlaps the asker's groups, then searches. | Filtering after search would let restricted text reach the model. Data is re-read on every call, so access changes apply at once. |
 | Uniform empty answer | Restricted and non-existent items both return "Tidak ada data yang cocok." | The handbook test for "Proyek Kenari" requires that nothing confirms it exists. |
 | Masking and instruction flags | NIK and phone numbers are masked unless an HR user asks. Text that addresses the AI is marked as data. | Personal data protection and prompt injection are handled before the model sees the text. |
+| Answer check (`periksa_jawaban`) | Every line of an answer must cite ids that exist and are visible to the asker, and its numbers and proper names must appear in the cited sources. `catat_jawaban` runs it and returns `lolos: false` for an answer that may not be shown. | Added after a test run in which the writer invented a story and attached one real source. Prompts asked it not to. Code now refuses it. |
 | Draft-only messaging | `siapkan_pesan` writes a draft. `kirim_pesan` refuses until a person writes an approval through the console. | The model has no tool that approves, so asking first is enforced, not requested. |
 | Audit log | Every call is appended with the hash of the previous line. | Anyone can check later what was asked, what was retrieved and what was answered, and tampering shows. |
 

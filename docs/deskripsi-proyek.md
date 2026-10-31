@@ -35,9 +35,9 @@ Existing tools do not close the gap. Enterprise search products answer with sear
 **How prompt design drives behaviour.**
 
 - The lead's SOP forces three separate phases. The writer only sees evidence, and the auditor checks every sentence against `periksa_sumber` before anything reaches the asker.
-- The prompts fix one exact sentence for "nothing found" and ban words that imply hidden data (access, restricted, confidential, the asker's own name). The first WorkBuddy run failed this rule by saying "in the sources you can access". We added the banned words, and the next run returned the exact sentence. Both runs are in [hasil-uji.md](hasil-uji.md).
+- The prompts fix one exact sentence for "nothing found" and ban words that imply hidden data (access, restricted, confidential). An early WorkBuddy run failed this rule by saying "in the sources you can access". Runs on the corrected prompts return the exact sentence. All runs, failures included, are in [hasil-uji.md](hasil-uji.md).
 - The writer must build record gaps only from visible evidence. A gap like "the reason for the revision is not recorded, Dedi was in that conversation" is useful. A gap that hints "management knows more" would leak, so it is forbidden.
-- Prompts are the second line. The first line is code, so a prompt failure cannot widen access.
+- Prompts are the second line. The first line is code. The permission filter decides what the model can see, and `periksa_jawaban` checks every answer before it is shown. It rejects cited ids that do not exist and numbers or names that do not appear in the cited sources. We added it after a test run where the writer invented a story and pasted one real source onto it.
 
 ## Business value
 

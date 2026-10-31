@@ -1,44 +1,69 @@
 # Runut
 
-Agent riwayat proyek untuk AI CAN DO IT Tencent Cloud Hackathon Indonesia 2026, Challenge A (The Workplace Brain), skenario Project history.
+**Project history, rebuilt from sources, within permissions.**
 
-Runut menyusun ulang kisah sebuah proyek dari chat, dokumen, dan task, hanya dari data yang boleh dilihat si penanya. Setiap jawaban berisi kronologi bersumber, daftar yang masih open, dan celah catatan (bagian yang tidak tercatat beserta siapa yang kemungkinan tahu).
+Runut is an accountable AI agent for AI CAN DO IT Tencent Cloud Hackathon Indonesia 2026, Challenge A (The Workplace Brain), scenario Project history. Ask it "Why was stock late in Makassar, and what is still open?" and it rebuilds the story from chats, documents and task boards, using only what the asker is allowed to see. Every answer has three parts.
 
-## Isi repo
+1. A timeline where every sentence cites its source.
+2. What is still open, from the task board.
+3. Gaps in the record: what was never written down, and who was in the conversation and likely knows.
 
-| Folder | Isi |
+It is built as a WorkBuddy expert team of four agents on top of one MCP server that enforces the rules in code.
+
+## Submission documents
+
+| Document | Link |
 | --- | --- |
-| `src/` | MCP server Runut. Filter hak akses berjalan sebelum pencarian, data pribadi disamarkan, instruksi tersembunyi ditandai, semua panggilan dicatat di log audit berantai hash |
-| `workbuddy/runut-tim/` | Expert team WorkBuddy: koordinator Tata, Penelusur Sumber, Penyusun Kronologi, Pemeriksa Sumber |
-| `data/` | Data contoh perusahaan fiktif (PT Sinar Rasa Nusantara) |
-| `tests/` | Uji akuntabilitas untuk lapisan yang dijaga kode |
-| `scripts/` | Konsol persetujuan, pemasang WorkBuddy, uji MCP |
+| Project description | [docs/deskripsi-proyek.md](docs/deskripsi-proyek.md) |
+| Accountability sheet | [docs/accountability-sheet.md](docs/accountability-sheet.md) |
+| Test results, failures included | [docs/hasil-uji.md](docs/hasil-uji.md) |
+| Architecture diagram | [docs/arsitektur.md](docs/arsitektur.md) |
+| Product sharing (WorkBuddy) | [docs/product-sharing.md](docs/product-sharing.md) |
+| Demo video script | [docs/naskah-demo.md](docs/naskah-demo.md) |
+| Audit log and results page | GitHub Pages of this repo (`docs/index.html`) |
 
-## Menjalankan
+## Repository
 
-Butuh Node.js 24 atau lebih baru (TypeScript dijalankan langsung tanpa build).
+| Folder | Contents |
+| --- | --- |
+| `src/` | Runut MCP server. Permission filter before search, masking, hidden-instruction flags, answer check, draft-only messaging, hash-chained audit log |
+| `workbuddy/runut-tim/` | WorkBuddy expert team: Tata (lead), Lusi (source tracer), Yusuf (timeline writer), Riksa (citation auditor) |
+| `data/` | Fictional company data (PT Sinar Rasa Nusantara, a snack distributor) |
+| `tests/` | 31 automated tests, including 20 handbook-style cases |
+| `scripts/` | Installer, identity switch, approval console, MCP smoke test, results page generator |
+| `docs/` | Submission documents and evidence screenshots |
+
+## Run it
+
+Needs Node.js 24 or newer (TypeScript runs directly, no build step) and WorkBuddy for Windows or macOS.
 
 ```bash
 npm install
 npm test
 node scripts/coba-mcp.ts u-andi "Kenari"
-node scripts/pasang-workbuddy.ts
 ```
 
-`pasang-workbuddy.ts` menyalin expert team ke WorkBuddy, mendaftarkannya, dan menambahkan dua MCP server ke `~/.workbuddy-ai/mcp.json` (file lama dicadangkan ke `mcp.json.bak`):
+Install into WorkBuddy (close WorkBuddy first, then reopen it):
 
-- `runut-staf`: identitas terkunci sebagai Andi (staf penjualan)
-- `runut-manajer`: identitas terkunci sebagai Sari (manajer operasional)
+```bash
+node scripts/pasang-workbuddy.ts staf
+```
 
-Aktifkan satu server saja saat bertanya. Identitas tidak bisa diganti oleh model karena tidak ada alat yang menerima identitas sebagai argumen.
+The first time you summon the team, WorkBuddy asks to connect the `runut` MCP server. Switch the asker between staff (Andi) and manager (Sari), then restart WorkBuddy:
 
-Pesan ke rekan kerja hanya terkirim setelah manusia menyetujuinya di konsol persetujuan:
+```bash
+node scripts/ganti-identitas.ts manajer
+```
+
+Messages to colleagues are only sent after a person approves them:
 
 ```bash
 node scripts/setujui.ts
-node scripts/setujui.ts <draf_id>
+node scripts/setujui.ts <draft_id>
 ```
 
-## Status
+Rebuild the results page from the audit log:
 
-Sedang dibangun untuk deadline 4 November 2026.
+```bash
+node scripts/buat-halaman.ts
+```
