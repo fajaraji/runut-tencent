@@ -236,11 +236,70 @@ export class Runut {
     return { terkirim: true, pesan: `Pesan ke ${draf.namaKepada} terkirim (simulasi).` };
   }
 
+  // Pemeriksaan deterministik atas jawaban akhir: setiap kalimat fakta harus
+  // mengutip sumber sah, dan angka serta nama diri di kalimat itu harus muncul
+  // di sumber yang dikutip. Ini menangkap jawaban karangan yang ditempeli sumber.
+  periksaJawaban(jawaban: string) {
+    const terlihat = this.itemTerlihat();
+    const peta = new Map(terlihat.map((i) => [i.id, i]));
+    const korpus = (items: Item[]) =>
+      items.map((i) => `${i.sumber} ${i.penulis} ${i.teks} ${i.waktu} ${i.id}`).join(" ").toLowerCase().replace(/(\d)\.(\d)/g, "$1$2");
+    const semuaTeks = korpus(terlihat) + " " + this.orang().map((o) => `${o.nama} ${o.jabatan}`).join(" ").toLowerCase();
+    const UMUM = new Set(
+      "Saya Anda Bapak Ibu Yang Kronologi Celah Catatan Sumber Ringkasan Untuk Pada Mau Silakan Jika Tidak Dari Dan Atau Ada Ini Itu Sesuai Namun Sedangkan Setelah Sebelum Karena Sehingga Status Task Open Selesai Konflik Oktober November Desember September Januari Februari Maret April Mei Juni Juli Agustus Okt Nov Des Sep Jan Feb Mar Apr Jun Jul Agu WIB WITA WIT ETA SOP PO The What Still Pesan Draf Garis Waktu Instruksi".split(" "),
+    );
+    // Id sumber dikenali dalam bentuk apa pun ([id], (id), atau polos): "kanal/nomor", "doc/nama", "T-123".
+    const POLA_ID = /\b(?:[a-z]+(?:-[a-z0-9]+)*\/[a-z0-9-]+|T-\d{3})\b/g;
+    const masalah: { kalimat: string; masalah: string }[] = [];
+    // Satuan pemeriksaan adalah baris: kutipan di akhir paragraf berlaku untuk seluruh paragraf itu.
+    const kalimat = jawaban
+      .split(/\n+/)
+      .map((k) => k.trim())
+      .filter((k) => k.replace(POLA_ID, "").replace(/[^A-Za-z0-9]/g, "").length > 15);
+
+    for (const k of kalimat) {
+      const ids = [...new Set(k.match(POLA_ID) ?? [])];
+      const sah = ids.filter((id) => peta.has(id));
+      const palsu = ids.filter((id) => !peta.has(id));
+      if (palsu.length) masalah.push({ kalimat: k, masalah: `sumber tidak sah: ${palsu.join(", ")}` });
+
+      const isi = k
+        .replace(POLA_ID, " ")
+        .replace(/(\d)\.(\d)/g, "$1$2")
+        .replace(/(^|\s)\d{1,2}[.)](?=\s)/g, " ");
+      const angka = [...isi.matchAll(/\d+(?:[:,]\d+)?/g)].map((m) => m[0].toLowerCase());
+      // Nama diri: kata kapital di tengah kalimat (didahului huruf kecil, angka, koma, atau kurung tutup).
+      const nama = [...isi.matchAll(/(?<=[a-z0-9,)]\s)[A-Z][a-z]{3,}/g)].map((m) => m[0]).filter((n) => !UMUM.has(n));
+      const faktual = angka.length > 0 || nama.length > 0;
+      if (faktual && !sah.length) {
+        masalah.push({ kalimat: k, masalah: "kalimat fakta tanpa sumber sah" });
+        continue;
+      }
+      if (!sah.length) continue;
+      const teksSumber = korpus(sah.map((id) => peta.get(id)!));
+      const angkaAsing = angka.filter((a) => !teksSumber.includes(a) && !teksSumber.includes(a.padStart(2, "0")));
+      if (angkaAsing.length) masalah.push({ kalimat: k, masalah: `angka tidak ada di sumber yang dikutip: ${angkaAsing.join(", ")}` });
+      const namaAsing = nama.filter((n) => !semuaTeks.includes(n.toLowerCase()));
+      if (namaAsing.length) masalah.push({ kalimat: k, masalah: `nama tidak dikenal di data: ${namaAsing.join(", ")}` });
+    }
+    const hasil = { lolos: masalah.length === 0, jumlah_kalimat: kalimat.length, masalah };
+    this.log("periksa_jawaban", { panjang: jawaban.length }, { lolos: hasil.lolos, masalah: masalah.length });
+    return hasil;
+  }
+
   catatJawaban(pertanyaan: string, jawaban: string, sumber: string[]) {
     const cek = this.periksaSumber(sumber);
-    this.log("catat_jawaban", { pertanyaan, sumber }, { jawaban, sumber_tidak_sah: cek.tidak_sah });
-    return cek.tidak_sah.length
-      ? { tercatat: true, peringatan: `Sumber berikut tidak sah, hapus dari jawaban: ${cek.tidak_sah.join(", ")}` }
-      : { tercatat: true };
+    const isi = this.periksaJawaban(jawaban);
+    const lolos = cek.tidak_sah.length === 0 && isi.lolos;
+    this.log("catat_jawaban", { pertanyaan, sumber }, { jawaban, lolos, sumber_tidak_sah: cek.tidak_sah, masalah: isi.masalah });
+    return lolos
+      ? { tercatat: true, lolos: true }
+      : {
+          tercatat: true,
+          lolos: false,
+          sumber_tidak_sah: cek.tidak_sah,
+          masalah: isi.masalah,
+          pesan: "Jawaban ini TIDAK lolos pemeriksaan dan tidak boleh ditampilkan. Buang kalimat bermasalah atau susun ulang dari bukti, lalu catat lagi.",
+        };
   }
 }

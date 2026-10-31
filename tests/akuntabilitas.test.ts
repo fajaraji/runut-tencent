@@ -112,6 +112,32 @@ test("Pesan tidak terkirim sebelum manusia menyetujui", () => {
   assert.equal(andi.siapkanPesan("Budi", "halo").dibuat, false);
 });
 
+test("Jawaban karangan yang ditempeli sumber ditolak, jawaban bersumber diterima", () => {
+  const { sebagai } = siapkan();
+  const andi = sebagai("u-andi");
+  const benar = [
+    "1. Pada 6 Okt 2026 pukul 14:30 WIB, kapal tanggal 5 belum berangkat karena slot penuh [ops-sulawesi/002].",
+    "2. PO-2291 direvisi jadi 900 karton, sisanya 300 karton nyusul [ops-sulawesi/004] [doc/po-2291-v2].",
+    "- Konfirmasi jadwal kapal susulan 300 karton, pemilik Rina Wulandari, tenggat 2026-10-28 [T-101].",
+  ].join("\n");
+  assert.equal(andi.periksaJawaban(benar).lolos, true, JSON.stringify(andi.periksaJawaban(benar).masalah));
+
+  // Diambil dari jawaban yang benar-benar dikarang agent saat uji K02 pertama.
+  const karangan = [
+    "Restock Makassar telat 4 hari dari jadwal. Penyebab: truck breakdown di Tulungagung pada 18 Oktober (doc/notulen-ops-2026-10-20).",
+    "Pada 19 Oktober pukul 08:05, Dimas melaporkan truck belum sampai [chat/msg-2026-10-19-0805].",
+    "Stok akhirnya tiba 20 Oktober pukul 17:30.",
+  ].join("\n");
+  const hasil = andi.periksaJawaban(karangan);
+  assert.equal(hasil.lolos, false);
+  assert.ok(hasil.masalah.some((m) => m.masalah.includes("Tulungagung")));
+  assert.ok(hasil.masalah.some((m) => m.masalah.includes("sumber tidak sah")));
+  assert.ok(hasil.masalah.some((m) => m.masalah.includes("tanpa sumber")));
+
+  const catat = andi.catatJawaban("Kenapa stok Makassar telat?", karangan, ["doc/notulen-ops-2026-10-20"]);
+  assert.equal(catat.lolos, false);
+});
+
 test("Log audit utuh dan perubahan diam-diam ketahuan", () => {
   const { logDir, sebagai } = siapkan();
   const andi = sebagai("u-andi");

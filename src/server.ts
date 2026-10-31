@@ -72,6 +72,16 @@ server.registerTool(
 );
 
 server.registerTool(
+  "periksa_jawaban",
+  {
+    description:
+      "Wajib dipakai Pemeriksa sebelum memberi LOLOS. Memeriksa draf secara otomatis: setiap kalimat fakta harus mengutip id sumber sah, dan angka serta nama di kalimat itu harus ada di sumber yang dikutip. Draf yang tidak lolos harus ditolak.",
+    inputSchema: { jawaban: z.string() },
+  },
+  async ({ jawaban }) => json(runut.periksaJawaban(jawaban)),
+);
+
+server.registerTool(
   "pemilik_topik",
   {
     description: "Cari siapa pemilik topik, untuk mengarahkan penanya saat jawabannya tidak ada di data.",
