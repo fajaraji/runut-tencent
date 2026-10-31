@@ -4,7 +4,7 @@
   "description": "Runut: agent riwayat proyek yang menghormati hak akses",
   "main": "index.js",
   "scripts": {
-    "test": "node --test tests/akuntabilitas.test.ts",
+    "test": "node --test tests/akuntabilitas.test.ts tests/kasus-uji.test.ts",
     "start": "node src/server.ts",
     "setujui": "node scripts/setujui.ts",
     "pasang": "node scripts/pasang-workbuddy.ts"
