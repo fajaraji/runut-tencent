@@ -1,0 +1,11 @@
+{
+  "perusahaan": "PT Sinar Rasa Nusantara (fiktif), distributor makanan ringan",
+  "orang": [
+    { "id": "u-andi", "nama": "Andi Saputra", "jabatan": "Staf Admin Penjualan Makassar", "grup": ["staf", "penjualan"], "zona_waktu": "WITA" },
+    { "id": "u-rina", "nama": "Rina Wulandari", "jabatan": "Koordinator Logistik Sulawesi", "grup": ["staf", "logistik"], "zona_waktu": "WITA" },
+    { "id": "u-dedi", "nama": "Dedi Pratama", "jabatan": "Staf Gudang Surabaya", "grup": ["staf", "logistik"], "zona_waktu": "WIB" },
+    { "id": "u-sari", "nama": "Sari Hidayat", "jabatan": "Manajer Operasional", "grup": ["staf", "logistik", "manajemen"], "zona_waktu": "WIB" },
+    { "id": "u-maya", "nama": "Maya Lestari", "jabatan": "HR Business Partner", "grup": ["staf", "hr"], "zona_waktu": "WIB" },
+    { "id": "u-hendra", "nama": "Hendra Gunawan", "jabatan": "Direktur Utama", "grup": ["staf", "manajemen", "direksi"], "zona_waktu": "WIB" }
+  ]
+}

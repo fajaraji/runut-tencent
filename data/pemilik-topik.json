@@ -1,0 +1,8 @@
+{
+  "topik": [
+    { "kata_kunci": ["pengiriman", "kapal", "logistik", "gudang", "stok", "po"], "pemilik": "u-rina", "catatan": "Logistik Sulawesi" },
+    { "kata_kunci": ["sop", "lead time"], "pemilik": "u-dedi", "catatan": "Pemilik dokumen SOP pengiriman" },
+    { "kata_kunci": ["tunjangan", "bensin", "cuti", "gaji", "reimbursement", "karyawan"], "pemilik": "u-maya", "catatan": "HR" },
+    { "kata_kunci": ["toko", "penjualan", "pelanggan"], "pemilik": "u-andi", "catatan": "Admin penjualan Makassar" }
+  ]
+}

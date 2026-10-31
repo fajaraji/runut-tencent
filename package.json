@@ -1,0 +1,31 @@
+{
+  "name": "runut",
+  "version": "0.1.0",
+  "description": "Runut: agent riwayat proyek yang menghormati hak akses",
+  "main": "index.js",
+  "scripts": {
+    "test": "node --test tests/akuntabilitas.test.ts",
+    "start": "node src/server.ts",
+    "setujui": "node scripts/setujui.ts",
+    "pasang": "node scripts/pasang-workbuddy.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fajaraji/runut-tencent.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/fajaraji/runut-tencent/issues"
+  },
+  "homepage": "https://github.com/fajaraji/runut-tencent#readme",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "zod": "^4.6.7"
+  },
+  "engines": {
+    "node": ">=24"
+  }
+}

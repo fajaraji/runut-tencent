@@ -1,0 +1,9 @@
+{
+  "task": [
+    { "id": "T-100", "proyek": "PO-2291", "judul": "Booking kapal PO-2291 Surabaya ke Makassar", "status": "selesai", "pemilik": "u-dedi", "tenggat": "2026-10-04", "diperbarui": "2026-10-04T10:00:00+07:00", "akses": ["logistik", "penjualan", "manajemen"] },
+    { "id": "T-101", "proyek": "PO-2291", "judul": "Konfirmasi jadwal kapal susulan 300 karton", "status": "open", "pemilik": "u-rina", "tenggat": "2026-10-28", "diperbarui": "2026-10-27T11:15:00+08:00", "akses": ["logistik", "penjualan", "manajemen"] },
+    { "id": "T-102", "proyek": "PO-2291", "judul": "Revisi SOP lead time pengiriman antar pulau (5 ke 7 hari)", "status": "open", "pemilik": "u-dedi", "tenggat": "2026-11-07", "diperbarui": "2026-10-15T09:40:00+07:00", "akses": ["logistik", "penjualan", "manajemen"] },
+    { "id": "T-103", "proyek": "PO-2291", "judul": "Klaim keterlambatan ke PT Lautan Ekspres", "status": "open", "pemilik": "u-sari", "tenggat": "2026-11-15", "diperbarui": "2026-10-16T11:00:00+07:00", "akses": ["manajemen"] },
+    { "id": "T-104", "proyek": "Kenari", "judul": "Uji tuntas distributor Manado", "status": "open", "pemilik": "u-hendra", "tenggat": "2026-11-30", "diperbarui": "2026-10-10T19:30:00+07:00", "akses": ["direksi"] }
+  ]
+}

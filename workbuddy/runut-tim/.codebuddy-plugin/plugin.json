@@ -1,0 +1,48 @@
+{
+  "name": "runut-tim",
+  "version": "0.1.0",
+  "description": "Reconstructs project history from chats, documents and tasks, only from what the asker may see, with a source on every sentence.",
+  "author": { "name": "Fajar Aji", "email": "fajaraji2515@gmail.com" },
+  "homepage": "https://github.com/fajaraji/runut-tencent",
+  "license": "MIT",
+  "agents": [
+    "./agents/runut-team-lead.md",
+    "./agents/penelusur-sumber.md",
+    "./agents/penyusun-kronologi.md",
+    "./agents/pemeriksa-sumber.md"
+  ],
+  "expertType": "team",
+  "agentName": "runut-team-lead",
+  "teamInfo": {
+    "leadAgent": "runut-team-lead",
+    "memberAgents": ["penelusur-sumber", "penyusun-kronologi", "pemeriksa-sumber"]
+  },
+  "displayName": { "en": "Runut Project History Team", "zh": "Runut 项目溯源团" },
+  "profession": { "en": "Runut Project History Team", "zh": "Runut 项目溯源团" },
+  "displayDescription": {
+    "en": "Rebuilds why a project happened the way it did from chats, documents and tasks. Every sentence cites its source, open items come from the task board, and gaps in the record are named with who likely knows. It only searches what the asker is allowed to see.",
+    "zh": "从聊天、文档和任务还原项目来龙去脉，每句注明出处，列出未结事项和记录缺口，只查提问者有权看的内容。"
+  },
+  "categoryId": "10-ProjectQuality",
+  "defaultInitPrompt": {
+    "zh": "为什么望加锡的库存到晚了？还有哪些事项未结？",
+    "en": "Kenapa stok di Makassar telat, dan apa yang masih open?"
+  },
+  "plugin": "runut-tim",
+  "tags": [
+    { "en": "Project history", "zh": "项目溯源" },
+    { "en": "Permission-aware search", "zh": "权限感知检索" },
+    { "en": "Cited answers", "zh": "出处可查" }
+  ],
+  "quickPrompts": [
+    { "en": "Kenapa stok di Makassar telat, dan apa yang masih open?", "zh": "为什么望加锡的库存到晚了？还有哪些事项未结？" },
+    { "en": "Berapa lead time Surabaya ke Makassar sekarang?", "zh": "泗水到望加锡现在的交付周期是多少天？" },
+    { "en": "Siapa yang memegang pengiriman susulan 300 karton?", "zh": "补发的 300 箱由谁负责？" }
+  ],
+  "members": [
+    { "id": "runut-team-lead", "displayName": { "en": "Tata", "zh": "塔塔" }, "profession": { "en": "History Editor", "zh": "溯源主编" }, "role": "lead" },
+    { "id": "penelusur-sumber", "displayName": { "en": "Lusi", "zh": "露西" }, "profession": { "en": "Source Tracer", "zh": "线索追踪员" }, "role": "member" },
+    { "id": "penyusun-kronologi", "displayName": { "en": "Yusuf", "zh": "优素福" }, "profession": { "en": "Timeline Writer", "zh": "时间线撰写员" }, "role": "member" },
+    { "id": "pemeriksa-sumber", "displayName": { "en": "Riksa", "zh": "里克萨" }, "profession": { "en": "Citation Auditor", "zh": "出处审核员" }, "role": "member" }
+  ]
+}
