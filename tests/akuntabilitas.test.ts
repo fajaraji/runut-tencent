@@ -116,7 +116,7 @@ test("Jawaban karangan yang ditempeli sumber ditolak, jawaban bersumber diterima
   const { sebagai } = siapkan();
   const andi = sebagai("u-andi");
   const benar = [
-    "1. Pada 6 Okt 2026 pukul 14:30 WIB, kapal tanggal 5 belum berangkat karena slot penuh [ops-sulawesi/002].",
+    "1. Pada 6 Okt 2026 pukul 15:30 WITA, kapal tanggal 5 belum berangkat karena slot penuh [ops-sulawesi/002].",
     "2. PO-2291 direvisi jadi 900 karton, sisanya 300 karton nyusul [ops-sulawesi/004] [doc/po-2291-v2].",
     "- Konfirmasi jadwal kapal susulan 300 karton, pemilik Rina Wulandari, tenggat 2026-10-28 [T-101].",
   ].join("\n");
@@ -136,6 +136,24 @@ test("Jawaban karangan yang ditempeli sumber ditolak, jawaban bersumber diterima
 
   const catat = andi.catatJawaban("Kenapa stok Makassar telat?", karangan, ["doc/notulen-ops-2026-10-20"]);
   assert.equal(catat.lolos, false);
+});
+
+test("Sumber yang tidak tercantum di tabel izin tertutup untuk semua orang", () => {
+  const { tmp, sebagai } = siapkan();
+  const file = join(tmp, "data", "izin.csv");
+  assert.ok(sebagai("u-hendra").ambilSumber("doc/gaji-2026").ditemukan);
+  const sisa = readFileSync(file, "utf8").split("\n").filter((b) => !b.startsWith("doc/gaji-2026"));
+  writeFileSync(file, sisa.join("\n"));
+  assert.equal(sebagai("u-hendra").ambilSumber("doc/gaji-2026").ditemukan, false);
+});
+
+test("Manajer pun tidak melihat kanal direksi: tiga tingkat untuk pertanyaan yang sama", () => {
+  const { sebagai } = siapkan();
+  const q = "WMS ditunda";
+  assert.equal(ids(sebagai("u-andi").cari(q, { batas: 20 })).length, 0);
+  const manajer = ids(sebagai("u-sari").cari(q, { batas: 20 }));
+  assert.ok(manajer.includes("proj-wms/005") && !manajer.some((id) => id.startsWith("direksi/")));
+  assert.ok(ids(sebagai("u-hendra").cari(q, { batas: 20 })).includes("direksi/002"));
 });
 
 test("Log audit utuh dan perubahan diam-diam ketahuan", () => {

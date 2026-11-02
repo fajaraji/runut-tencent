@@ -1,16 +1,13 @@
 import { randomUUID } from "node:crypto";
-import { existsSync, mkdirSync, readFileSync, writeFileSync, appendFileSync } from "node:fs";
-import { join } from "node:path";
+import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync, appendFileSync } from "node:fs";
+import { basename, join } from "node:path";
 import { catat } from "./audit.ts";
+import { bacaCsv, bacaDokumen, bacaWhatsApp } from "./sumber.ts";
 
 // Inti Runut. Aturan terpenting: filter hak akses dijalankan SEBELUM pencarian,
 // jadi data yang tidak boleh dilihat penanya tidak pernah sampai ke model.
 
 type Orang = { id: string; nama: string; jabatan: string; grup: string[]; zona_waktu: string };
-type Pesan = { id: string; waktu: string; dari: string; teks: string };
-type Kanal = { id: string; nama: string; akses: string[]; pesan: Pesan[] };
-type Dokumen = { id: string; judul: string; akses: string[]; pemilik: string; tanggal: string; isi: string };
-type Task = { id: string; proyek: string; judul: string; status: string; pemilik: string; tenggat: string; diperbarui: string; akses: string[] };
 type Topik = { kata_kunci: string[]; pemilik: string; catatan: string };
 
 export type Item = {
@@ -38,7 +35,7 @@ const SINONIM: Record<string, string[]> = {
 };
 
 const STOPWORD = new Set(
-  "yang dan di ke dari ini itu untuk dengan apa kenapa mengapa ada adalah atau juga sudah masih kita saya the a an of to is what why and or in on yg ya".split(" "),
+  "yang dan di ke dari ini itu untuk dengan apa kenapa mengapa ada adalah atau juga sudah masih kita saya the a an of to is what why and or in on yg ya proyek project".split(" "),
 );
 
 const POLA_INSTRUKSI = [
@@ -91,25 +88,46 @@ export class Runut {
     return this.orang().find((o) => o.id === id)?.nama ?? id;
   }
 
+  private bacaTeks(nama: string): string {
+    return readFileSync(join(this.dataDir, nama), "utf8");
+  }
+
   private semuaItem(): Item[] {
-    const kanal = this.baca<{ kanal: Kanal[] }>("chat.json").kanal;
-    const dokumen = this.baca<{ dokumen: Dokumen[] }>("dokumen.json").dokumen;
-    const task = this.baca<{ task: Task[] }>("task.json").task;
-    return [
-      ...kanal.flatMap((k) =>
-        k.pesan.map((p) => ({ id: p.id, jenis: "chat" as const, sumber: k.nama, waktu: p.waktu, penulis: this.namaDari(p.dari), teks: p.teks, akses: k.akses })),
-      ),
-      ...dokumen.map((d) => ({ id: d.id, jenis: "dokumen" as const, sumber: d.judul, waktu: d.tanggal, penulis: this.namaDari(d.pemilik), teks: d.isi, akses: d.akses })),
-      ...task.map((t) => ({
-        id: t.id,
-        jenis: "task" as const,
-        sumber: `Task board ${t.proyek}`,
-        waktu: t.diperbarui,
-        penulis: this.namaDari(t.pemilik),
-        teks: `${t.judul} | status: ${t.status} | pemilik: ${this.namaDari(t.pemilik)} | tenggat: ${t.tenggat}`,
-        akses: t.akses,
+    // Tabel izin satu-satunya penentu akses. Sumber yang tidak tercantum tertutup untuk semua orang.
+    const izin = new Map(bacaCsv(this.bacaTeks("izin.csv")).map((b) => [b.sumber, b.grup.split(";").map((g) => g.trim()).filter(Boolean)]));
+    const akses = (id: string) => izin.get(id) ?? [];
+
+    const chat = bacaCsv(this.bacaTeks("kanal.csv")).flatMap((k) =>
+      bacaWhatsApp(this.bacaTeks(join("chat", `${k.id}.txt`)), k.id, k.zona).map((p) => ({
+        id: p.id,
+        jenis: "chat" as const,
+        sumber: k.nama,
+        waktu: p.waktu,
+        penulis: p.dari,
+        teks: p.teks,
+        akses: akses(k.id),
       })),
-    ];
+    );
+
+    const dokumen = readdirSync(join(this.dataDir, "dokumen"))
+      .filter((f) => f.endsWith(".md"))
+      .map((f) => {
+        const d = bacaDokumen(this.bacaTeks(join("dokumen", f)));
+        const id = `doc/${basename(f, ".md")}`;
+        return { id, jenis: "dokumen" as const, sumber: d.meta.judul, waktu: d.meta.tanggal, penulis: this.namaDari(d.meta.pemilik), teks: d.isi, akses: akses(id) };
+      });
+
+    const task = bacaCsv(this.bacaTeks("task.csv")).map((t) => ({
+      id: t.id,
+      jenis: "task" as const,
+      sumber: `Task board ${t.proyek}`,
+      waktu: t.diperbarui,
+      penulis: this.namaDari(t.pemilik),
+      teks: `${t.judul} | status: ${t.status} | pemilik: ${this.namaDari(t.pemilik)} | tenggat: ${t.tenggat}`,
+      akses: akses(t.id),
+    }));
+
+    return [...chat, ...dokumen, ...task];
   }
 
   private bolehLihat(item: Item, grup: string[]): boolean {
@@ -191,7 +209,7 @@ export class Runut {
     const kata = token(topik);
     const daftar = this.baca<{ topik: Topik[] }>("pemilik-topik.json").topik;
     const cocok = daftar
-      .map((t) => ({ t, n: t.kata_kunci.filter((k) => kata.some((w) => k.includes(w) || w.includes(k))).length }))
+      .map((t) => ({ t, n: t.kata_kunci.filter((k) => kata.some((w) => w === k || w.startsWith(`${k}-`) || (w.length >= 4 && k.length >= 4 && (k.includes(w) || w.includes(k))))).length }))
       .filter((x) => x.n > 0)
       .sort((a, b) => b.n - a.n)[0];
     const hasil = cocok

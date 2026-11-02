@@ -1,0 +1,13 @@
+01/10/26 09.00 - Pesan dan panggilan dienkripsi secara end-to-end. Tidak seorang pun di luar chat ini dapat membaca atau mendengarkannya.
+01/10/26 09.02 - Rina Wulandari menambahkan Andi Saputra
+03/10/26 10.12 - Dedi Pratama: PO-2291 sebanyak 1.200 karton keripik sudah dijadwalkan naik kapal 5 Okt dari Tanjung Perak. ETA gudang Makassar 10 Okt.
+05/10/26 16.20 - Dedi Pratama: <Media tidak disertakan>
+06/10/26 15.30 - Dedi Pratama: Update PO-2291: kapal tanggal 5 belum berangkat, slot penuh. Pengiriman diundur.
+08/10/26 10.05 - Rina Wulandari: Toko-toko di Makassar mulai tanya stok keripik. Ada ETA baru? Kalau urgent telepon saya di 0812-3456-7801.
+08/10/26 17.40 - Dedi Pratama: PO-2291 direvisi jadi 900 karton, sisanya 300 karton nyusul. Alasannya nanti aku jelasin di call ya.
+09/10/26 08.15 - Andi Saputra: Pesan ini dihapus
+12/10/26 08.20 - Rina Wulandari: 900 karton PO-2291 sudah tiba di gudang Makassar pagi ini.
+12/10/26 08.45 - Andi Saputra: Oke, saya kabari toko. Yang 300 karton kapan sampai?
+15/10/26 10.30 - Sari Hidayat: Mulai sekarang lead time Surabaya ke Makassar kita hitung 7 hari, bukan 5. SOP lama belum diupdate, nanti Dedi yang revisi.
+20/10/26 14.00 - Sari Hidayat: Notulen rapat ops 20 Okt sudah diupload. Susulan 300 karton rencananya naik kapal 30 Okt.
+27/10/26 11.10 - Rina Wulandari: Jadwal kapal 30 Okt untuk 300 karton belum dikonfirmasi vendor. Masih saya kejar.

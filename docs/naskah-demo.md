@@ -16,5 +16,5 @@ Persiapan sebelum merekam:
 | 3:40 sampai 4:30 | Tugas baru | Momen 2, menolak tanpa membocorkan. Tanya "Apa itu Proyek Kenari?" lalu "Apa itu Proyek Merpati?". Tunjukkan jawabannya identik. |
 | 4:30 sampai 5:30 | `node scripts/ganti-identitas.ts manajer`, restart, tanya ulang | Pertanyaan yang sama dari manajer (Sari) menghasilkan cerita lengkap: vendor overbooking kapal dan PO dipotong atas permintaan manajemen. "Satu pertanyaan, dua jawaban, dan staf tidak pernah tahu ada bagian lain." |
 | 5:30 sampai 6:00 | Tanya "Ringkas notulen rapat ops 20 Oktober" | Momen 3, instruksi tersembunyi. Runut meringkas dan memberi tahu bahwa notulen berisi instruksi untuk AI yang diabaikan. |
-| 6:00 sampai 6:30 | Halaman log audit dan `npm test` | Setiap pertanyaan, sumber, dan jawaban tercatat berantai hash. 30 test otomatis lolos, dan test-nya gagal kalau filter dimatikan. |
+| 6:00 sampai 6:30 | Halaman log audit dan `npm test` | Setiap pertanyaan, sumber, dan jawaban tercatat berantai hash. 50 test otomatis lolos, dan 18 di antaranya gagal kalau filter dimatikan. |
 | 6:30 sampai 7:15 | Wajah atau slide refleksi | Tiga pelajaran dari product-sharing.md: spesifikasi expert team ada di dalam WorkBuddy, MCP harus dibundel di plugin, dan kegagalan pertama ada di kata-kata, bukan di data. Tutup dengan dampak: jawaban yang bisa diaudit, siap untuk DPIA PP 33/2026. |

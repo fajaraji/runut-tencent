@@ -1,0 +1,13 @@
+id,proyek,judul,status,pemilik,tenggat,diperbarui
+T-100,PO-2291,Booking kapal PO-2291 Surabaya ke Makassar,selesai,u-dedi,2026-10-04,2026-10-04T10:00:00+07:00
+T-101,PO-2291,Konfirmasi jadwal kapal susulan 300 karton,open,u-rina,2026-10-28,2026-10-27T11:15:00+08:00
+T-102,PO-2291,Revisi SOP lead time pengiriman antar pulau (5 ke 7 hari),open,u-dedi,2026-11-07,2026-10-15T09:40:00+07:00
+T-103,PO-2291,Klaim keterlambatan ke PT Lautan Ekspres,open,u-sari,2026-11-15,2026-10-16T11:00:00+07:00
+T-104,Kenari,Uji tuntas distributor Manado,open,u-hendra,2026-11-30,2026-10-10T19:30:00+07:00
+T-201,Balado,Terbitkan sertifikat halal varian Balado,open,u-fitri,2026-11-10,2026-10-22T15:15:00+07:00
+T-202,Balado,Cetak ulang kemasan Balado,open,u-lia,2026-11-06,2026-10-26T16:10:00+07:00
+T-203,Balado,Konten launching Balado,open,u-tika,2026-11-12,2026-10-23T10:30:00+07:00
+T-204,Balado,Klaim biaya cetak ulang ke PT Warna Prima,open,u-sari,2026-11-20,2026-10-24T13:20:00+07:00
+T-301,WMS,Stock opname gudang Surabaya,selesai,u-dedi,2026-09-05,2026-09-04T17:00:00+07:00
+T-302,WMS,Negosiasi perpanjangan kontrak vendor WMS,open,u-yoga,2026-11-20,2026-10-14T10:30:00+07:00
+T-303,WMS,Uji barcode gudang Surabaya,tertunda,u-dedi,2026-11-15,2026-10-30T15:35:00+07:00

@@ -2,9 +2,9 @@
 
 Two layers are tested. The code layer (the MCP server that enforces permissions, masking, approval and logging) is tested automatically. The agent layer (the WorkBuddy expert team) was run by hand in WorkBuddy 5.9.4 with the fictional company data in `data/`. Every run is listed below, including the ones that failed.
 
-The official dataset and test cases from the organisers were not used yet. Our 20 cases in `tests/kasus-uji.json` are modelled on the handbook examples.
+The organisers did not provide a dataset, so we built our own, which the handbook allows ([data/README.md](../data/README.md)). It is a fictional company with raw WhatsApp group exports, documents, a task board export and one permissions table. Our 31 cases in `tests/kasus-uji.json` are modelled on the handbook examples.
 
-## Code layer: 31 of 31 pass
+## Code layer: 50 of 50 pass
 
 ```
 npm test
@@ -12,12 +12,15 @@ npm test
 
 | Group | Tests |
 | --- | --- |
-| Accountability (`tests/akuntabilitas.test.ts`) | 11, including "Proyek Kenari is answered exactly like a project that does not exist", "staff never receive management channel content", "access changes apply on the next question", "a fabricated answer with a pasted citation is rejected" |
-| Handbook-style cases (`tests/kasus-uji.test.ts`) | 20, K01 to K20 |
+| Accountability (`tests/akuntabilitas.test.ts`) | 13, including "Proyek Kenari is answered exactly like a project that does not exist", "staff never receive management channel content", "even the manager cannot see the board channel", "a source missing from the permissions table is closed to everyone", "a fabricated answer with a pasted citation is rejected" |
+| Handbook-style cases (`tests/kasus-uji.test.ts`) | 31, K01 to K31 |
+| Data formats (`tests/sumber.test.ts`) | 6, covering Android and iPhone WhatsApp exports, multi-line messages, system lines, deleted messages and CSV quoting |
 
-Mutation check: with the permission filter switched off on purpose, four tests fail. The tests catch leaks rather than passing by default.
+Mutation check: with the permission filter switched off on purpose, 18 tests fail. The tests catch leaks rather than passing by default.
 
 ## Agent layer in WorkBuddy
+
+These runs used the first, smaller version of the dataset. The current dataset has not been run through the agents yet, so times in the linked answers differ from the current data (the #ops-sulawesi export is now in WITA) and the Balado, WMS and new-hire stories are untested at this layer.
 
 | Run | Question | Asked as | Result | What happened |
 | --- | --- | --- | --- | --- |
@@ -42,4 +45,4 @@ Mutation check: with the permission filter switched off on purpose, four tests f
 
 ## Not yet tested in WorkBuddy
 
-K04, K06, K07, K09 to K15, and K17 to K20 were not run as agent conversations, to keep enough WorkBuddy credits for the demo recording. Their code-layer checks all pass (K01 to K20 in `npm test`).
+K04, K06, K07, K09 to K15 and K17 to K31 were not run as agent conversations, to keep enough WorkBuddy credits for the demo recording. Their code-layer checks all pass (K01 to K31 in `npm test`).

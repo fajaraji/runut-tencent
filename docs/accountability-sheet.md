@@ -6,10 +6,12 @@ Runut answers project history questions such as "Why was stock late in Makassar,
 
 | Source | How access is decided |
 | --- | --- |
-| Chat channels (for example #ops-sulawesi) | The channel's group list in `data/chat.json` |
-| Documents (SOPs, purchase orders, meeting notes) | The document's group list in `data/dokumen.json` |
-| Task board | The task's group list in `data/task.json` |
+| WhatsApp group exports (for example #ops-sulawesi) | One permissions table, `data/izin.csv` |
+| Documents (SOPs, purchase orders, meeting notes) | Same table |
+| Task board export | Same table |
 | Topic owner directory | Names and job titles only, used to say who to ask |
+
+A source missing from the permissions table is closed to everyone.
 
 The asker's identity is fixed when the server starts (`RUNUT_USER`). No tool takes an identity as input, so the model cannot ask on someone else's behalf. Access is read again on every call, so a permission change applies to the very next question.
 
@@ -40,8 +42,8 @@ The asker's identity is fixed when the server starts (`RUNUT_USER`). No tool tak
 
 ## How we check it
 
-- 31 automated tests (`npm test`) cover the code layer, including 20 cases modelled on the handbook examples.
-- A mutation check switches the permission filter off on purpose. Four tests then fail, which shows the tests catch leaks.
+- 50 automated tests (`npm test`) cover the code layer, including 31 cases modelled on the handbook examples.
+- A mutation check switches the permission filter off on purpose. 18 tests then fail, which shows the tests catch leaks.
 - Agent-level runs in WorkBuddy are recorded in `docs/hasil-uji.md`, failures included.
 
 ## Known limits

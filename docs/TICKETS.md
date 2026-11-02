@@ -14,8 +14,9 @@
 | RUN-10 | Naskah video demo 5 sampai 8 menit | `docs/naskah-demo.md` | Selesai |
 | RUN-11 | Halaman log audit dan hasil uji sebagai live URL | `docs/index.html` di GitHub Pages | Selesai |
 | RUN-12 | README final, commit, push | repo | Selesai |
+| RUN-13 | Dataset sendiri: export WhatsApp, dokumen, task, tabel izin, tiga cerita proyek | `data/`, `src/sumber.ts` | Selesai |
+| RUN-14 | Jalankan ulang agent di WorkBuddy dengan dataset baru | `docs/hasil-uji.md` | Belum |
 
 ## Yang tetap butuh manusia
 
-- Mendaftar dan mengambil dataset serta test case resmi dari panitia, lalu menukar `data/`.
 - Merekam video demo dan mengisi formulir submission.

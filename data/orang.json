@@ -1,11 +1,137 @@
 {
   "perusahaan": "PT Sinar Rasa Nusantara (fiktif), distributor makanan ringan",
   "orang": [
-    { "id": "u-andi", "nama": "Andi Saputra", "jabatan": "Staf Admin Penjualan Makassar", "grup": ["staf", "penjualan"], "zona_waktu": "WITA" },
-    { "id": "u-rina", "nama": "Rina Wulandari", "jabatan": "Koordinator Logistik Sulawesi", "grup": ["staf", "logistik"], "zona_waktu": "WITA" },
-    { "id": "u-dedi", "nama": "Dedi Pratama", "jabatan": "Staf Gudang Surabaya", "grup": ["staf", "logistik"], "zona_waktu": "WIB" },
-    { "id": "u-sari", "nama": "Sari Hidayat", "jabatan": "Manajer Operasional", "grup": ["staf", "logistik", "manajemen"], "zona_waktu": "WIB" },
-    { "id": "u-maya", "nama": "Maya Lestari", "jabatan": "HR Business Partner", "grup": ["staf", "hr"], "zona_waktu": "WIB" },
-    { "id": "u-hendra", "nama": "Hendra Gunawan", "jabatan": "Direktur Utama", "grup": ["staf", "manajemen", "direksi"], "zona_waktu": "WIB" }
+    {
+      "id": "u-andi",
+      "nama": "Andi Saputra",
+      "jabatan": "Staf Admin Penjualan Makassar",
+      "grup": [
+        "staf",
+        "penjualan"
+      ],
+      "zona_waktu": "WITA"
+    },
+    {
+      "id": "u-nadia",
+      "nama": "Nadia Putri",
+      "jabatan": "Koordinator Penjualan Jayapura",
+      "grup": [
+        "staf",
+        "penjualan"
+      ],
+      "zona_waktu": "WIT"
+    },
+    {
+      "id": "u-rina",
+      "nama": "Rina Wulandari",
+      "jabatan": "Koordinator Logistik Sulawesi",
+      "grup": [
+        "staf",
+        "logistik"
+      ],
+      "zona_waktu": "WITA"
+    },
+    {
+      "id": "u-budi-l",
+      "nama": "Budi Hartono",
+      "jabatan": "Supervisor Gudang Makassar",
+      "grup": [
+        "staf",
+        "logistik"
+      ],
+      "zona_waktu": "WITA"
+    },
+    {
+      "id": "u-budi-k",
+      "nama": "Budi Santoso",
+      "jabatan": "Staf Keuangan",
+      "grup": [
+        "staf",
+        "keuangan"
+      ],
+      "zona_waktu": "WIB"
+    },
+    {
+      "id": "u-dedi",
+      "nama": "Dedi Pratama",
+      "jabatan": "Staf Gudang Surabaya",
+      "grup": [
+        "staf",
+        "logistik"
+      ],
+      "zona_waktu": "WIB"
+    },
+    {
+      "id": "u-yoga",
+      "nama": "Yoga Permana",
+      "jabatan": "IT Lead",
+      "grup": [
+        "staf",
+        "it"
+      ],
+      "zona_waktu": "WIB"
+    },
+    {
+      "id": "u-lia",
+      "nama": "Lia Anggraini",
+      "jabatan": "Brand Manager",
+      "grup": [
+        "staf",
+        "marketing"
+      ],
+      "zona_waktu": "WIB"
+    },
+    {
+      "id": "u-tika",
+      "nama": "Tika Ramadhani",
+      "jabatan": "Staf Marketing (bergabung 19 Oktober 2026)",
+      "grup": [
+        "staf",
+        "marketing"
+      ],
+      "zona_waktu": "WIB"
+    },
+    {
+      "id": "u-fitri",
+      "nama": "Fitri Nuraini",
+      "jabatan": "Staf QA dan Halal",
+      "grup": [
+        "staf",
+        "marketing"
+      ],
+      "zona_waktu": "WIB"
+    },
+    {
+      "id": "u-maya",
+      "nama": "Maya Lestari",
+      "jabatan": "HR Business Partner",
+      "grup": [
+        "staf",
+        "hr"
+      ],
+      "zona_waktu": "WIB"
+    },
+    {
+      "id": "u-sari",
+      "nama": "Sari Hidayat",
+      "jabatan": "Manajer Operasional",
+      "grup": [
+        "staf",
+        "logistik",
+        "manajemen"
+      ],
+      "zona_waktu": "WIB"
+    },
+    {
+      "id": "u-hendra",
+      "nama": "Hendra Gunawan",
+      "jabatan": "Direktur Utama",
+      "grup": [
+        "staf",
+        "manajemen",
+        "direksi"
+      ],
+      "zona_waktu": "WIB"
+    }
   ]
 }

@@ -1,0 +1,7 @@
+03/08/26 09.00 - Yoga Permana: Kickoff sistem WMS gudang Surabaya. Target go-live 1 Oktober.
+20/08/26 13.30 - Dedi Pratama: Data stok lama banyak yang beda dengan fisik. Perlu stock opname dulu sebelum migrasi.
+10/09/26 10.45 - Yoga Permana: Vendor WMS minta format barcode diubah. Go-live geser ke 1 November.
+25/09/26 16.00 - Sari Hidayat: Anggaran tahap 2 WMS masih menunggu keputusan direksi.
+13/10/26 09.20 - Sari Hidayat: Direksi minta WMS ditunda sampai awal 2027 karena review anggaran.
+14/10/26 10.05 - Yoga Permana: Kontrak vendor WMS kena penalti kalau tertunda lebih dari 60 hari. Perlu negosiasi perpanjangan.
+30/10/26 15.30 - Dedi Pratama: Uji barcode di gudang Surabaya saya hentikan dulu sampai ada jadwal baru.

@@ -27,7 +27,7 @@ type Cek = {
   task?: { proyek?: string; status?: string };
   periksa?: string[];
   sah?: string[];
-  uji?: "perubahan_akses" | "persetujuan" | "log";
+  uji?: "perubahan_akses" | "persetujuan" | "log" | "nama_ambigu";
 };
 type Kasus = { id: string; aturan: string; sebagai: string; pertanyaan: string; cek_kode: Cek };
 
@@ -88,6 +88,11 @@ for (const k of kasus) {
       assert.equal(r.kirimPesan(draf.draf.id).terkirim, false);
       execFileSync(process.execPath, [join(akar, "scripts", "setujui.ts"), draf.draf.id], { env: { ...process.env, RUNUT_LOG: logDir } });
       assert.equal(r.kirimPesan(draf.draf.id).terkirim, true);
+    }
+    if (c.uji === "nama_ambigu") {
+      const hasil = r.siapkanPesan("Budi", "Pak Budi, soal nota kemarin.");
+      assert.equal(hasil.dibuat, false);
+      assert.equal(hasil.pilihan?.length, 2);
     }
     if (c.uji === "log") {
       r.cari("PO-2291");

@@ -28,7 +28,9 @@ Existing tools do not close the gap. Enterprise search products answer with sear
 
 ## Solution design
 
-**Business architecture.** Runut sits on top of the places work already happens. Admins keep a group table (who belongs to logistics, sales, management, HR, the board). Each chat channel, document and task carries the groups allowed to see it. Runut never needs its own copy of anyone's permissions beyond that table.
+**Business architecture.** Runut sits on top of the places work already happens. Companies export what they already have: WhatsApp groups, documents and the task board. Admins keep one permissions table that says which groups may see each channel, document and task. A source missing from the table is closed to everyone.
+
+**Dataset.** The organisers did not provide one, so we built a fictional company with three project stories and new-hire policies, in raw WhatsApp export format. It has three levels of secrecy (staff, manager, board) and deliberate traps, such as conflicting sources, hidden instructions and two employees named Budi. See [data/README.md](../data/README.md).
 
 **Technical architecture.** See [arsitektur.md](arsitektur.md). In short, a WorkBuddy expert team of four agents (lead, source tracer, timeline writer, citation auditor) calls one MCP server. The server applies the permission filter before search, masks personal data, flags hidden instructions, keeps messaging draft-only until a person approves, and writes a hash-chained audit log.
 

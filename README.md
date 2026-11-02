@@ -26,10 +26,10 @@ It is built as a WorkBuddy expert team of four agents on top of one MCP server t
 
 | Folder | Contents |
 | --- | --- |
-| `src/` | Runut MCP server. Permission filter before search, masking, hidden-instruction flags, answer check, draft-only messaging, hash-chained audit log |
+| `src/` | Runut MCP server. Readers for WhatsApp exports and CSV, permission filter before search, masking, hidden-instruction flags, answer check, draft-only messaging, hash-chained audit log |
 | `workbuddy/runut-tim/` | WorkBuddy expert team: Tata (lead), Lusi (source tracer), Yusuf (timeline writer), Riksa (citation auditor) |
-| `data/` | Fictional company data (PT Sinar Rasa Nusantara, a snack distributor) |
-| `tests/` | 31 automated tests, including 20 handbook-style cases |
+| `data/` | Our own fictional dataset (PT Sinar Rasa Nusantara, a snack distributor): raw WhatsApp exports, documents, task board, permissions table. See [data/README.md](data/README.md) |
+| `tests/` | 50 automated tests, including 31 handbook-style cases |
 | `scripts/` | Installer, identity switch, approval console, MCP smoke test, results page generator |
 | `docs/` | Submission documents and evidence screenshots |
 
