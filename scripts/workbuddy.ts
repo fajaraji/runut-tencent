@@ -8,7 +8,7 @@ import { fileURLToPath } from "node:url";
 // menekan "connect", WorkBuddy menyalin server itu ke mcp.json pengguna, jadi identitas
 // harus ditulis di kedua tempat.
 
-export const IDENTITAS = { staf: "u-andi", manajer: "u-sari" } as const;
+export const IDENTITAS = { staf: "u-andi", manajer: "u-sari", direktur: "u-hendra", baru: "u-tika" } as const;
 export type Peran = keyof typeof IDENTITAS;
 
 export const akar = resolve(dirname(fileURLToPath(import.meta.url)), "..");

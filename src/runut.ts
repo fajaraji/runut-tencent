@@ -321,7 +321,12 @@ export class Runut {
     const lolos = cek.tidak_sah.length === 0 && isi.lolos;
     this.log("catat_jawaban", { pertanyaan, sumber }, { jawaban, lolos, sumber_tidak_sah: cek.tidak_sah, masalah: isi.masalah });
     return lolos
-      ? { tercatat: true, lolos: true }
+      ? {
+          tercatat: true,
+          lolos: true,
+          tampilkan_persis: jawaban,
+          pesan: "Langkah berikutnya: tulis isi tampilkan_persis kata per kata, sebelum langkah lain termasuk membubarkan tim. Jangan mengubah format, jangan menambah ringkasan. Teks lain tidak melewati pemeriksaan.",
+        }
       : {
           tercatat: true,
           lolos: false,

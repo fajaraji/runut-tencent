@@ -150,6 +150,17 @@ test("Baris celah catatan boleh tanpa kutipan, tapi tidak boleh membawa hal kara
   assert.equal(sari.periksaJawaban("Vendor WMS sudah setuju perpanjangan sampai 14 Oktober 2026.").lolos, false, "klaim fakta tanpa kutipan tetap ditolak");
 });
 
+test("Jawaban lolos dikembalikan persis, jawaban gagal tidak diberikan untuk ditampilkan", () => {
+  const { sebagai } = siapkan();
+  const andi = sebagai("u-andi");
+  const benar = "PO-2291 direvisi jadi 900 karton [ops-sulawesi/004].";
+  const lolos = andi.catatJawaban("Kenapa?", benar, ["ops-sulawesi/004"]);
+  assert.equal(lolos.tampilkan_persis, benar);
+  const gagal = andi.catatJawaban("Kenapa?", "Truk mogok di Tulungagung pukul 17:45.", []);
+  assert.equal(gagal.lolos, false);
+  assert.equal(gagal.tampilkan_persis, undefined);
+});
+
 test("Sumber yang tidak tercantum di tabel izin tertutup untuk semua orang", () => {
   const { tmp, sebagai } = siapkan();
   const file = join(tmp, "data", "izin.csv");

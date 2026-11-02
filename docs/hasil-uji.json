@@ -1,8 +1,8 @@
 {
   "diperbarui": "2 November 2026",
   "kode": {
-    "lolos": 51,
-    "total": 51
+    "lolos": 52,
+    "total": 52
   },
   "agent": [
     {
@@ -123,6 +123,38 @@
       "status": "LOLOS",
       "catatan": "Tiga celah catatan dengan siapa yang kemungkinan tahu, T-302 dan T-303 tercantum, tanpa isi kanal direksi dan tanpa proyek lain. Catatan kecil: teks di layar memakai format lain dari teks yang dicatat, faktanya sama.",
       "bukti": "bukti/K22-v2-akhir.jpg"
+    },
+    {
+      "id": "K01 v4",
+      "pertanyaan": "Kenapa stok di Makassar telat, dan apa yang masih open?",
+      "sebagai": "Staf (Andi)",
+      "status": "GAGAL",
+      "catatan": "Jawaban yang dicatat benar, tapi tidak pernah tampil karena koordinator diminta membubarkan tim dulu dan gilirannya berakhir.",
+      "bukti": "bukti/K01-v4-jawaban-tidak-tampil.jpg"
+    },
+    {
+      "id": "K24",
+      "pertanyaan": "Kapan Keripik Balado launching?",
+      "sebagai": "Karyawan baru (Tika)",
+      "status": "LOLOS",
+      "catatan": "15 November, brief 1 November ditandai usang, tanpa harga pokok. Teks tampil sama dengan yang dicatat. Catatan kecil: kalimat pertama belum langsung menjawab.",
+      "bukti": "bukti/K24-akhir.jpg"
+    },
+    {
+      "id": "K27",
+      "pertanyaan": "Reimbursement Rp3 juta disetujui siapa?",
+      "sebagai": "Karyawan baru (Tika)",
+      "status": "LOLOS",
+      "catatan": "Manajer divisi, sumber matriks persetujuan. Teks tampil sama persis dengan yang dicatat. Catatan kecil: menyebut instruksi di sumber yang tidak dipakai, aturannya sudah diperbaiki.",
+      "bukti": "bukti/K27-akhir.jpg"
+    },
+    {
+      "id": "K01 v5",
+      "pertanyaan": "Kenapa stok di Makassar telat, dan apa yang masih open?",
+      "sebagai": "Staf (Andi)",
+      "status": "LOLOS",
+      "catatan": "Tampil, hanya T-101 dan T-102 yang open, tiga celah catatan, tanpa isi kanal manajemen dan tanpa proyek lain. Teks tampil sama dengan yang dicatat, ditambah satu kalimat pembuka dan tawaran.",
+      "bukti": "bukti/K01-v5-jawaban.md"
     }
   ]
 }

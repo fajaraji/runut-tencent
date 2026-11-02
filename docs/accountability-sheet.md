@@ -42,7 +42,7 @@ The asker's identity is fixed when the server starts (`RUNUT_USER`). No tool tak
 
 ## How we check it
 
-- 51 automated tests (`npm test`) cover the code layer, including 31 cases modelled on the handbook examples.
+- 52 automated tests (`npm test`) cover the code layer, including 31 cases modelled on the handbook examples.
 - A mutation check switches the permission filter off on purpose. 18 tests then fail, which shows the tests catch leaks.
 - Agent-level runs in WorkBuddy are recorded in `docs/hasil-uji.md`, failures included.
 
@@ -51,5 +51,5 @@ The asker's identity is fixed when the server starts (`RUNUT_USER`). No tool tak
 - The approval console runs on the same machine as WorkBuddy. WorkBuddy's own permission mode asks before running scripts, and the agents are told never to run it, but a fully separate approval channel would be stronger in production.
 - Identity comes from configuration, not from company single sign-on. Production use would bind `RUNUT_USER` to the signed-in employee.
 - The answer check catches invented citations, numbers and names. It cannot catch a wrong conclusion drawn from real numbers, which is why a separate auditor agent also reviews every draft.
-- The check runs on the text the lead records. The lead can still reformat or add a short summary when displaying it, which we saw in testing. Production should show the recorded text directly.
+- The check runs on the text the lead records. The lead is told to display exactly that, and in our last three runs it did, apart from a one-line offer and one opening sentence. Nothing in code forces it, because WorkBuddy controls the display. Production should show the recorded text directly.
 - Search is keyword based with a small synonym list. Phrasing far from the source text can miss relevant items, in which case Runut says it found nothing rather than guessing.

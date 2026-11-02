@@ -15,7 +15,7 @@
 | RUN-11 | Halaman log audit dan hasil uji sebagai live URL | `docs/index.html` di GitHub Pages | Selesai |
 | RUN-12 | README final, commit, push | repo | Selesai |
 | RUN-13 | Dataset sendiri: export WhatsApp, dokumen, task, tabel izin, tiga cerita proyek | `data/`, `src/sumber.ts` | Selesai |
-| RUN-14 | Jalankan ulang agent di WorkBuddy dengan dataset baru | `docs/hasil-uji.md` | Selesai: K22 lolos, K01 lolos sebagian |
+| RUN-14 | Jalankan ulang agent di WorkBuddy dengan dataset baru | `docs/hasil-uji.md` | Selesai: K01, K22, K24, K27 lolos |
 
 ## Yang tetap butuh manusia
 
