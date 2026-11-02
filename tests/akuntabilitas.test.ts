@@ -169,6 +169,24 @@ test("telusuri: satu panggilan membawa bukti dan task proyek terkait, tanpa proy
   assert.ok(bukti.includes("ops-sulawesi/002") && bukti.includes("ops-sulawesi/004"), bukti.join(", "));
   assert.ok(task.includes("T-101") && task.includes("T-102"), task.join(", "));
   assert.ok(!task.includes("T-103") && !bukti.some((id) => id.startsWith("mgmt-vendor/")));
+  assert.ok(!task.some((id) => id.startsWith("T-2")), task.join(", "));
+});
+
+test("periksa_jawaban: kalimat baku dengan pemilik topik lolos, tapi tidak bisa membawa fakta", () => {
+  const { sebagai } = siapkan();
+  const andi = sebagai("u-andi");
+  assert.equal(andi.periksaJawaban("Saya tidak menemukan data tentang itu. Untuk topik ini, silakan tanyakan ke Maya Lestari.").lolos, true);
+  assert.equal(andi.periksaJawaban("Saya tidak menemukan data tentang itu. Silakan tanyakan ke atasan langsung Anda.").lolos, true);
+  assert.equal(andi.periksaJawaban("Saya tidak menemukan data tentang itu. Untuk topik ini, silakan tanyakan ke Joko Susilo.").lolos, false);
+  assert.equal(andi.periksaJawaban("Saya tidak menemukan data tentang itu. Gaji Rina Rp9 juta per bulan.").lolos, false);
+});
+
+test("telusuri: task mengikuti proyek yang disebut atau yang dominan di bukti", () => {
+  const { sebagai } = siapkan();
+  const taskDari = (user: string, tanya: string) => (sebagai(user).telusuri(tanya).task ?? []).map((t) => t.id);
+  assert.deepEqual(taskDari("u-sari", "Kenapa WMS ditunda, dan apa yang masih open?"), ["T-301", "T-302", "T-303"]);
+  assert.ok(taskDari("u-tika", "Kapan Keripik Balado launching?").every((id) => id.startsWith("T-2")));
+  assert.ok(taskDari("u-tika", "Kapan Keripik Balado launching?").length > 0);
 });
 
 test("telusuri: proyek terlarang dan proyek yang tidak ada dijawab sama persis", () => {

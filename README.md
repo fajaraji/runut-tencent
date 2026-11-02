@@ -30,7 +30,7 @@ It is built as a WorkBuddy expert team of four agents on top of one MCP server t
 | `workbuddy/runut-tim/` | WorkBuddy expert team: Tata (lead), Lusi (source tracer), Yusuf (timeline writer), Riksa (citation auditor) |
 | `workbuddy/runut-cepat/` | Single agent for the 90-second live test. See [docs/surprise-test.md](docs/surprise-test.md) |
 | `data/` | Our own fictional dataset (PT Sinar Rasa Nusantara, a snack distributor): raw WhatsApp exports, documents, task board, permissions table. See [data/README.md](data/README.md) |
-| `tests/` | 57 automated tests, including 31 handbook-style cases |
+| `tests/` | 59 automated tests, including 31 handbook-style cases |
 | `scripts/` | Installer, identity switch, approval console, MCP smoke test, results page generator |
 | `docs/` | Submission documents and evidence screenshots |
 

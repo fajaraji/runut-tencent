@@ -47,6 +47,8 @@ const POLA_INSTRUKSI = [
 ];
 
 const POLA_CELAH = /\b(tidak|belum)\s+(tercatat|terdokumentasi|ada catatan|ditemukan catatan)\b/i;
+// Jawaban baku "tidak ada data" beserta arahan ke pemilik topik. Tanpa angka, jadi tidak bisa membawa fakta.
+const POLA_BAKU = /^Saya tidak menemukan data tentang itu\.(?: Untuk topik ini, silakan tanyakan ke [^.\d]+\.| Silakan tanyakan ke atasan langsung Anda\.)?$/;
 
 const POLA_NIK = /\b\d{16}\b/g;
 const POLA_TELEPON = /(?:\+62|62|0)8\d{1,3}[-\s]?\d{3,4}[-\s]?\d{3,5}\b/g;
@@ -214,10 +216,15 @@ export class Runut {
   // Dipakai agent cepat supaya uji live selesai dalam 90 detik.
   telusuri(pertanyaan: string) {
     const { hasil } = this.cari(pertanyaan, { batas: 12, urut: "waktu" });
-    const teks = `${pertanyaan} ${hasil.map((h) => `${h.sumber} ${h.teks}`).join(" ")}`.toLowerCase();
-    const task = this.itemTerlihat()
-      .filter((i) => i.jenis === "task" && teks.includes(i.sumber.replace("Task board ", "").toLowerCase()))
-      .map((i) => this.keluarkan(i, false));
+    const semuaTask = this.itemTerlihat().filter((i) => i.jenis === "task");
+    const proyekDari = (i: Item) => i.sumber.replace("Task board ", "").toLowerCase();
+    const sebutan = (p: string) => hasil.filter((h) => `${h.sumber} ${h.teks}`.toLowerCase().includes(p)).length;
+    const proyek = [...new Set(semuaTask.map(proyekDari))];
+    // Satu dua bukti yang menyinggung proyek lain tidak boleh menarik semua task proyek itu.
+    const disebut = proyek.filter((p) => pertanyaan.toLowerCase().includes(p));
+    const terkuat = Math.max(0, ...proyek.map(sebutan));
+    const terkait = disebut.length ? disebut : proyek.filter((p) => sebutan(p) > 0 && sebutan(p) * 2 >= terkuat);
+    const task = semuaTask.filter((i) => terkait.includes(proyekDari(i))).map((i) => this.keluarkan(i, false));
     const pemilik = this.pemilikTopik(pertanyaan);
     this.log("telusuri", { pertanyaan }, { sumber: hasil.map((h) => h.id), task: task.map((t) => t.id) });
     if (!hasil.length && !task.length) return { kosong: true, pesan: TIDAK_DITEMUKAN, pemilik };
@@ -338,7 +345,7 @@ export class Runut {
       const faktual = angka.length > 0 || nama.length > 0;
       // Baris celah catatan menyatakan sesuatu tidak ada, jadi wajar tanpa kutipan.
       // Angka dan namanya tetap harus dikenal di data yang boleh dilihat penanya.
-      if (!sah.length && !palsu.length && POLA_CELAH.test(k)) {
+      if (!sah.length && !palsu.length && (POLA_CELAH.test(k) || POLA_BAKU.test(k))) {
         const angkaAsing = angka.filter((a) => !semuaTeks.includes(a) && !semuaTeks.includes(a.padStart(2, "0")));
         const namaAsing = nama.filter((n) => !semuaTeks.includes(n.toLowerCase()));
         if (angkaAsing.length || namaAsing.length) masalah.push({ kalimat: k, masalah: `celah catatan menyebut hal yang tidak dikenal di data: ${[...angkaAsing, ...namaAsing].join(", ")}` });
