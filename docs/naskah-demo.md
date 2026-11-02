@@ -2,7 +2,7 @@
 
 Handbook meminta video 5 sampai 8 menit berisi gambaran proyek, kemampuan inti, refleksi cara membangun, dan minimal satu momen agent menolak, bertanya balik, atau menunggu persetujuan. Naskah ini punya tiga momen seperti itu.
 
-Perkiraan kredit satu kali rekam: pertanyaan pertama sekitar 60, draf ke Dedi sekitar 5, Kenari dan Merpati sekitar 50, pertanyaan manajer sekitar 90. Total sekitar 205.
+Perkiraan kredit satu kali rekam: pertanyaan pertama sekitar 70, draf ke Dedi sekitar 5, Kenari dan Merpati sekitar 50, pertanyaan manajer sekitar 90. Total sekitar 215.
 
 Persiapan sebelum merekam:
 - `node scripts/pasang-workbuddy.ts staf` lalu restart WorkBuddy.
