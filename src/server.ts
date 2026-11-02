@@ -56,7 +56,7 @@ server.registerTool(
 server.registerTool(
   "daftar_task",
   {
-    description: "Daftar task yang boleh dilihat penanya, bisa difilter proyek dan status (open atau selesai).",
+    description: "Daftar task yang boleh dilihat penanya. Isi proyek bila pertanyaan menyangkut satu proyek (misalnya PO-2291, Balado, WMS), supaya task proyek lain tidak terbawa. Status: open, selesai, atau tertunda.",
     inputSchema: { proyek: z.string().optional(), status: z.string().optional() },
   },
   async ({ proyek, status }) => json(runut.daftarTask({ proyek, status })),
