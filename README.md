@@ -28,8 +28,9 @@ It is built as a WorkBuddy expert team of four agents on top of one MCP server t
 | --- | --- |
 | `src/` | Runut MCP server. Readers for WhatsApp exports and CSV, permission filter before search, masking, hidden-instruction flags, answer check, draft-only messaging, hash-chained audit log |
 | `workbuddy/runut-tim/` | WorkBuddy expert team: Tata (lead), Lusi (source tracer), Yusuf (timeline writer), Riksa (citation auditor) |
+| `workbuddy/runut-cepat/` | Single agent for the 90-second live test. See [docs/surprise-test.md](docs/surprise-test.md) |
 | `data/` | Our own fictional dataset (PT Sinar Rasa Nusantara, a snack distributor): raw WhatsApp exports, documents, task board, permissions table. See [data/README.md](data/README.md) |
-| `tests/` | 52 automated tests, including 31 handbook-style cases |
+| `tests/` | 55 automated tests, including 31 handbook-style cases |
 | `scripts/` | Installer, identity switch, approval console, MCP smoke test, results page generator |
 | `docs/` | Submission documents and evidence screenshots |
 
@@ -49,11 +50,13 @@ Install into WorkBuddy (close WorkBuddy first, then reopen it):
 node scripts/pasang-workbuddy.ts staf
 ```
 
-The first time you summon the team, WorkBuddy asks to connect the `runut` MCP server. Switch the asker between staff (Andi) and manager (Sari), then restart WorkBuddy:
+The first time you summon the team, WorkBuddy asks to connect the `runut` MCP server. Switch the asker, for example between staff (Andi) and manager (Sari):
 
 ```bash
 node scripts/ganti-identitas.ts manajer
 ```
+
+The identity switch applies on the next question, with no restart.
 
 Messages to colleagues are only sent after a person approves them:
 

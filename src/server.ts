@@ -1,11 +1,13 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+import { readFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { z } from "zod";
 import { Runut } from "./runut.ts";
 
-// Identitas penanya dikunci lewat env RUNUT_USER saat server dijalankan.
+// Identitas penanya ditentukan di luar model: env RUNUT_USER, atau berkas RUNUT_USER_FILE yang
+// dibaca setiap panggilan dan hanya diubah manusia lewat scripts/ganti-identitas.ts.
 // Tidak ada alat yang menerima identitas sebagai argumen, jadi model tidak bisa
 // bertanya atas nama orang lain.
 
@@ -13,7 +15,7 @@ const akar = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const runut = new Runut({
   dataDir: process.env.RUNUT_DATA ?? join(akar, "data"),
   logDir: process.env.RUNUT_LOG ?? join(akar, "logs"),
-  penggunaId: process.env.RUNUT_USER ?? "",
+  penggunaId: process.env.RUNUT_USER_FILE ? () => readFileSync(process.env.RUNUT_USER_FILE as string, "utf8").trim() : (process.env.RUNUT_USER ?? ""),
 });
 
 const server = new McpServer({ name: "runut", version: "0.1.0" });
@@ -27,6 +29,16 @@ server.registerTool(
     const p = runut.pengguna();
     return json({ nama: p.nama, jabatan: p.jabatan, zona_waktu: p.zona_waktu });
   },
+);
+
+server.registerTool(
+  "telusuri",
+  {
+    description:
+      "Satu panggilan untuk mengumpulkan semua bukti sebuah pertanyaan: pesan, dokumen, task proyek terkait, dan pemilik topik, hanya yang boleh dilihat penanya. Pakai ini lebih dulu.",
+    inputSchema: { pertanyaan: z.string() },
+  },
+  async ({ pertanyaan }) => json(runut.telusuri(pertanyaan)),
 );
 
 server.registerTool(

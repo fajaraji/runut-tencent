@@ -35,7 +35,7 @@ const SINONIM: Record<string, string[]> = {
 };
 
 const STOPWORD = new Set(
-  "yang dan di ke dari ini itu untuk dengan apa kenapa mengapa ada adalah atau juga sudah masih kita saya the a an of to is what why and or in on yg ya proyek project".split(" "),
+  "yang dan di ke dari ini itu untuk dengan apa kenapa mengapa ada adalah atau juga sudah masih kita saya the a an of to is what why and or in on yg ya proyek project open tolong bagaimana siapa berapa kapan telah".split(" "),
 );
 
 const POLA_INSTRUKSI = [
@@ -62,12 +62,19 @@ function token(teks: string): string[] {
 export class Runut {
   dataDir: string;
   logDir: string;
-  penggunaId: string;
+  private ambilId: () => string;
 
-  constructor(opsi: { dataDir: string; logDir: string; penggunaId: string }) {
+  // Identitas bisa berupa fungsi supaya bisa diganti manusia di tengah demo tanpa restart.
+  // Model tetap tidak punya alat untuk mengubahnya.
+  constructor(opsi: { dataDir: string; logDir: string; penggunaId: string | (() => string) }) {
     this.dataDir = opsi.dataDir;
     this.logDir = opsi.logDir;
-    this.penggunaId = opsi.penggunaId;
+    const id = opsi.penggunaId;
+    this.ambilId = typeof id === "function" ? id : () => id;
+  }
+
+  get penggunaId(): string {
+    return this.ambilId();
   }
 
   // Data dibaca ulang setiap panggilan, jadi perubahan hak akses langsung
@@ -179,6 +186,20 @@ export class Runut {
     const keluar = hasil.map((i) => this.keluarkan(i, opsi.dataPribadi ?? false));
     this.log("cari", { query, ...opsi }, { sumber: keluar.map((i) => i.id) });
     return keluar.length ? { hasil: keluar } : { hasil: [], pesan: TIDAK_DITEMUKAN };
+  }
+
+  // Satu panggilan untuk seluruh bukti: pencarian, task proyek terkait, dan pemilik topik.
+  // Dipakai agent cepat supaya uji live selesai dalam 90 detik.
+  telusuri(pertanyaan: string) {
+    const { hasil } = this.cari(pertanyaan, { batas: 12, urut: "waktu" });
+    const teks = `${pertanyaan} ${hasil.map((h) => `${h.sumber} ${h.teks}`).join(" ")}`.toLowerCase();
+    const task = this.itemTerlihat()
+      .filter((i) => i.jenis === "task" && teks.includes(i.sumber.replace("Task board ", "").toLowerCase()))
+      .map((i) => this.keluarkan(i, false));
+    const pemilik = this.pemilikTopik(pertanyaan);
+    this.log("telusuri", { pertanyaan }, { sumber: hasil.map((h) => h.id), task: task.map((t) => t.id) });
+    if (!hasil.length && !task.length) return { kosong: true, pesan: TIDAK_DITEMUKAN, pemilik };
+    return { kosong: false, bukti: hasil, task, pemilik };
   }
 
   ambilSumber(id: string, dataPribadi = false) {

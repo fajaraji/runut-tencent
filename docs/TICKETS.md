@@ -17,6 +17,8 @@
 | RUN-13 | Dataset sendiri: export WhatsApp, dokumen, task, tabel izin, tiga cerita proyek | `data/`, `src/sumber.ts` | Selesai |
 | RUN-14 | Jalankan ulang agent di WorkBuddy dengan dataset baru | `docs/hasil-uji.md` | Selesai: K01, K22, K24, K27 lolos |
 
+| RUN-15 | Agent cepat untuk surprise test 90 detik | `workbuddy/runut-cepat/`, `docs/surprise-test.md` | Kode selesai, belum dites di WorkBuddy |
+
 ## Yang tetap butuh manusia
 
 - Merekam video demo dan mengisi formulir submission.

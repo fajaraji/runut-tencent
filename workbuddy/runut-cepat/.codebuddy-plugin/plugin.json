@@ -1,0 +1,33 @@
+{
+  "name": "runut-cepat",
+  "version": "0.1.0",
+  "description": "Answers project history questions in under 90 seconds from what the asker may see, with a source on every line.",
+  "author": { "name": "Fajar Aji", "email": "fajaraji2515@gmail.com" },
+  "homepage": "https://github.com/fajaraji/runut-tencent",
+  "license": "MIT",
+  "agents": ["./agents/runut-cepat.md"],
+  "expertType": "agent",
+  "agentName": "runut-cepat",
+  "displayName": { "en": "Runut Cepat", "zh": "Runut 快答" },
+  "profession": { "en": "Fast Project History Agent", "zh": "项目溯源快答员" },
+  "displayDescription": {
+    "en": "The single-agent mode of Runut for live use. One evidence call, a short cited answer, and the same code checks on permissions and invented facts.",
+    "zh": "Runut 的单代理快答模式：一次取证，简短作答并注明出处，同样受权限与事实校验约束，适合现场快速提问使用。"
+  },
+  "categoryId": "10-ProjectQuality",
+  "defaultInitPrompt": {
+    "zh": "为什么望加锡的库存到晚了？还有哪些事项未结？",
+    "en": "Kenapa stok di Makassar telat, dan apa yang masih open?"
+  },
+  "plugin": "runut-cepat",
+  "tags": [
+    { "en": "Project history", "zh": "项目溯源" },
+    { "en": "Fast answers", "zh": "快速作答" },
+    { "en": "Cited answers", "zh": "出处可查" }
+  ],
+  "quickPrompts": [
+    { "en": "Kenapa stok di Makassar telat, dan apa yang masih open?", "zh": "为什么望加锡的库存到晚了？还有哪些事项未结？" },
+    { "en": "Berapa lead time Surabaya ke Makassar sekarang?", "zh": "泗水到望加锡现在的交付周期是多少天？" },
+    { "en": "Reimbursement Rp3 juta disetujui siapa?", "zh": "300 万印尼盾的报销由谁审批？" }
+  ]
+}

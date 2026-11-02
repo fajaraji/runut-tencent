@@ -161,6 +161,33 @@ test("Jawaban lolos dikembalikan persis, jawaban gagal tidak diberikan untuk dit
   assert.equal(gagal.tampilkan_persis, undefined);
 });
 
+test("telusuri: satu panggilan membawa bukti dan task proyek terkait, tanpa proyek lain", () => {
+  const { sebagai } = siapkan();
+  const hasil = sebagai("u-andi").telusuri("Kenapa stok di Makassar telat, dan apa yang masih open?");
+  const bukti = (hasil.bukti ?? []).map((b) => b.id);
+  const task = (hasil.task ?? []).map((t) => t.id);
+  assert.ok(bukti.includes("ops-sulawesi/002") && bukti.includes("ops-sulawesi/004"), bukti.join(", "));
+  assert.ok(task.includes("T-101") && task.includes("T-102"), task.join(", "));
+  assert.ok(!task.includes("T-103") && !bukti.some((id) => id.startsWith("mgmt-vendor/")));
+});
+
+test("telusuri: proyek terlarang dan proyek yang tidak ada dijawab sama persis", () => {
+  const { sebagai } = siapkan();
+  const andi = sebagai("u-andi");
+  assert.deepEqual(andi.telusuri("Apa itu Proyek Kenari?"), andi.telusuri("Apa itu Proyek Merpati?"));
+  assert.equal(andi.telusuri("Apa itu Proyek Kenari?").kosong, true);
+  assert.equal(sebagai("u-hendra").telusuri("Apa itu Proyek Kenari?").kosong, false);
+});
+
+test("Identitas bisa diganti tanpa restart, dan langsung berlaku", () => {
+  const { tmp, logDir } = siapkan();
+  let id = "u-andi";
+  const r = new Runut({ dataDir: join(tmp, "data"), logDir, penggunaId: () => id });
+  assert.equal(r.telusuri("WMS ditunda").kosong, true);
+  id = "u-hendra";
+  assert.ok((r.telusuri("WMS ditunda").bukti ?? []).some((b) => b.id === "direksi/002"));
+});
+
 test("Sumber yang tidak tercantum di tabel izin tertutup untuk semua orang", () => {
   const { tmp, sebagai } = siapkan();
   const file = join(tmp, "data", "izin.csv");
