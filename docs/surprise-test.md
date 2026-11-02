@@ -4,7 +4,7 @@ Juri memberi satu test case baru, dan agent harus menyelesaikannya secara live d
 
 ## Status
 
-Empat percobaan di WorkBuddy selesai dalam 27 sampai 52 detik. Tiga lolos, satu gagal lalu diperbaiki. K26, K30, ganti identitas tanpa restart, dan K01 setelah perbaikan pencarian belum dijalankan.
+Empat percobaan di WorkBuddy selesai dalam 27 sampai 52 detik. Tiga lolos, satu gagal lalu diperbaiki. K26, K30, ganti identitas tanpa restart, dan K01 setelah perbaikan pencarian belum dijalankan sebagai percakapan agent. Di tingkat kode, bukti untuk kasus itu tidak memuat data tertutup, tapi cara model merangkai jawabannya belum terbukti.
 
 ## Persiapan sebelum naik panggung
 

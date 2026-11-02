@@ -55,7 +55,9 @@ The three-phase team does not meet it. K03 v3 took 1 minute 38 seconds, K27 2 mi
 | K06 re-run | Same | Staff | PASS | 27 s | 3.48 | After the fix below. The fixed "nothing found" answer. |
 | K07 | How much payment is being held from PT Lautan Ekspres? | Staff | PASS | 33 s | 5.1 | The fixed answer, with no mention of the Rp85 million that only the management channel holds. Minor: search still returned unrelated visible sources, so saying "nothing found" here rests on the model. |
 
-[Recorded answers](bukti/runut-cepat-jawaban.md). K26, K30, a manager question with an identity switch and no restart, and K01 after the search fix have not been run yet.
+[Recorded answers](bukti/runut-cepat-jawaban.md). K26, K30, a manager question with an identity switch and no restart, and K01 after the search fix have not been run yet as agent conversations.
+
+For those cases we did check what the model would receive, by calling the same search code without a model. Asked as the case's own person, K26, K30, K07, K01 and K22 evidence contains no restricted source or figure. An invented answer with the K26 cost price or a made-up K30 salary and a real citation is rejected by the answer check. Changing the identity between calls on one running object opens and closes `mgmt-vendor/001` at once. This does not show how the model words its answer. Search still returns unrelated visible sources for K26, K30 and K07, so the model could still present them as an answer, the same kind of failure as the first K06.
 
 ## What the failures taught us
 
