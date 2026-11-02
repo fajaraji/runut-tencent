@@ -20,7 +20,7 @@ Mutation check: with the permission filter switched off on purpose, 18 tests fai
 
 ## Agent layer in WorkBuddy
 
-All runs except the last two used the first, smaller version of the dataset, so times in their linked answers differ from the current data (the #ops-sulawesi export is now in WITA). K01 and K22 have been run on the current dataset. The Balado and new-hire questions are untested at this layer.
+All runs except the last three used the first, smaller version of the dataset, so times in their linked answers differ from the current data (the #ops-sulawesi export is now in WITA). K01 and K22 have been run on the current dataset. The Balado and new-hire questions are untested at this layer.
 
 | Run | Question | Asked as | Result | What happened |
 | --- | --- | --- | --- | --- |
@@ -37,9 +37,10 @@ All runs except the last two used the first, smaller version of the dataset, so 
 | K03 v3 | What is Proyek Kenari? | Staff | PASS | New plugin version. Fixed answer, recorded and checked before display. [screenshot](bukti/K03-v3-lolos.jpg) |
 | K01 v3 | Why was stock late in Makassar, and what is still open? | Staff | PASS | New plugin version. 16 sources, passed `periksa_jawaban` before display, time zone labels now correct (+07:00 as WIB, +08:00 as WITA), no management content. Minor: the lead added a short summary after the recorded answer, so that summary was not checked. [full answer](bukti/K01-v3-jawaban.md), [screenshot](bukti/K01-v3-akhir.jpg) |
 
-| K01 on current dataset | Why was stock late in Makassar, and what is still open? | Staff | PARTIAL | No leak, time zones correct, passed `periksa_jawaban`, and the record gap on the PO cut is right. But it drifted to another project: Balado tasks T-201, T-202 and T-203 appeared under "still open", a Balado hidden-instruction notice was added, and "launch target 1 November" was stated although the chat moved it to 15 November. The answer check cannot catch this because those facts really are in the cited sources. Prompts are now fixed but this fix has not been run yet. [full answer](bukti/K01-dataset2-jawaban.md) |
+| K01 on current dataset | Why was stock late in Makassar, and what is still open? | Staff | PARTIAL | No leak, time zones correct, passed `periksa_jawaban`, and the record gap on the PO cut is right. But it drifted to another project: Balado tasks T-201, T-202 and T-203 appeared under "still open", a Balado hidden-instruction notice was added, and "launch target 1 November" was stated although the chat moved it to 15 November. The answer check cannot catch this because those facts really are in the cited sources. The relevance fix was confirmed on K22 below, but K01 itself has not been run again. Cost 44.83 credits. [full answer](bukti/K01-dataset2-jawaban.md), [screenshot](bukti/K01-dataset2-akhir.jpg) |
 
-| K22 on current dataset | Why was WMS postponed, and what is still open? | Manager | PARTIAL | No leak: the answer gives the budget review and the vendor penalty risk, with nothing from the board channel. The relevance fix worked, with the task list filtered to WMS and no other project in the answer. Two problems. Our answer check wrongly rejected the record-gap lines, because they mention a date without a citation, and the lead removed that whole section. The task filter also missed paused task T-303 and message proj-wms/007. The checker is fixed and accepts this answer on replay, and the prompts are updated, but the question has not been run again. [full answer](bukti/K22-jawaban.md), [screenshot](bukti/K22-akhir.jpg) |
+| K22 on current dataset | Why was WMS postponed, and what is still open? | Manager | PARTIAL | No leak: the answer gives the budget review and the vendor penalty risk, with nothing from the board channel. The relevance fix worked, with the task list filtered to WMS and no other project in the answer. Two problems. Our answer check wrongly rejected the record-gap lines, because they mention a date without a citation, and the lead removed that whole section. The task filter also missed paused task T-303 and message proj-wms/007. Cost 77.96 credits. [full answer](bukti/K22-jawaban.md), [screenshot](bukti/K22-akhir.jpg) |
+| K22 v2 on current dataset | Same | Manager | PASS | After fixing the checker and prompts. Three record gaps with who likely knows, T-302 and paused T-303 listed, proj-wms/007 included, nothing from the board channel, no other project, and `periksa_jawaban` passed. Minor: the text on screen was not identical to the recorded text. It used a table, the heading "Catatan" and an added summary, with the same facts. Cost 28.42 credits. [recorded answer](bukti/K22-v2-jawaban.md), [screenshot](bukti/K22-v2-akhir.jpg) |
 
 ## What the failures taught us
 
@@ -51,4 +52,4 @@ All runs except the last two used the first, smaller version of the dataset, so 
 
 ## Not yet tested in WorkBuddy
 
-K04, K06, K07, K09 to K15 and K17 to K31 were not run as agent conversations, to keep enough WorkBuddy credits for the demo recording. K22 should be run once more to confirm the record gaps are back. Their code-layer checks all pass (K01 to K31 in `npm test`).
+K04, K06, K07, K09 to K15 and K17 to K31 were not run as agent conversations, to keep enough WorkBuddy credits for the demo recording. Their code-layer checks all pass (K01 to K31 in `npm test`).

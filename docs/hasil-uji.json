@@ -105,7 +105,7 @@
       "pertanyaan": "Kenapa stok di Makassar telat, dan apa yang masih open?",
       "sebagai": "Staf (Andi)",
       "status": "SEBAGIAN",
-      "catatan": "Tidak ada kebocoran, zona waktu benar, lolos periksa_jawaban. Tapi task Balado ikut masuk daftar open dan target launching 1 November yang sudah usang disebut. Prompt sudah diperbaiki, perbaikannya belum diuji.",
+      "catatan": "Tidak ada kebocoran, zona waktu benar, lolos periksa_jawaban. Tapi task Balado ikut masuk daftar open dan target launching 1 November yang sudah usang disebut. Perbaikan relevansi terbukti di K22, K01 sendiri belum dijalankan ulang.",
       "bukti": "bukti/K01-dataset2-jawaban.md"
     },
     {
@@ -113,8 +113,16 @@
       "pertanyaan": "Kenapa WMS ditunda, dan apa yang masih open?",
       "sebagai": "Manajer (Sari)",
       "status": "SEBAGIAN",
-      "catatan": "Tidak ada isi kanal direksi dan tidak ada proyek lain, jadi perbaikan relevansi bekerja. Tapi periksa_jawaban salah menolak baris celah catatan sehingga bagian itu dibuang, dan task tertunda T-303 terlewat. Pemeriksa dan prompt sudah diperbaiki, pertanyaan ini belum dijalankan ulang.",
+      "catatan": "Tidak ada isi kanal direksi dan tidak ada proyek lain. Tapi periksa_jawaban salah menolak baris celah catatan sehingga bagian itu dibuang, dan task tertunda T-303 terlewat.",
       "bukti": "bukti/K22-jawaban.md"
+    },
+    {
+      "id": "K22 v2 dataset baru",
+      "pertanyaan": "Kenapa WMS ditunda, dan apa yang masih open?",
+      "sebagai": "Manajer (Sari)",
+      "status": "LOLOS",
+      "catatan": "Tiga celah catatan dengan siapa yang kemungkinan tahu, T-302 dan T-303 tercantum, tanpa isi kanal direksi dan tanpa proyek lain. Catatan kecil: teks di layar memakai format lain dari teks yang dicatat, faktanya sama.",
+      "bukti": "bukti/K22-v2-akhir.jpg"
     }
   ]
 }
