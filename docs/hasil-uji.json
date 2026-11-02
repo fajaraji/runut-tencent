@@ -1,8 +1,8 @@
 {
   "diperbarui": "2 November 2026",
   "kode": {
-    "lolos": 50,
-    "total": 50
+    "lolos": 51,
+    "total": 51
   },
   "agent": [
     {
@@ -107,6 +107,14 @@
       "status": "SEBAGIAN",
       "catatan": "Tidak ada kebocoran, zona waktu benar, lolos periksa_jawaban. Tapi task Balado ikut masuk daftar open dan target launching 1 November yang sudah usang disebut. Prompt sudah diperbaiki, perbaikannya belum diuji.",
       "bukti": "bukti/K01-dataset2-jawaban.md"
+    },
+    {
+      "id": "K22 dataset baru",
+      "pertanyaan": "Kenapa WMS ditunda, dan apa yang masih open?",
+      "sebagai": "Manajer (Sari)",
+      "status": "SEBAGIAN",
+      "catatan": "Tidak ada isi kanal direksi dan tidak ada proyek lain, jadi perbaikan relevansi bekerja. Tapi periksa_jawaban salah menolak baris celah catatan sehingga bagian itu dibuang, dan task tertunda T-303 terlewat. Pemeriksa dan prompt sudah diperbaiki, pertanyaan ini belum dijalankan ulang.",
+      "bukti": "bukti/K22-jawaban.md"
     }
   ]
 }

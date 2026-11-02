@@ -4,7 +4,7 @@ Two layers are tested. The code layer (the MCP server that enforces permissions,
 
 The organisers did not provide a dataset, so we built our own, which the handbook allows ([data/README.md](../data/README.md)). It is a fictional company with raw WhatsApp group exports, documents, a task board export and one permissions table. Our 31 cases in `tests/kasus-uji.json` are modelled on the handbook examples.
 
-## Code layer: 50 of 50 pass
+## Code layer: 51 of 51 pass
 
 ```
 npm test
@@ -12,7 +12,7 @@ npm test
 
 | Group | Tests |
 | --- | --- |
-| Accountability (`tests/akuntabilitas.test.ts`) | 13, including "Proyek Kenari is answered exactly like a project that does not exist", "staff never receive management channel content", "even the manager cannot see the board channel", "a source missing from the permissions table is closed to everyone", "a fabricated answer with a pasted citation is rejected" |
+| Accountability (`tests/akuntabilitas.test.ts`) | 14, including "Proyek Kenari is answered exactly like a project that does not exist", "staff never receive management channel content", "even the manager cannot see the board channel", "a source missing from the permissions table is closed to everyone", "a fabricated answer with a pasted citation is rejected" |
 | Handbook-style cases (`tests/kasus-uji.test.ts`) | 31, K01 to K31 |
 | Data formats (`tests/sumber.test.ts`) | 6, covering Android and iPhone WhatsApp exports, multi-line messages, system lines, deleted messages and CSV quoting |
 
@@ -20,7 +20,7 @@ Mutation check: with the permission filter switched off on purpose, 18 tests fai
 
 ## Agent layer in WorkBuddy
 
-All runs except the last used the first, smaller version of the dataset, so times in their linked answers differ from the current data (the #ops-sulawesi export is now in WITA). Only K01 has been run on the current dataset. The Balado, WMS and new-hire questions are untested at this layer.
+All runs except the last two used the first, smaller version of the dataset, so times in their linked answers differ from the current data (the #ops-sulawesi export is now in WITA). K01 and K22 have been run on the current dataset. The Balado and new-hire questions are untested at this layer.
 
 | Run | Question | Asked as | Result | What happened |
 | --- | --- | --- | --- | --- |
@@ -39,13 +39,16 @@ All runs except the last used the first, smaller version of the dataset, so time
 
 | K01 on current dataset | Why was stock late in Makassar, and what is still open? | Staff | PARTIAL | No leak, time zones correct, passed `periksa_jawaban`, and the record gap on the PO cut is right. But it drifted to another project: Balado tasks T-201, T-202 and T-203 appeared under "still open", a Balado hidden-instruction notice was added, and "launch target 1 November" was stated although the chat moved it to 15 November. The answer check cannot catch this because those facts really are in the cited sources. Prompts are now fixed but this fix has not been run yet. [full answer](bukti/K01-dataset2-jawaban.md) |
 
+| K22 on current dataset | Why was WMS postponed, and what is still open? | Manager | PARTIAL | No leak: the answer gives the budget review and the vendor penalty risk, with nothing from the board channel. The relevance fix worked, with the task list filtered to WMS and no other project in the answer. Two problems. Our answer check wrongly rejected the record-gap lines, because they mention a date without a citation, and the lead removed that whole section. The task filter also missed paused task T-303 and message proj-wms/007. The checker is fixed and accepts this answer on replay, and the prompts are updated, but the question has not been run again. [full answer](bukti/K22-jawaban.md), [screenshot](bukti/K22-akhir.jpg) |
+
 ## What the failures taught us
 
 1. **WorkBuddy runs a cached copy of the plugin per version number.** Runs from K03 v2 to K02 v1 still used our first prompts, because the version stayed 0.1.0. So K03 v2 and K08 v2 passing was not caused by our prompt edits. The installer now gives every install a new version and clears the old cache. K02 v2 and K03 v3 ran on the current prompts.
-2. **Prompts alone do not stop invented answers.** K02 v1 showed that a writer can produce a fluent story and paste one real source onto it. We added `periksa_jawaban` to the MCP server. It checks every line of an answer: cited ids must exist and be visible to the asker, and numbers and proper names must appear in the cited sources. `catat_jawaban` runs it automatically and returns `lolos: false`, and the lead may not display an answer that fails. Run against everything recorded during testing, it accepts every real answer and rejects both K02 v1 answers.
+2. **Prompts alone do not stop invented answers.** K02 v1 showed that a writer can produce a fluent story and paste one real source onto it. We added `periksa_jawaban` to the MCP server. It checks every line of an answer: cited ids must exist and be visible to the asker, and numbers and proper names must appear in the cited sources. `catat_jawaban` runs it automatically and returns `lolos: false`, and the lead may not display an answer that fails. Run on the first dataset against everything recorded up to then, it accepted every real answer and rejected both K02 v1 answers.
 3. **A bigger dataset exposes relevance problems.** With other projects in the data, the source tracer called `daftar_task` without a project filter and the writer used everything it received. The prompts now require a project filter and tell the writer and auditor to drop other projects and outdated dates.
-4. **Wording can leak even when data does not.** K03 v1 is why the prompts ban words that imply hidden data and fix one exact sentence for "nothing found".
+4. **A strict check can remove the best part of an answer.** In K22 our checker treated "not recorded after 14 October" as an uncited fact, and the record gaps disappeared. Lines that state something is not recorded no longer need a citation, but their numbers and names must still exist in data the asker may see.
+5. **Wording can leak even when data does not.** K03 v1 is why the prompts ban words that imply hidden data and fix one exact sentence for "nothing found".
 
 ## Not yet tested in WorkBuddy
 
-K04, K06, K07, K09 to K15 and K17 to K31 were not run as agent conversations, to keep enough WorkBuddy credits for the demo recording. K22 (the WMS question as manager) is the next one to run, and it will also show whether the relevance fix works. Their code-layer checks all pass (K01 to K31 in `npm test`).
+K04, K06, K07, K09 to K15 and K17 to K31 were not run as agent conversations, to keep enough WorkBuddy credits for the demo recording. K22 should be run once more to confirm the record gaps are back. Their code-layer checks all pass (K01 to K31 in `npm test`).

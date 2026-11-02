@@ -138,6 +138,18 @@ test("Jawaban karangan yang ditempeli sumber ditolak, jawaban bersumber diterima
   assert.equal(catat.lolos, false);
 });
 
+test("Baris celah catatan boleh tanpa kutipan, tapi tidak boleh membawa hal karangan", () => {
+  const { sebagai } = siapkan();
+  const sari = sebagai("u-sari");
+  // Diambil dari jawaban K22 yang salah ditolak saat uji di WorkBuddy.
+  const asli = "Tidak tercatat hasil negosiasi vendor WMS setelah 14 Oktober 2026. Tidak tercatat keputusan akhir direksi mengenai anggaran tahap 2 WMS.";
+  assert.equal(sari.periksaJawaban(asli).lolos, true, JSON.stringify(sari.periksaJawaban(asli).masalah));
+
+  const karangan = "Tidak tercatat kenapa truck breakdown di Tulungagung pada pukul 17:45.";
+  assert.equal(sari.periksaJawaban(karangan).lolos, false);
+  assert.equal(sari.periksaJawaban("Vendor WMS sudah setuju perpanjangan sampai 14 Oktober 2026.").lolos, false, "klaim fakta tanpa kutipan tetap ditolak");
+});
+
 test("Sumber yang tidak tercantum di tabel izin tertutup untuk semua orang", () => {
   const { tmp, sebagai } = siapkan();
   const file = join(tmp, "data", "izin.csv");

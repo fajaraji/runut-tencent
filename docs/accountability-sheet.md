@@ -42,7 +42,7 @@ The asker's identity is fixed when the server starts (`RUNUT_USER`). No tool tak
 
 ## How we check it
 
-- 50 automated tests (`npm test`) cover the code layer, including 31 cases modelled on the handbook examples.
+- 51 automated tests (`npm test`) cover the code layer, including 31 cases modelled on the handbook examples.
 - A mutation check switches the permission filter off on purpose. 18 tests then fail, which shows the tests catch leaks.
 - Agent-level runs in WorkBuddy are recorded in `docs/hasil-uji.md`, failures included.
 

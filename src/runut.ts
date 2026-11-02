@@ -46,6 +46,8 @@ const POLA_INSTRUKSI = [
   /^\s*AI\s*:/im,
 ];
 
+const POLA_CELAH = /\b(tidak|belum)\s+(tercatat|terdokumentasi|ada catatan|ditemukan catatan)\b/i;
+
 const POLA_NIK = /\b\d{16}\b/g;
 const POLA_TELEPON = /(?:\+62|62|0)8\d{1,3}[-\s]?\d{3,4}[-\s]?\d{3,5}\b/g;
 
@@ -289,6 +291,14 @@ export class Runut {
       // Nama diri: kata kapital di tengah kalimat (didahului huruf kecil, angka, koma, atau kurung tutup).
       const nama = [...isi.matchAll(/(?<=[a-z0-9,)]\s)[A-Z][a-z]{3,}/g)].map((m) => m[0]).filter((n) => !UMUM.has(n));
       const faktual = angka.length > 0 || nama.length > 0;
+      // Baris celah catatan menyatakan sesuatu tidak ada, jadi wajar tanpa kutipan.
+      // Angka dan namanya tetap harus dikenal di data yang boleh dilihat penanya.
+      if (!sah.length && !palsu.length && POLA_CELAH.test(k)) {
+        const angkaAsing = angka.filter((a) => !semuaTeks.includes(a) && !semuaTeks.includes(a.padStart(2, "0")));
+        const namaAsing = nama.filter((n) => !semuaTeks.includes(n.toLowerCase()));
+        if (angkaAsing.length || namaAsing.length) masalah.push({ kalimat: k, masalah: `celah catatan menyebut hal yang tidak dikenal di data: ${[...angkaAsing, ...namaAsing].join(", ")}` });
+        continue;
+      }
       if (faktual && !sah.length) {
         masalah.push({ kalimat: k, masalah: "kalimat fakta tanpa sumber sah" });
         continue;
