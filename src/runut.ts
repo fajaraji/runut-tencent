@@ -35,7 +35,7 @@ const SINONIM: Record<string, string[]> = {
 };
 
 const STOPWORD = new Set(
-  "yang dan di ke dari ini itu untuk dengan apa kenapa mengapa ada adalah atau juga sudah masih kita saya the a an of to is what why and or in on yg ya proyek project open tolong bagaimana siapa berapa kapan telah".split(" "),
+  "yang dan di ke dari ini itu untuk dengan apa kenapa mengapa ada adalah atau juga sudah masih kita saya the a an of to is what why and or in on yg ya proyek project open tolong bagaimana siapa berapa kapan telah tampilkan tunjukkan isi kanal daftar berikan semua jelaskan lihat show list all".split(" "),
 );
 
 const POLA_INSTRUKSI = [
@@ -50,6 +50,23 @@ const POLA_CELAH = /\b(tidak|belum)\s+(tercatat|terdokumentasi|ada catatan|ditem
 
 const POLA_NIK = /\b\d{16}\b/g;
 const POLA_TELEPON = /(?:\+62|62|0)8\d{1,3}[-\s]?\d{3,4}[-\s]?\d{3,5}\b/g;
+
+const SAPAAN = new Set("Pak Bu Bapak Ibu Mas Mbak PT CV".split(" "));
+
+// Nama spesifik di pertanyaan: #kanal, kode seperti PO-9999, kata berstrip, dan nama diri di tengah
+// kalimat. Kalau salah satunya tidak ada di data yang boleh dilihat penanya, jawabannya "tidak ada",
+// bukan hasil lain yang kebetulan cocok dengan kata-kata umum di pertanyaan.
+function namaSpesifik(query: string): string[][] {
+  const kata = [...query.matchAll(/#?[A-Za-z0-9][A-Za-z0-9-]*/g)].map((m, i) => ({ k: m[0], i }));
+  const hasil: string[][] = [];
+  for (const { k, i } of kata) {
+    const bersih = k.replace(/^#/, "").toLowerCase();
+    if (k.startsWith("#") || (k.includes("-") && /\d/.test(k))) hasil.push([bersih]);
+    else if (k.includes("-")) hasil.push(bersih.split("-"));
+    else if (i > 0 && /^[A-Z][a-z]{2,}$/.test(k) && !SAPAAN.has(k) && !STOPWORD.has(bersih)) hasil.push([bersih]);
+  }
+  return hasil;
+}
 
 function token(teks: string): string[] {
   return teks
@@ -167,6 +184,11 @@ export class Runut {
   cari(query: string, opsi: { batas?: number; urut?: "relevansi" | "waktu"; dataPribadi?: boolean } = {}) {
     const terlihat = this.itemTerlihat();
     const kata = token(query).flatMap((t) => [t, ...(SINONIM[t] ?? [])]);
+    const korpus = `${terlihat.map((i) => `${i.sumber} ${i.penulis} ${i.teks}`).join(" ")} ${this.orang().map((o) => o.nama).join(" ")}`.toLowerCase();
+    if (namaSpesifik(query).some((bagian) => bagian.some((b) => !korpus.includes(b)))) {
+      this.log("cari", { query, ...opsi }, { sumber: [], alasan: "nama spesifik tidak dikenal" });
+      return { hasil: [] as ItemKeluar[], pesan: TIDAK_DITEMUKAN };
+    }
     const dokTok = terlihat.map((i) => token(`${i.sumber} ${i.penulis} ${i.teks}`));
     const df = new Map<string, number>();
     for (const toks of dokTok) for (const t of new Set(toks)) df.set(t, (df.get(t) ?? 0) + 1);
@@ -303,6 +325,8 @@ export class Runut {
       const sah = ids.filter((id) => peta.has(id));
       const palsu = ids.filter((id) => !peta.has(id));
       if (palsu.length) masalah.push({ kalimat: k, masalah: `sumber tidak sah: ${palsu.join(", ")}` });
+      const kanalAsing = (k.match(/#[a-z0-9-]+/g) ?? []).filter((n) => !semuaTeks.includes(n));
+      if (kanalAsing.length) masalah.push({ kalimat: k, masalah: `menyebut kanal yang tidak dikenal: ${kanalAsing.join(", ")}` });
 
       const isi = k
         .replace(POLA_ID, " ")

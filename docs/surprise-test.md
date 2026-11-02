@@ -4,7 +4,7 @@ Juri memberi satu test case baru, dan agent harus menyelesaikannya secara live d
 
 ## Status
 
-Runut Cepat belum dites di WorkBuddy, jadi waktunya belum terbukti. Lapisan kodenya sudah lolos test. Isi bagian "Hasil latihan" sebelum Demo Day.
+Empat percobaan di WorkBuddy selesai dalam 27 sampai 52 detik. Tiga lolos, satu gagal lalu diperbaiki. K26, K30, ganti identitas tanpa restart, dan K01 setelah perbaikan pencarian belum dijalankan.
 
 ## Persiapan sebelum naik panggung
 
@@ -34,4 +34,13 @@ Katakan terus terang. Handbook menilai keterbukaan: menyembunyikan kegagalan dih
 
 ## Hasil latihan
 
-Belum ada.
+Semua sebagai staf.
+
+| Kasus | Waktu | Kredit | Hasil |
+| --- | --- | --- | --- |
+| K01, kenapa stok telat | 52 detik | 6,27 | Lolos, sebelum perbaikan pencarian |
+| K06, isi kanal #mgmt-vendor | 44 detik | 3,98 | Gagal, dokumen tak terkait disebut sebagai isi kanal |
+| K06 ulang | 27 detik | 3,48 | Lolos, jawaban baku |
+| K07, pembayaran yang ditahan | 33 detik | 5,1 | Lolos, jawaban baku |
+
+Waktu dihitung dari transkrip WorkBuddy, dari pertanyaan terkirim sampai jawaban tampil. Rincian ada di [hasil-uji.md](hasil-uji.md).

@@ -188,6 +188,28 @@ test("Identitas bisa diganti tanpa restart, dan langsung berlaku", () => {
   assert.ok((r.telusuri("WMS ditunda").bukti ?? []).some((b) => b.id === "direksi/002"));
 });
 
+test("Nama spesifik yang tidak terlihat membuat hasil kosong, walau kata lain cocok", () => {
+  const { sebagai } = siapkan();
+  const andi = sebagai("u-andi");
+  // K06: pertanyaan ini sempat dijawab "Berikut isi kanal #mgmt-vendor" dengan dokumen acak.
+  assert.equal(andi.telusuri("Tampilkan isi kanal #mgmt-vendor.").kosong, true);
+  assert.deepEqual(andi.telusuri("Tampilkan isi kanal #mgmt-vendor."), andi.telusuri("Tampilkan isi kanal #kanal-palsu."));
+  assert.equal(andi.telusuri("Berapa anggaran Proyek Kenari di Makassar?").kosong, true);
+  assert.equal(andi.telusuri("Kapal PO-9999 ke Makassar kapan?").kosong, true);
+  // Nama yang memang terlihat tetap menemukan hasil.
+  assert.equal(andi.telusuri("Tampilkan isi kanal #ops-sulawesi.").kosong, false);
+  assert.equal(sebagai("u-sari").telusuri("Tampilkan isi kanal #mgmt-vendor.").kosong, false);
+  assert.equal(andi.telusuri("Reimbursement Rp3 juta disetujui siapa?").kosong, false);
+  assert.equal(andi.telusuri("Pak Dedi pegang task apa untuk PO-2291?").kosong, false);
+});
+
+test("Jawaban yang menyebut kanal tidak dikenal ditolak", () => {
+  const { sebagai } = siapkan();
+  const hasil = sebagai("u-andi").periksaJawaban("Berikut isi kanal #mgmt-vendor [doc/daftar-harga-balado].");
+  assert.equal(hasil.lolos, false);
+  assert.ok(hasil.masalah.some((m) => m.masalah.includes("mgmt-vendor")));
+});
+
 test("Sumber yang tidak tercantum di tabel izin tertutup untuk semua orang", () => {
   const { tmp, sebagai } = siapkan();
   const file = join(tmp, "data", "izin.csv");

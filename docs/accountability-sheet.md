@@ -13,7 +13,7 @@ Runut answers project history questions such as "Why was stock late in Makassar,
 
 A source missing from the permissions table is closed to everyone.
 
-The asker's identity is fixed when the server starts (`RUNUT_USER`). No tool takes an identity as input, so the model cannot ask on someone else's behalf. Access is read again on every call, so a permission change applies to the very next question.
+The asker's identity comes from configuration, one file the server reads on every call (`RUNUT_USER_FILE`, or `RUNUT_USER` as a fallback). No tool takes an identity as input, so the model cannot ask on someone else's behalf. Access is read again on every call, so a permission change applies to the very next question.
 
 ## What Runut does on its own
 
@@ -42,14 +42,14 @@ The asker's identity is fixed when the server starts (`RUNUT_USER`). No tool tak
 
 ## How we check it
 
-- 55 automated tests (`npm test`) cover the code layer, including 31 cases modelled on the handbook examples.
-- A mutation check switches the permission filter off on purpose. 18 tests then fail, which shows the tests catch leaks.
+- 57 automated tests (`npm test`) cover the code layer, including 31 cases modelled on the handbook examples.
+- A mutation check switches the permission filter off on purpose. 23 tests then fail, which shows the tests catch leaks.
 - Agent-level runs in WorkBuddy are recorded in `docs/hasil-uji.md`, failures included.
 
 ## Known limits
 
 - The approval console runs on the same machine as WorkBuddy. WorkBuddy's own permission mode asks before running scripts, and the agents are told never to run it, but a fully separate approval channel would be stronger in production.
-- Identity comes from configuration, not from company single sign-on. Production use would bind `RUNUT_USER` to the signed-in employee.
-- The answer check catches invented citations, numbers and names. It cannot catch a wrong conclusion drawn from real numbers, which is why a separate auditor agent also reviews every draft.
+- Identity comes from configuration, not from company single sign-on. Production use would bind it to the signed-in employee.
+- The answer check catches invented citations, numbers and names. It cannot catch a wrong conclusion drawn from real numbers, which is why a separate auditor agent also reviews every draft in the team. Runut Cepat, the single agent for the 90-second live test, has no auditor and relies on the code checks alone.
 - The check runs on the text the lead records. The lead is told to display exactly that, and in our last three runs it did, apart from a one-line offer and one opening sentence. Nothing in code forces it, because WorkBuddy controls the display. Production should show the recorded text directly.
 - Search is keyword based with a small synonym list. Phrasing far from the source text can miss relevant items, in which case Runut says it found nothing rather than guessing.
