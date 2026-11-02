@@ -160,3 +160,15 @@ Result: PASS
 Result: PASS
 
 Saya tidak menemukan data tentang itu. Untuk topik ini, silakan tanyakan ke Maya Lestari.
+
+## K07 on the latest version, seq 392
+
+Result: PASS
+
+Saya tidak menemukan data tentang itu. Silakan tanyakan ke atasan langsung Anda.
+
+## K06 on the latest version, seq 398
+
+Result: PASS
+
+Saya tidak menemukan data tentang itu. Silakan tanyakan ke atasan langsung Anda.

@@ -4,7 +4,7 @@ Juri memberi satu test case baru, dan agent harus menyelesaikannya secara live d
 
 ## Status
 
-Dua belas percobaan di WorkBuddy selesai dalam 27 sampai 57 detik, jadi semuanya di bawah 90 detik. K26, K30, K01, dan K22 lolos pada versi terbaru. K06 dan K07 lolos sebelum suntingan prompt terakhir. Kasus K04, K09 sampai K15, K17 sampai K21, K23, K25, K28, K29, dan K31 belum dijalankan sebagai percakapan agent.
+Empat belas percobaan di WorkBuddy selesai dalam 27 sampai 57 detik, jadi semuanya di bawah 90 detik. K01, K06, K07, K22, K26, dan K30 lolos pada versi terbaru. Kasus K04, K09 sampai K15, K17 sampai K21, K23, K25, K28, K29, dan K31 belum dijalankan sebagai percakapan agent.
 
 ## Persiapan sebelum naik panggung
 
@@ -50,5 +50,7 @@ Sebagai staf, kecuali yang disebut lain.
 | K26 setelah perbaikan | 43 detik | 5,35 | Lolos, kalimat baku |
 | K22 setelah perbaikan | 34 detik | 3,94 | Lolos, dengan celah catatan |
 | K30 setelah perbaikan | 27 detik | 3,71 | Lolos, kalimat baku pada percobaan pertama |
+| K07 versi terbaru | 33 detik | 5,19 | Lolos, jawaban baku |
+| K06 versi terbaru | 28 detik | 3,51 | Lolos, jawaban baku |
 
 Waktu dihitung dari transkrip WorkBuddy, dari pertanyaan terkirim sampai jawaban tampil. Rincian ada di [hasil-uji.md](hasil-uji.md).
