@@ -42,12 +42,13 @@ The asker's identity comes from configuration, one file the server reads on ever
 
 ## How we check it
 
-- 59 automated tests (`npm test`) cover the code layer, including 31 cases modelled on the handbook examples.
-- A mutation check switches the permission filter off on purpose. 23 tests then fail, which shows the tests catch leaks.
+- 61 automated tests (`npm test`) cover the code layer, including 31 cases modelled on the handbook examples.
+- A mutation check switches the permission filter off on purpose. 24 tests then fail, which shows the tests catch leaks.
 - Agent-level runs in WorkBuddy are recorded in `docs/hasil-uji.md`, failures included.
 
 ## Known limits
 
+- The permission filter guards tools, not the conversation. In one test an agent repeated an earlier answer from memory after access was revoked, with no tool call and no log entry. The prompt now forbids this and the re-test passed, but only a new conversation guarantees it, so our live guide starts a new task after any change of identity or access. Production should tie each conversation to one identity and one permission state.
 - The approval console runs on the same machine as WorkBuddy. WorkBuddy's own permission mode asks before running scripts, and the agents are told never to run it, but a fully separate approval channel would be stronger in production.
 - Identity comes from configuration, not from company single sign-on. Production use would bind it to the signed-in employee.
 - The answer check catches invented citations, numbers and names. It cannot catch a wrong conclusion drawn from real numbers, which is why a separate auditor agent also reviews every draft in the team. Runut Cepat, the single agent for the 90-second live test, has no auditor and relies on the code checks alone.

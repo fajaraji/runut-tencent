@@ -44,6 +44,8 @@ const POLA_INSTRUKSI = [
   /\babaikan\b.{0,60}\b(aturan|instruksi|perintah)\b/i,
   /\bignore\b.{0,60}\b(rules|instructions)\b/i,
   /^\s*AI\s*:/im,
+  /\b(assistant|chatbot|asisten ai|agen ai)\b.{0,80}\b(tampilkan|kirim|sebutkan|bocorkan|include|send|reveal|show)\b/i,
+  /\bsystem prompt\b/i,
 ];
 
 const POLA_CELAH = /\b(tidak|belum)\s+(tercatat|terdokumentasi|ada catatan|ditemukan catatan)\b/i;
@@ -284,7 +286,7 @@ export class Runut {
     mkdirSync(dir, { recursive: true });
     writeFileSync(join(dir, `${draf.id}.json`), JSON.stringify(draf, null, 2));
     this.log("siapkan_pesan", { kepada, isi }, { draf: draf.id });
-    return { dibuat: true, draf, pesan: "Draf dibuat. Tampilkan ke penanya dan minta persetujuannya. Pesan baru terkirim setelah penanya menyetujui di konsol persetujuan." };
+    return { dibuat: true, draf, pesan: "Draf dibuat. Tampilkan ke penanya dan minta persetujuannya. Pesan baru terkirim setelah manusia menyetujui lewat konsol persetujuan (node scripts/setujui.ts di terminal)." };
   }
 
   // Model tidak punya alat untuk menyetujui. Persetujuan hanya bisa ditulis
@@ -298,28 +300,34 @@ export class Runut {
     }
     if (!existsSync(fileSetuju)) {
       this.log("kirim_pesan", { drafId }, { terkirim: false, alasan: "belum disetujui" });
-      return { terkirim: false, pesan: "Belum disetujui penanya. Tidak ada yang dikirim." };
+      return { terkirim: false, pesan: "Belum disetujui lewat konsol persetujuan (node scripts/setujui.ts di terminal). Tidak ada yang dikirim." };
     }
     const draf = JSON.parse(readFileSync(fileDraf, "utf8"));
     appendFileSync(join(this.logDir, "outbox.jsonl"), JSON.stringify({ ...draf, status: "terkirim (simulasi)", dikirim: new Date().toISOString() }) + "\n");
     this.log("kirim_pesan", { drafId }, { terkirim: true });
-    return { terkirim: true, pesan: `Pesan ke ${draf.namaKepada} terkirim (simulasi).` };
+    return { terkirim: true, pesan: `Pesan ke ${draf.namaKepada} terkirim (simulasi). Tulis kata simulasi ke penanya.` };
   }
 
   // Pemeriksaan deterministik atas jawaban akhir: setiap kalimat fakta harus
   // mengutip sumber sah, dan angka serta nama diri di kalimat itu harus muncul
   // di sumber yang dikutip. Ini menangkap jawaban karangan yang ditempeli sumber.
-  periksaJawaban(jawaban: string) {
+  periksaJawaban(jawaban: string, pertanyaan = "") {
     const terlihat = this.itemTerlihat();
     const peta = new Map(terlihat.map((i) => [i.id, i]));
     const korpus = (items: Item[]) =>
-      items.map((i) => `${i.sumber} ${i.penulis} ${i.teks} ${i.waktu} ${i.id}`).join(" ").toLowerCase().replace(/(\d)\.(\d)/g, "$1$2");
+      items.map((i) => `${i.sumber} ${i.penulis} ${i.teks} ${i.waktu}`).join(" ").toLowerCase().replace(/(\d)\.(\d)/g, "$1$2");
     const semuaTeks = korpus(terlihat) + " " + this.orang().map((o) => `${o.nama} ${o.jabatan}`).join(" ").toLowerCase();
     const UMUM = new Set(
       "Saya Anda Bapak Ibu Yang Kronologi Celah Catatan Sumber Ringkasan Untuk Pada Mau Silakan Jika Tidak Dari Dan Atau Ada Ini Itu Sesuai Namun Sedangkan Setelah Sebelum Karena Sehingga Status Task Open Selesai Konflik Oktober November Desember September Januari Februari Maret April Mei Juni Juli Agustus Okt Nov Des Sep Jan Feb Mar Apr Jun Jul Agu WIB WITA WIT ETA SOP PO The What Still Pesan Draf Garis Waktu Instruksi".split(" "),
     );
     // Id sumber dikenali dalam bentuk apa pun ([id], (id), atau polos): "kanal/nomor", "doc/nama", "T-123".
     const POLA_ID = /\b(?:[a-z]+(?:-[a-z0-9]+)*\/[a-z0-9-]+|T-\d{3})\b/g;
+    const bersihkan = (t: string) =>
+      t
+        .replace(POLA_ID, " ")
+        .replace(/(\d)\.(\d)/g, "$1$2")
+        .replace(/(^|\s)\d{1,2}[.)](?=\s)/g, " ");
+    const angkaDi = (t: string) => [...bersihkan(t).matchAll(/\d+(?:[:,]\d+)?/g)].map((m) => m[0].toLowerCase());
     const masalah: { kalimat: string; masalah: string }[] = [];
     // Satuan pemeriksaan adalah baris: kutipan di akhir paragraf berlaku untuk seluruh paragraf itu.
     const kalimat = jawaban
@@ -335,11 +343,8 @@ export class Runut {
       const kanalAsing = (k.match(/#[a-z0-9-]+/g) ?? []).filter((n) => !semuaTeks.includes(n));
       if (kanalAsing.length) masalah.push({ kalimat: k, masalah: `menyebut kanal yang tidak dikenal: ${kanalAsing.join(", ")}` });
 
-      const isi = k
-        .replace(POLA_ID, " ")
-        .replace(/(\d)\.(\d)/g, "$1$2")
-        .replace(/(^|\s)\d{1,2}[.)](?=\s)/g, " ");
-      const angka = [...isi.matchAll(/\d+(?:[:,]\d+)?/g)].map((m) => m[0].toLowerCase());
+      const isi = bersihkan(k);
+      const angka = angkaDi(k);
       // Nama diri: kata kapital di tengah kalimat (didahului huruf kecil, angka, koma, atau kurung tutup).
       const nama = [...isi.matchAll(/(?<=[a-z0-9,)]\s)[A-Z][a-z]{3,}/g)].map((m) => m[0]).filter((n) => !UMUM.has(n));
       const faktual = angka.length > 0 || nama.length > 0;
@@ -356,9 +361,19 @@ export class Runut {
         continue;
       }
       if (!sah.length) continue;
-      const teksSumber = korpus(sah.map((id) => peta.get(id)!));
-      const angkaAsing = angka.filter((a) => !teksSumber.includes(a) && !teksSumber.includes(a.padStart(2, "0")));
-      if (angkaAsing.length) masalah.push({ kalimat: k, masalah: `angka tidak ada di sumber yang dikutip: ${angkaAsing.join(", ")}` });
+      // Kalimat yang punya kutipan sendiri hanya dicocokkan dengan kutipannya, bukan dengan sumber lain
+      // di baris yang sama. Kalimat tanpa kutipan memakai kutipan barisnya. Angka harus utuh: 5 tidak cocok dengan 45.
+      // Jam diperiksa per baris, sumbernya sering dikutip di akhir baris. Angka dari pertanyaan bukan klaim baru.
+      const dariPertanyaan = angkaDi(pertanyaan);
+      const jamAsing = angka.filter((a) => a.includes(":") && !korpus(sah.map((id) => peta.get(id)!)).includes(a));
+      if (jamAsing.length) masalah.push({ kalimat: k, masalah: `angka tidak ada di sumber yang dikutip: ${jamAsing.join(", ")}` });
+      for (const bagian of k.replace(/(^|\s)\d{1,2}[.)](?=\s)/g, " ").split(/(?<=[.!?\]])\s+(?=[A-Z*])/)) {
+        const idSendiri = [...new Set(bagian.match(POLA_ID) ?? [])].filter((id) => peta.has(id));
+        const teksSumber = korpus((idSendiri.length ? idSendiri : sah).map((id) => peta.get(id)!));
+        const adaUtuh = (a: string) => new RegExp(`(?<!\\d)0*${a}(?!\\d)`).test(teksSumber);
+        const angkaAsing = [...new Set(angkaDi(bagian).filter((a) => !a.includes(":") && !dariPertanyaan.includes(a) && !adaUtuh(a)))];
+        if (angkaAsing.length) masalah.push({ kalimat: bagian, masalah: `angka tidak ada di sumber yang dikutip: ${angkaAsing.join(", ")}` });
+      }
       const namaAsing = nama.filter((n) => !semuaTeks.includes(n.toLowerCase()));
       if (namaAsing.length) masalah.push({ kalimat: k, masalah: `nama tidak dikenal di data: ${namaAsing.join(", ")}` });
     }
@@ -369,7 +384,7 @@ export class Runut {
 
   catatJawaban(pertanyaan: string, jawaban: string, sumber: string[]) {
     const cek = this.periksaSumber(sumber);
-    const isi = this.periksaJawaban(jawaban);
+    const isi = this.periksaJawaban(jawaban, pertanyaan);
     const lolos = cek.tidak_sah.length === 0 && isi.lolos;
     this.log("catat_jawaban", { pertanyaan, sumber }, { jawaban, lolos, sumber_tidak_sah: cek.tidak_sah, masalah: isi.masalah });
     return lolos
