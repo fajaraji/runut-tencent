@@ -33,6 +33,32 @@ for (const [kelas, jawaban, pertanyaan] of kasus.batas) {
   });
 }
 
+test("Penanya tidak diarahkan untuk bertanya ke dirinya sendiri", () => {
+  const log = mkdtempSync(join(tmpdir(), "runut-"));
+  const sari = new Runut({ dataDir: join(akar, "data"), logDir: log, penggunaId: "u-sari" });
+  const celah = (nama: string) => `- Tidak tercatat kapan review anggaran selesai (yang kemungkinan tahu: ${nama}, dari [proj-wms/005])`;
+  assert.equal(sari.periksaJawaban(celah("Sari Hidayat"), "Kenapa WMS ditunda?").lolos, false);
+  assert.equal(sari.periksaJawaban(celah("Yoga Permana"), "Kenapa WMS ditunda?").lolos, true);
+  assert.equal(sari.periksaJawaban("Mau saya siapkan draf pesan ke Sari Hidayat untuk menanyakannya?", "Kenapa WMS ditunda?").lolos, false);
+  assert.equal(sari.telusuri("Kenapa WMS ditunda?").penanya, "Sari Hidayat");
+  // Pemilik topik yang sama dengan penanya tidak disebut.
+  const maya = new Runut({ dataDir: join(akar, "data"), logDir: log, penggunaId: "u-maya" });
+  assert.equal(maya.telusuri("Berapa gaji Rina?").pemilik.pemilik, null);
+  assert.equal(andi.telusuri("Berapa gaji Rina?").pemilik.pemilik, "Maya Lestari");
+});
+
+test("Peringatan instruksi hanya meminta memberi tahu kalau sumbernya dipakai", () => {
+  assert.match(andi.ambilSumber("doc/notulen-ops-2026-10-20").sumber!.peringatan!, /hanya kalau jawabanmu mengutip fakta dari sumber ini/);
+});
+
+test("Catatan instruksi untuk sumber yang tidak dipakai dibuang, untuk sumber yang dipakai tetap ada", () => {
+  const catatan = "Saya menemukan instruksi untuk AI di [doc/notulen-ops-2026-10-20] dan mengabaikannya.";
+  const tanpa = andi.catatJawaban("Berapa lead time?", `Lead time 7 hari [ops-sulawesi/007]. ${catatan}`, ["ops-sulawesi/007"]);
+  assert.equal(tanpa.tampilkan_persis, "Lead time 7 hari [ops-sulawesi/007].");
+  const dengan = `Dedi merevisi SOP lead time menjadi 7 hari [doc/notulen-ops-2026-10-20]. ${catatan}`;
+  assert.equal(andi.catatJawaban("Siapa merevisi SOP?", dengan, ["doc/notulen-ops-2026-10-20"]).tampilkan_persis, dengan);
+});
+
 test("Penolakan karena kata dari catatan tertutup tidak menyebut katanya", () => {
   const hasil = andi.periksaJawaban("Kapal tanggal 5 belum berangkat karena overbooking [ops-sulawesi/002].");
   assert.equal(hasil.lolos, false);

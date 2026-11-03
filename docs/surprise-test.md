@@ -4,7 +4,9 @@ Juri memberi satu test case baru, dan agent harus menyelesaikannya secara live d
 
 ## Status
 
-Empat puluh giliran di WorkBuddy selesai dalam 5 sampai 65 detik, jadi semuanya di bawah 90 detik. Sembilan giliran terakhir memakai pemeriksa jawaban yang dibangun ulang, 24 sampai 60 detik. Pada kode dan prompt final, K01 selesai dalam 47 detik dan sumber bertentangan dalam 32 detik. K06, K26, K30, dan K22 lolos satu langkah sebelumnya, dengan perbedaan kecil di bunyi langkah 3 dan aturan baris celah. Kasus K04, K09 sampai K15, K17 sampai K21, K23, K25, K28, K29, dan K31 belum dijalankan sebagai percakapan agent.
+Empat puluh tiga giliran di WorkBuddy selesai dalam 5 sampai 65 detik, jadi semuanya di bawah 90 detik. Dua belas giliran terakhir memakai pemeriksa jawaban yang dibangun ulang, 24 sampai 65 detik. Pada versi final, K22 selesai dalam 40 detik dan sumber bertentangan dalam 39 detik. K01, K06, K26, dan K30 lolos pada versi sedikit lebih awal. Kasus K04, K09 sampai K15, K17 sampai K21, K23, K25, K28, K29, dan K31 belum dijalankan sebagai percakapan agent.
+
+Waktu antre model berubah-ubah. Satu pertanyaan sederhana butuh 65 detik tanpa pengulangan, karena model antre sekitar 40 detik sebelum alat pertama. Jadi kirim pertanyaan segera, dan jangan ganti identitas sebelum jawaban selesai.
 
 Skor pemeriksa dan batasnya ada di [hasil uji](hasil-uji.md). Kalau jawaban tampil dua kali di panggung, katakan terus terang bahwa model menulis sebelum diperiksa, lalu tunjukkan log audit. Larangannya baru di prompt, belum dijaga kode.
 
@@ -84,5 +86,8 @@ Sebagai staf, kecuali yang disebut lain.
 | K01, prompt diperbaiki | 59 detik | 6,18 | Lolos, baris celah jujur ditolak dua kali |
 | K01, final | 47 detik | 4,24 | Lolos |
 | Sumber bertentangan, final | 32 detik | 3,92 | Lolos |
+| Sumber bertentangan, kata dirapikan | 65 detik | 4,03 | Lolos, model antre sekitar 40 detik |
+| K22 manajer, versi final | 40 detik | 4,02 | Lolos |
+| Sumber bertentangan, versi final | 39 detik | 3,95 | Lolos |
 
 Waktu dihitung dari transkrip WorkBuddy atau angka di layarnya, dari pertanyaan terkirim sampai jawaban tampil. Rincian ada di [hasil-uji.md](hasil-uji.md).

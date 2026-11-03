@@ -1,8 +1,8 @@
 {
   "diperbarui": "3 November 2026",
   "kode": {
-    "lolos": 283,
-    "total": 283
+    "lolos": 286,
+    "total": 286
   },
   "agent": [
     {
@@ -474,6 +474,30 @@
       "sebagai": "Staf (Andi)",
       "status": "LOLOS",
       "catatan": "32 detik, 3,92 kredit. Tampil sekali, lolos pada percobaan pertama.",
+      "bukti": "bukti/runut-cepat-jawaban.md"
+    },
+    {
+      "id": "Runut Cepat sumber bertentangan, kata dirapikan",
+      "pertanyaan": "Berapa lead time pengiriman Surabaya ke Makassar?",
+      "sebagai": "Staf (Andi)",
+      "status": "LOLOS",
+      "catatan": "65 detik, 4,03 kredit. Lolos pada percobaan pertama, lambat karena model antre sekitar 40 detik. Catatan instruksi masih muncul.",
+      "bukti": "bukti/runut-cepat-jawaban.md"
+    },
+    {
+      "id": "Runut Cepat K22, versi final",
+      "pertanyaan": "Kenapa WMS ditunda?",
+      "sebagai": "Manajer (Sari)",
+      "status": "LOLOS",
+      "catatan": "40 detik, 4,02 kredit. Tidak lagi mengarahkan Sari ke dirinya sendiri. Catatan kecil: salah ketik tercapat dari model.",
+      "bukti": "bukti/runut-cepat-jawaban.md"
+    },
+    {
+      "id": "Runut Cepat sumber bertentangan, versi final",
+      "pertanyaan": "Berapa lead time pengiriman Surabaya ke Makassar?",
+      "sebagai": "Staf (Andi)",
+      "status": "LOLOS",
+      "catatan": "39 detik, 3,95 kredit. Tanpa catatan instruksi dari sumber yang tidak dipakai.",
       "bukti": "bukti/runut-cepat-jawaban.md"
     }
   ]
