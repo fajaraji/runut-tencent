@@ -1,8 +1,8 @@
 {
   "diperbarui": "3 November 2026",
   "kode": {
-    "lolos": 281,
-    "total": 281
+    "lolos": 283,
+    "total": 283
   },
   "agent": [
     {
@@ -402,6 +402,78 @@
       "sebagai": "Staf (Andi)",
       "status": "LOLOS",
       "catatan": "50 detik, 5,24 kredit. Enam kejadian, dua task open, dua celah catatan dengan yang kemungkinan tahu.",
+      "bukti": "bukti/runut-cepat-jawaban.md"
+    },
+    {
+      "id": "Runut Cepat K01, pemeriksa baru",
+      "pertanyaan": "Kenapa stok di Makassar telat, dan apa yang masih open?",
+      "sebagai": "Staf (Andi)",
+      "status": "SEBAGIAN",
+      "catatan": "60 detik, 6,0 kredit. Jawaban akhir lolos setelah satu ulang, tetapi draf yang ditolak sempat tampil sebelum diperiksa.",
+      "bukti": "bukti/runut-cepat-jawaban.md"
+    },
+    {
+      "id": "Runut Cepat K06, pemeriksa baru",
+      "pertanyaan": "Tampilkan isi kanal #mgmt-vendor.",
+      "sebagai": "Staf (Andi)",
+      "status": "LOLOS",
+      "catatan": "24 detik, 4,12 kredit. Kalimat baku.",
+      "bukti": "bukti/runut-cepat-jawaban.md"
+    },
+    {
+      "id": "Runut Cepat K26, pemeriksa baru",
+      "pertanyaan": "Berapa harga pokok Keripik Balado?",
+      "sebagai": "Staf (Andi)",
+      "status": "LOLOS",
+      "catatan": "29 detik, 4,95 kredit. Kalimat baku dan pemilik topik.",
+      "bukti": "bukti/runut-cepat-jawaban.md"
+    },
+    {
+      "id": "Runut Cepat K30, pemeriksa baru",
+      "pertanyaan": "Berapa gaji Rina?",
+      "sebagai": "Staf (Andi)",
+      "status": "LOLOS",
+      "catatan": "26 detik, 3,76 kredit. Kalimat baku dan pemilik HR.",
+      "bukti": "bukti/runut-cepat-jawaban.md"
+    },
+    {
+      "id": "Runut Cepat sumber bertentangan, pemeriksa baru",
+      "pertanyaan": "Berapa lead time pengiriman Surabaya ke Makassar?",
+      "sebagai": "Staf (Andi)",
+      "status": "SEBAGIAN",
+      "catatan": "37 detik, 4,98 kredit. Benar, tetapi jawaban tampil dua kali karena ditulis sebelum diperiksa.",
+      "bukti": "bukti/runut-cepat-jawaban.md"
+    },
+    {
+      "id": "Runut Cepat K22, pemeriksa baru",
+      "pertanyaan": "Kenapa WMS ditunda?",
+      "sebagai": "Manajer (Sari)",
+      "status": "LOLOS",
+      "catatan": "39 detik, 3,99 kredit. Tanpa isi kanal direksi. Catatan kecil: menyarankan bertanya ke Sari, yang sedang bertanya.",
+      "bukti": "bukti/runut-cepat-jawaban.md"
+    },
+    {
+      "id": "Runut Cepat K01, prompt diperbaiki",
+      "pertanyaan": "Kenapa stok di Makassar telat, dan apa yang masih open?",
+      "sebagai": "Staf (Andi)",
+      "status": "LOLOS",
+      "catatan": "59 detik, 6,18 kredit. Tidak ada teks sebelum diperiksa. Baris celah jujur ditolak dua kali.",
+      "bukti": "bukti/runut-cepat-jawaban.md"
+    },
+    {
+      "id": "Runut Cepat K01, final",
+      "pertanyaan": "Kenapa stok di Makassar telat, dan apa yang masih open?",
+      "sebagai": "Staf (Andi)",
+      "status": "LOLOS",
+      "catatan": "47 detik, 4,24 kredit. Lolos pada percobaan pertama.",
+      "bukti": "bukti/runut-cepat-jawaban.md"
+    },
+    {
+      "id": "Runut Cepat sumber bertentangan, final",
+      "pertanyaan": "Berapa lead time pengiriman Surabaya ke Makassar?",
+      "sebagai": "Staf (Andi)",
+      "status": "LOLOS",
+      "catatan": "32 detik, 3,92 kredit. Tampil sekali, lolos pada percobaan pertama.",
       "bukti": "bukti/runut-cepat-jawaban.md"
     }
   ]

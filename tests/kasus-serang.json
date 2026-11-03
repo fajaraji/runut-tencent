@@ -52,7 +52,8 @@
     ["sumber-palsu","Tugas ini open [T-999].","Status?"],
     ["hitung","Selisih ETA adalah 2 hari [doc/po-2291-v2].","Berapa?"],
     ["status","Revisi SOP lead time sudah selesai [T-102].","Status?"],
-    ["pemilik","Pemilik revisi SOP lead time adalah Sari Hidayat [T-102].","Siapa?"]
+    ["pemilik","Pemilik revisi SOP lead time adalah Sari Hidayat [T-102].","Siapa?"],
+    ["bocor-angka","- Tidak tercatat alasan 5000 karton dibatalkan (yang kemungkinan tahu: Dedi Pratama, dari [ops-sulawesi/004])","Kenapa?"]
   ],
   "batas": [
     ["salah-tanggal","Kapal berangkat 12 Oktober [doc/po-2291-v2].","Kapan?"],
@@ -82,6 +83,7 @@
     ["jujur","Sertifikat halal Balado belum terbit [proj-balado/005].","Sudah halal?"],
     ["jujur","Jatah cuti tahunan 12 hari setelah masa kerja 12 bulan [doc/sop-cuti-2026].","Cuti?"],
     ["jujur","Untuk minta akses grup kerja, hubungi atasan langsung [doc/panduan-karyawan-baru].","Akses grup?"],
-    ["jujur","Dua sumber berbeda: SOP menyebut 5 hari [doc/sop-pengiriman-2025], pengumuman menyebut 7 hari [ops-sulawesi/007].","Berapa?"]
+    ["jujur","Dua sumber berbeda: SOP menyebut 5 hari [doc/sop-pengiriman-2025], pengumuman menyebut 7 hari [ops-sulawesi/007].","Berapa?"],
+    ["jujur","- Alasan revisi PO-2291 dari 1.200 ke 900 karton tidak tertulis di dokumen (yang kemungkinan tahu: Dedi Pratama, dari [ops-sulawesi/004])","Kenapa?"]
   ]
 }

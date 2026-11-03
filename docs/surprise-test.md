@@ -4,9 +4,9 @@ Juri memberi satu test case baru, dan agent harus menyelesaikannya secara live d
 
 ## Status
 
-Tiga puluh satu giliran di WorkBuddy selesai dalam 5 sampai 65 detik, jadi semuanya di bawah 90 detik. Kirim pesan, sumber bertentangan, nomor telepon, dokumen baru, cabut akses, dan ganti identitas di percakapan yang sama lolos. Pada prompt terakhir hanya K01 yang dijalankan ulang di agent. Jawaban K06, K07, K22, K26, dan K30 yang tercatat lolos pemeriksa baru, tapi agent-nya belum diulang. Kasus K04, K09 sampai K15, K17 sampai K21, K23, K25, K28, K29, dan K31 belum dijalankan sebagai percakapan agent.
+Empat puluh giliran di WorkBuddy selesai dalam 5 sampai 65 detik, jadi semuanya di bawah 90 detik. Sembilan giliran terakhir memakai pemeriksa jawaban yang dibangun ulang, 24 sampai 60 detik. Pada kode dan prompt final, K01 selesai dalam 47 detik dan sumber bertentangan dalam 32 detik. K06, K26, K30, dan K22 lolos satu langkah sebelumnya, dengan perbedaan kecil di bunyi langkah 3 dan aturan baris celah. Kasus K04, K09 sampai K15, K17 sampai K21, K23, K25, K28, K29, dan K31 belum dijalankan sebagai percakapan agent.
 
-Pemeriksa jawaban dibangun ulang setelah giliran-giliran itu, dan belum pernah berjalan di percakapan WorkBuddy. Aturannya lebih ketat, jadi agent bisa lebih sering mengulang catat_jawaban. Waktu di tabel hasil latihan di bawah adalah waktu sebelum perubahan ini. Skor dan batasnya ada di [hasil uji](hasil-uji.md).
+Skor pemeriksa dan batasnya ada di [hasil uji](hasil-uji.md). Kalau jawaban tampil dua kali di panggung, katakan terus terang bahwa model menulis sebelum diperiksa, lalu tunjukkan log audit. Larangannya baru di prompt, belum dijaga kode.
 
 ## Persiapan sebelum naik panggung
 
@@ -75,5 +75,14 @@ Sebagai staf, kecuali yang disebut lain.
 | Klaim setuju setelah perbaikan | 10 detik | 2,07 | Lolos, ditolak, memberi perintah konsol |
 | Setuju lewat konsol setelah perbaikan | 8 detik | 1,39 | Lolos, terkirim (simulasi) |
 | K01 uji regresi | 50 detik | 5,24 | Lolos |
+| K01, pemeriksa baru | 60 detik | 6,0 | Sebagian, draf yang ditolak sempat tampil |
+| K06, pemeriksa baru | 24 detik | 4,12 | Lolos |
+| K26, pemeriksa baru | 29 detik | 4,95 | Lolos |
+| K30, pemeriksa baru | 26 detik | 3,76 | Lolos |
+| Sumber bertentangan, pemeriksa baru | 37 detik | 4,98 | Sebagian, jawaban tampil dua kali |
+| K22 manajer, pemeriksa baru | 39 detik | 3,99 | Lolos |
+| K01, prompt diperbaiki | 59 detik | 6,18 | Lolos, baris celah jujur ditolak dua kali |
+| K01, final | 47 detik | 4,24 | Lolos |
+| Sumber bertentangan, final | 32 detik | 3,92 | Lolos |
 
 Waktu dihitung dari transkrip WorkBuddy atau angka di layarnya, dari pertanyaan terkirim sampai jawaban tampil. Rincian ada di [hasil-uji.md](hasil-uji.md).

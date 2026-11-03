@@ -48,7 +48,7 @@ const POLA_INSTRUKSI = [
   /\bsystem prompt\b/i,
 ];
 
-const POLA_CELAH = /\b(tidak|belum)\s+(tercatat|terdokumentasi|ada catatan|ditemukan catatan)\b/i;
+const POLA_CELAH = /\b(tidak|belum)\s+(tercatat|tertulis|terdokumentasi|ada catatan|ditemukan catatan)\b/i;
 // Jawaban baku "tidak ada data" beserta arahan ke pemilik topik. Tanpa angka, jadi tidak bisa membawa fakta.
 const POLA_BAKU = /^(?:Saya tidak menemukan data tentang itu\.(?: Untuk topik ini, silakan tanyakan ke [^.\d]+\.| Silakan tanyakan ke atasan langsung Anda\.)?|I could not find any data about that\.(?: For this topic, please ask [^.\d]+\.| Please ask your direct manager\.)?)$/;
 
@@ -442,7 +442,8 @@ export class Runut {
       // di baris yang sama. Kalimat tanpa kutipan memakai kutipan barisnya.
       for (const bagian of k.replace(/(^|\s)\d{1,2}[.)](?=\s)/g, " ").split(/(?<=[.!?\]])\s+(?=[A-Z*])/)) {
         const idSendiri = [...new Set(bagian.match(POLA_ID) ?? [])].filter((id) => peta.has(id));
-        const dikutip = (idSendiri.length ? idSendiri : sah).map((id) => peta.get(id)!);
+        // Kalimat celah menyatakan sesuatu tidak tercatat, jadi rinciannya cukup dikenal di data yang boleh dilihat penanya.
+        const dikutip = POLA_CELAH.test(bagian) ? terlihat : (idSendiri.length ? idSendiri : sah).map((id) => peta.get(id)!);
         const teksSumber = isiSumber(dikutip);
         const bersih = bersihkan(bagian);
         masalah.push(...this.periksaKalimat(bagian, bersih, dikutip, teksSumber, pertanyaan, angkaDi, orang));

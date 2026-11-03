@@ -42,8 +42,8 @@ The asker's identity comes from configuration, one file the server reads on ever
 
 ## How we check it
 
-- 281 automated tests (`npm test`) cover the code layer, including 31 cases modelled on the handbook examples and 220 cases that attack the answer check.
-- A mutation check switches the permission filter off on purpose. 34 tests then fail, which shows the tests catch leaks.
+- 283 automated tests (`npm test`) cover the code layer, including 31 cases modelled on the handbook examples and 222 cases that attack the answer check.
+- A mutation check switches the permission filter off on purpose. 35 tests then fail, which shows the tests catch leaks.
 - Agent-level runs in WorkBuddy are recorded in `docs/hasil-uji.md`, failures included.
 
 ## Known limits
@@ -54,4 +54,5 @@ The asker's identity comes from configuration, one file the server reads on ever
 - The answer check is a set of fixed rules, not a reader. On test answers written by a separate agent that could not see the code, it rejected 26 of 30 invented answers and passed 29 of 30 honest ones ([results](hasil-uji.md)). It checks numbers, dates, units, people, companies, flipped negation, personal data, hints of withheld data and words found only in closed records. It cannot catch a wrong conclusion drawn from real facts. Examples that still pass are a cause nobody wrote down added beside a true fact, a person named in the source but for a different duty, and a date from the source attached to the wrong event. The team has a separate auditor agent for this. Runut Cepat, the single agent for the 90-second live test, does not.
 - The list of everyday words excluded from the closed-records check was tuned on this dataset. A new dataset would need its own review.
 - The check runs on the text the lead records. The lead is told to display exactly that, and in our last three runs it did, apart from a one-line offer and one opening sentence. Nothing in code forces it, because WorkBuddy controls the display. Production should show the recorded text directly.
+- The same is true for Runut Cepat. In 2 of 6 turns the model wrote its answer as text before calling the check, and once that text was a draft the check then rejected. The prompt was at fault and now forbids it, and the next 3 turns were clean. Nothing in code prevents it, so an unchecked sentence can still reach the screen.
 - Search is keyword based with a small synonym list. Phrasing far from the source text can miss relevant items, in which case Runut says it found nothing rather than guessing.
