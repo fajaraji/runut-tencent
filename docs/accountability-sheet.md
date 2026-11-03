@@ -42,8 +42,8 @@ The asker's identity comes from configuration, one file the server reads on ever
 
 ## How we check it
 
-- 61 automated tests (`npm test`) cover the code layer, including 31 cases modelled on the handbook examples.
-- A mutation check switches the permission filter off on purpose. 24 tests then fail, which shows the tests catch leaks.
+- 281 automated tests (`npm test`) cover the code layer, including 31 cases modelled on the handbook examples and 220 cases that attack the answer check.
+- A mutation check switches the permission filter off on purpose. 34 tests then fail, which shows the tests catch leaks.
 - Agent-level runs in WorkBuddy are recorded in `docs/hasil-uji.md`, failures included.
 
 ## Known limits
@@ -51,6 +51,7 @@ The asker's identity comes from configuration, one file the server reads on ever
 - The permission filter guards tools, not the conversation. In one test an agent repeated an earlier answer from memory after access was revoked, with no tool call and no log entry. The prompt now forbids this and the re-test passed, but only a new conversation guarantees it, so our live guide starts a new task after any change of identity or access. Production should tie each conversation to one identity and one permission state.
 - The approval console runs on the same machine as WorkBuddy. WorkBuddy's own permission mode asks before running scripts, and the agents are told never to run it, but a fully separate approval channel would be stronger in production.
 - Identity comes from configuration, not from company single sign-on. Production use would bind it to the signed-in employee.
-- The answer check catches invented citations, numbers and names. It cannot catch a wrong conclusion drawn from real numbers, which is why a separate auditor agent also reviews every draft in the team. Runut Cepat, the single agent for the 90-second live test, has no auditor and relies on the code checks alone.
+- The answer check is a set of fixed rules, not a reader. On test answers written by a separate agent that could not see the code, it rejected 26 of 30 invented answers and passed 29 of 30 honest ones ([results](hasil-uji.md)). It checks numbers, dates, units, people, companies, flipped negation, personal data, hints of withheld data and words found only in closed records. It cannot catch a wrong conclusion drawn from real facts. Examples that still pass are a cause nobody wrote down added beside a true fact, a person named in the source but for a different duty, and a date from the source attached to the wrong event. The team has a separate auditor agent for this. Runut Cepat, the single agent for the 90-second live test, does not.
+- The list of everyday words excluded from the closed-records check was tuned on this dataset. A new dataset would need its own review.
 - The check runs on the text the lead records. The lead is told to display exactly that, and in our last three runs it did, apart from a one-line offer and one opening sentence. Nothing in code forces it, because WorkBuddy controls the display. Production should show the recorded text directly.
 - Search is keyword based with a small synonym list. Phrasing far from the source text can miss relevant items, in which case Runut says it found nothing rather than guessing.

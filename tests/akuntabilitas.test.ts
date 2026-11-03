@@ -178,7 +178,8 @@ test("periksa_jawaban: angka dicocokkan per kalimat dengan kutipan kalimat itu",
   const salah = "Lead time sekarang 7 hari [ops-sulawesi/007]. Pada PO-2291, kapal berangkat 5 Oktober dan tiba 12 Oktober (7 hari) [ops-sulawesi/006, ops-sulawesi/005].";
   const hasil = r.periksaJawaban(salah);
   assert.equal(hasil.lolos, false);
-  assert.match(hasil.masalah[0].masalah, /angka tidak ada di sumber yang dikutip: 5, 7/);
+  assert.match(hasil.masalah[0].masalah, /tanggal tidak ada di sumber yang dikutip/);
+  assert.ok(hasil.masalah.some((m) => /angka tidak ada di sumber yang dikutip: 7/.test(m.masalah)));
   assert.equal(r.periksaJawaban("Lead time sekarang 7 hari, bukan 5 [ops-sulawesi/007]. Kapal tiba 12 Oktober [ops-sulawesi/005].").lolos, true);
   // Kutipan di akhir paragraf tetap berlaku untuk kalimat tanpa kutipan sendiri.
   assert.equal(r.periksaJawaban("PO-2291 awalnya 1.200 karton. Lalu direvisi jadi 900 karton [doc/po-2291-v2].").lolos, true);

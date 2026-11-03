@@ -4,7 +4,7 @@ Two layers are tested. The code layer (the MCP server that enforces permissions,
 
 The organisers did not provide a dataset, so we built our own, which the handbook allows ([data/README.md](../data/README.md)). It is a fictional company with raw WhatsApp group exports, documents, a task board export and one permissions table. Our 31 cases in `tests/kasus-uji.json` are modelled on the handbook examples.
 
-## Code layer: 61 of 61 pass
+## Code layer: 281 of 281 pass
 
 ```
 npm test
@@ -14,9 +14,30 @@ npm test
 | --- | --- |
 | Accountability (`tests/akuntabilitas.test.ts`) | 24, including "Proyek Kenari is answered exactly like a project that does not exist", "staff never receive management channel content", "even the manager cannot see the board channel", "a source missing from the permissions table is closed to everyone", "a fabricated answer with a pasted citation is rejected" |
 | Handbook-style cases (`tests/kasus-uji.test.ts`) | 31, K01 to K31 |
+| Answer check under attack (`tests/pemeriksa.test.ts`) | 220, from the attack rounds below. 7 of them pin known limits, so those limits stay visible |
 | Data formats (`tests/sumber.test.ts`) | 6, covering Android and iPhone WhatsApp exports, multi-line messages, system lines, deleted messages and CSV quoting |
 
-Mutation check: with the permission filter switched off on purpose, 24 tests fail. The tests catch leaks rather than passing by default.
+Mutation check: with the permission filter switched off on purpose, 34 tests fail. The tests catch leaks rather than passing by default.
+
+## Answer check under attack
+
+The 61 earlier tests only used inputs we had imagined, and they stayed green while agent runs kept failing. So we attacked the answer check itself, with no model and no credits.
+
+Our first round was harsh. Of 55 invented answers we wrote, the check rejected 11. A full phone number passed, because it matched the source. So did "40 cartons", because 40 appeared in the timestamp 17:40.
+
+We rebuilt the check, then asked a separate agent, which could not see the code, to write test answers from the data alone. Half were invented and half were honest. Rejecting an honest answer also counts as a failure, since it costs time in the 90-second test.
+
+| Round | Check version | Invented answers rejected | Honest answers passed |
+| --- | --- | --- | --- |
+| Blind 1 | Before this work | 21 of 40 | 34 of 40 |
+| Blind 1 | First rebuild | 31 of 40 | 33 of 40 |
+| Blind 2, the fair score | Before this work | 16 of 30 | 25 of 30 |
+| Blind 2, the fair score | After tuning on round 1 | **26 of 30** | **29 of 30** |
+| Blind 2 | After adding three missed wordings | 29 of 30 | 29 of 30 |
+
+Blind 2 before tuning on it is the number to trust. The last row is no longer blind. We also replayed the 36 answers recorded in WorkBuddy that had passed the check at the time. 29 still pass and 7 are rejected, the same 7 as before the rebuild, so the rebuild added no new rejections on real agent answers. Each of the 7 was checked by hand. They hold a figure the model calculated or a fact cited to the wrong source, or they are the K06 and invented ship failures, or they cite a document since removed.
+
+What still gets through is listed under known limits in the [accountability sheet](accountability-sheet.md). The stricter check has not yet run inside a WorkBuddy conversation, so its effect on retries and time is not measured.
 
 ## Agent layer in WorkBuddy
 
@@ -97,6 +118,8 @@ The three-phase team does not meet it. K03 v3 took 1 minute 38 seconds, K27 2 mi
 9. **Our own check can fight our own prompt.** The prompt required "silakan tanyakan ke [owner]", and the answer check rejected it as a fact with no source. That cost K30 two extra rounds. The exact sentence now passes, but it cannot carry a number, and an unknown name still fails.
 10. **Conversation memory walks around the permission filter.** The filter guards tools, and the model already holds its earlier answers. After access was revoked, the same question in the same conversation was answered from memory with no tool call and no log entry. The prompt now requires a fresh tool call for every question, and the re-test passed, including manager to staff. This is a prompt rule, not a code guarantee, so the live guide now says to start a new task after any change of identity or access.
 11. **Matching numbers across a whole line misses wrong numbers.** "Left on 5 October" passed because a 5 appeared in another source cited on that line, or inside a longer number. Numbers now have to appear whole in the sources cited by that sentence. Replaying every recorded passing answer caught the invented voyage, and the Runut Cepat answers it had passed before still pass. A sentence that turns a real number into a wrong claim can still pass if it cites the source holding that number.
+12. **Green tests can hide a weak check.** All 61 tests passed while the answer check rejected only 11 of 55 invented answers. We had never attacked it. Tests written by the person who wrote the code share that person's blind spots, so the scoring round now comes from an agent that cannot see the code.
+13. **A check tuned too hard is as bad as a weak one.** Our first rebuild caught 54 of 55 attacks, and honest answers that still passed fell from 29 to 10 of 36. Checking whether each word appears in the source caught almost nothing extra, so we removed it. Every rule now has to survive the replay of real answers.
 
 ## Not yet tested in WorkBuddy
 

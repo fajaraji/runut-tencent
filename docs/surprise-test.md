@@ -6,6 +6,8 @@ Juri memberi satu test case baru, dan agent harus menyelesaikannya secara live d
 
 Tiga puluh satu giliran di WorkBuddy selesai dalam 5 sampai 65 detik, jadi semuanya di bawah 90 detik. Kirim pesan, sumber bertentangan, nomor telepon, dokumen baru, cabut akses, dan ganti identitas di percakapan yang sama lolos. Pada prompt terakhir hanya K01 yang dijalankan ulang di agent. Jawaban K06, K07, K22, K26, dan K30 yang tercatat lolos pemeriksa baru, tapi agent-nya belum diulang. Kasus K04, K09 sampai K15, K17 sampai K21, K23, K25, K28, K29, dan K31 belum dijalankan sebagai percakapan agent.
 
+Pemeriksa jawaban dibangun ulang setelah giliran-giliran itu, dan belum pernah berjalan di percakapan WorkBuddy. Aturannya lebih ketat, jadi agent bisa lebih sering mengulang catat_jawaban. Waktu di tabel hasil latihan di bawah adalah waktu sebelum perubahan ini. Skor dan batasnya ada di [hasil uji](hasil-uji.md).
+
 ## Persiapan sebelum naik panggung
 
 1. `node scripts/pasang-workbuddy.ts staf` dengan WorkBuddy tertutup, lalu buka WorkBuddy.
