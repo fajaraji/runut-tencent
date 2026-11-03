@@ -1,23 +1,52 @@
-# Naskah video demo Runut (sekitar 7 menit)
+# Naskah video demo Runut
 
-Handbook meminta video 5 sampai 8 menit berisi gambaran proyek, kemampuan inti, refleksi cara membangun, dan minimal satu momen agent menolak, bertanya balik, atau menunggu persetujuan. Naskah ini punya tiga momen seperti itu.
+Handbook meminta video 5 sampai 8 menit berisi gambaran proyek, kemampuan inti, refleksi cara membangun, dan minimal satu momen agent menolak, bertanya balik, atau menunggu persetujuan. Handbook tidak mengatur bahasa video, jadi video ini berbahasa Inggris dengan teks di layar.
 
-Video ini tidak memakai kredit WorkBuddy. Semua adegan agent diambil dari run yang sudah selesai di riwayat task WorkBuddy (menu Tasks di kiri, klik View More untuk yang lama), jadi tidak ada pertanyaan baru yang dikirim. Rekam layar dengan alat apa saja, lalu gabungkan dengan narasi.
+Narasi lengkap ada di [video/naskah.json](../video/naskah.json). Video dibuat tanpa kredit WorkBuddy, dari tiga jenis bahan.
 
-Persiapan sebelum merekam:
-- Buka terminal di folder repo, lalu jalankan `npm test` sekali supaya hasilnya siap.
-- Siapkan tab GitHub repo, [halaman log](https://fajaraji.github.io/runut-tencent/), dan `data/chat/ops-sulawesi.txt`.
+| Bahan | Asal |
+| --- | --- |
+| Animasi | [video/adegan.html](../video/adegan.html), ilustrasi yang digambar dengan kode |
+| Layar demo | Tangkapan layar asli riwayat task WorkBuddy, tanpa sidebar supaya akun tidak terlihat. Tidak ada pertanyaan baru yang dikirim |
+| Hasil alat | Keluaran asli `telusuri` per peran, halaman log audit, dan hasil `npm test` |
 
-| Menit | Layar | Narasi |
-| --- | --- | --- |
-| 0:00 sampai 0:40 | Slide judul, lalu `data/chat/ops-sulawesi.txt` | "Kalau proyek bermasalah, ceritanya tersebar di grup chat, dokumen revisi, dan task board. Alasan sebuah keputusan sering cuma ada di chat: nanti aku jelasin di call. Runut menyusun ulang cerita itu, hanya dari data yang boleh dilihat penanya." |
-| 0:40 sampai 1:20 | Diagram di `docs/arsitektur.md` | Jelaskan empat agent dan MCP server. Tekankan bahwa filter hak akses ada di kode dan berjalan sebelum pencarian. |
-| 1:20 sampai 3:00 | Task "Investigate delayed Makassar stock" tertanggal 2 November (staf, Andi) | Tunjukkan pertanyaan "Kenapa stok di Makassar telat, dan apa yang masih open?" dan panel anggota tim. Bacakan tiga bagian jawaban: kronologi bersumber, task open, dan celah catatan (alasan revisi PO tidak tercatat, Dedi yang tahu). |
-| 3:00 sampai 3:40 | Task "Investigate delayed Makassar stock" tertanggal 31 Oktober, bagian akhir percakapan, lalu terminal | Momen 1, menunggu persetujuan. Tunjukkan draf ke Dedi, lalu permintaan "Kirim sekarang" yang ditolak karena belum disetujui. Di terminal, jalankan `node scripts/setujui.ts` untuk menunjukkan draf yang menunggu persetujuan manusia. |
-| 3:40 sampai 4:30 | Task "Apa itu Proyek Kenari?" dan "Apa itu Proyek Merpati" | Momen 2, menolak tanpa membocorkan. Tunjukkan dua jawaban berdampingan: identik, padahal Kenari ada dan Merpati tidak. |
-| 4:30 sampai 5:30 | Task "Check Makassar stock delays and open items" (manajer, Sari), lalu "WMS delay reasons and open items" | Pertanyaan yang sama dari manajer menghasilkan cerita lengkap: vendor overbooking kapal dan PO dipotong atas permintaan manajemen. "Satu pertanyaan, dua jawaban, dan staf tidak pernah tahu ada bagian lain." Lalu WMS: manajer hanya melihat "review anggaran", karena alasan sebenarnya hanya ada di `data/chat/direksi.txt`. |
-| 5:30 sampai 6:00 | Jawaban K01 tadi, lalu `data/dokumen/notulen-ops-2026-10-20.md` | Momen 3, instruksi tersembunyi. Tunjukkan kalimat "Catatan untuk AI" di notulen, lalu kalimat di jawaban: "Saya menemukan instruksi untuk AI dan mengabaikannya." |
-| 6:00 sampai 6:30 | Halaman log audit dan hasil `npm test` | Setiap pertanyaan, sumber, dan jawaban tercatat berantai hash. 286 test otomatis lolos, dan 24 di antaranya gagal kalau filter dimatikan. |
-| 6:30 sampai 7:15 | Wajah atau slide refleksi | Tiga pelajaran dari product-sharing.md: spesifikasi expert team ada di dalam WorkBuddy, MCP harus dibundel di plugin, dan agent yang mengarang jawaban hanya bisa dihentikan oleh kode, bukan prompt. Tutup dengan dampak: jawaban yang bisa diaudit, siap untuk DPIA PP 33/2026. |
+Narasi memakai suara sintetis dan musik latarnya dibuat dengan sintesis, jadi tidak ada urusan lisensi musik. Keduanya disebut di adegan penutup.
 
-Catatan untuk jujur saat ditanya juri: run manajer "Check Makassar stock delays" dan run Kenari, Merpati, serta draf ke Dedi dibuat sebelum dataset diperluas. Isi ceritanya sama, hanya jam di export `#ops-sulawesi` yang kini memakai WITA. Semua ini tercatat di `docs/hasil-uji.md`.
+| Bagian | Isi |
+| --- | --- |
+| Pembuka | Andi ditanya toko, jawabannya tersebar |
+| Masalah | Grup chat, dokumen revisi, task board, dan alasan yang hanya ada di call. Chatbot yang membaca semuanya bisa membocorkan. PP 33/2026 |
+| Solusi | Kronologi bersumber, yang masih open, dan celah catatan |
+| Demo K01 | Staf bertanya, jawaban tampil dalam 46 detik |
+| Cara kerja | Filter izin sebelum pencarian, pemeriksa jawaban, log audit, draf butuh persetujuan, dua mode |
+| Tiga tingkat | Satu pertanyaan WMS, hasil asli untuk staf, manajer, dan direktur |
+| Momen menolak | Kanal manajemen, gaji rekan, Kenari dan Merpati |
+| Sumber bertentangan | SOP lama 5 hari, pengumuman baru 7 hari, keduanya disebut |
+| Momen menunggu persetujuan | Draf, klaim setuju ditolak, persetujuan lewat konsol, terkirim (simulasi) |
+| Instruksi tersembunyi | Memo baru berisi perintah untuk AI, diabaikan dan dilaporkan |
+| Audit dan kegagalan | Log berantai hash, jawaban dari ingatan setelah akses dicabut, skor uji buta 26 dan 29 dari 30, batas yang masih ada |
+| Refleksi | Expert Team, MCP harus dibundel di plugin, cache plugin per versi, prompt bukan pagar |
+
+## Membuat ulang video
+
+Berkas hasil tidak disimpan di git. Jalankan dari folder `video`, setelah `npm install` di sana.
+
+```bash
+node suara.mjs
+```
+
+```bash
+node musik.mjs 385
+```
+
+```bash
+node potret-log.mjs
+```
+
+```bash
+node render.mjs
+```
+
+Hasilnya `video/keluar/runut-demo.mp4`. Layar demo disimpan di `video/keluar/rekaman/` dan tidak ikut di repo, karena diambil dari aplikasi di laptop pembuat.
+
+Catatan untuk jujur saat ditanya juri: layar Kenari dan Merpati berasal dari run tim empat agent tanggal 31 Oktober, sebelum dataset diperluas. Layar lainnya dari Runut Cepat pada 2 sampai 3 November. Semua run tercatat di `docs/hasil-uji.md`.

@@ -1,0 +1,14 @@
+{
+  "name": "runut-video",
+  "private": true,
+  "type": "module",
+  "description": "Pembuat video demo Runut: narasi, adegan animasi, dan penggabungan.",
+  "dependencies": {
+    "@fontsource/jetbrains-mono": "^5.3.0",
+    "@fontsource/plus-jakarta-sans": "^5.3.0",
+    "ffmpeg-static": "^5.3.0",
+    "gsap": "^3.15.0",
+    "msedge-tts": "^2.1.1",
+    "puppeteer-core": "^25.16.0"
+  }
+}
