@@ -1,6 +1,6 @@
 # Naskah video demo Runut
 
-Handbook meminta video 5 sampai 8 menit berisi gambaran proyek, kemampuan inti, refleksi cara membangun, dan minimal satu momen agent menolak, bertanya balik, atau menunggu persetujuan. Handbook tidak mengatur bahasa video, jadi video ini berbahasa Inggris dengan teks di layar.
+Handbook meminta video 5 sampai 8 menit berisi gambaran proyek, kemampuan inti, refleksi cara membangun, dan minimal satu momen agent menolak, bertanya balik, atau menunggu persetujuan. Handbook tidak mengatur bahasa video. Narasi dan teks animasi berbahasa Indonesia, dengan subtitle bahasa Inggris.
 
 Narasi lengkap ada di [video/naskah.json](../video/naskah.json). Video dibuat tanpa kredit WorkBuddy, dari tiga jenis bahan.
 

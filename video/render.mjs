@@ -72,7 +72,7 @@ enkoder.stdin.end();
 await new Promise((r) => enkoder.on("close", r));
 const akhir = join(keluar, "runut-demo.mp4");
 // Musik melemah otomatis saat ada suara, dan keduanya diratakan supaya kekerasannya wajar.
-const campur = "[1:a]volume=0.10,aformat=channel_layouts=stereo[m];[0:a]aformat=channel_layouts=stereo,asplit=2[n1][n2];[m][n1]sidechaincompress=threshold=0.015:ratio=10:attack=40:release=700[d];[n2][d]amix=inputs=2:duration=first:normalize=0,loudnorm=I=-16:TP=-1.5:LRA=11[a]";
+const campur = "[1:a]volume=0.20,aformat=channel_layouts=stereo[m];[0:a]aformat=channel_layouts=stereo,asplit=2[n1][n2];[m][n1]sidechaincompress=threshold=0.015:ratio=10:attack=40:release=700[d];[n2][d]amix=inputs=2:duration=first:normalize=0,loudnorm=I=-16:TP=-1.5:LRA=11[a]";
 await new Promise((r, g) => spawn(ffmpeg, ["-y", "-hide_banner", "-loglevel", "error", "-i", join(keluar, "narasi.m4a"), "-i", join(keluar, "musik.wav"), "-i", hasil, "-filter_complex", campur, "-map", "2:v", "-map", "[a]", "-c:v", "copy", "-c:a", "aac", "-b:a", "192k", "-ar", "48000", "-shortest", "-movflags", "+faststart", akhir], { stdio: "inherit" }).on("close", (c) => (c ? g(new Error(`ffmpeg ${c}`)) : r())));
 console.log("video selesai:", akhir);
 process.exit(0);

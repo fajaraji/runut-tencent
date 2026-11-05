@@ -56,10 +56,11 @@ for (const a of naskah.adegan) {
   // Napas sebelum kalimat pertama supaya gambar sempat masuk.
   potongan.push(sunyi(naskah.jedaKalimat));
   t += naskah.jedaKalimat;
-  for (const [id, en] of a.kalimat) {
+  for (const [id, en, acuan] of a.kalimat) {
     const f = await suara(id);
     const d = durasi(f);
-    kalimat.push({ id, en, mulai: t - mulai, selesai: t - mulai + d });
+    // skala: isyarat animasi di dalam kalimat disetel pada durasi acuan, jadi ikut melar mengikuti durasi sebenarnya.
+    kalimat.push({ id, en, mulai: t - mulai, selesai: t - mulai + d, skala: acuan ? d / acuan : 1 });
     potongan.push(f);
     t += d;
     potongan.push(sunyi(naskah.jedaKalimat));

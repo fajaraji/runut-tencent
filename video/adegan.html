@@ -1,8 +1,8 @@
 <!doctype html>
-<html lang="en">
+<html lang="id">
 <head>
 <meta charset="utf-8">
-<title>Runut video scenes</title>
+<title>Adegan video Runut</title>
 <style>
 @font-face { font-family: "Jakarta"; font-weight: 400; src: url("node_modules/@fontsource/plus-jakarta-sans/files/plus-jakarta-sans-latin-400-normal.woff2"); }
 @font-face { font-family: "Jakarta"; font-weight: 600; src: url("node_modules/@fontsource/plus-jakarta-sans/files/plus-jakarta-sans-latin-600-normal.woff2"); }
@@ -65,7 +65,7 @@ const av = (huruf, warna, ukuran = 76) => `<div class="av" style="background:${w
 const WARNA = { A: "#60a5fa", D: "#f7b733", R: "#34d399", S: "#c084fc", H: "#f87171", T: "#f472b6" };
 
 function alat(k) {
-  const c = (i, geser = 0) => k[i].mulai + geser;
+  const c = (i, geser = 0) => k[i].mulai + geser * (k[i].skala ?? 1);
   const tl = gsap.timeline({ paused: true });
   const muncul = (s, at, v = {}) => tl.fromTo(s, { autoAlpha: 0, y: v.y ?? 28, x: v.x ?? 0, scale: v.s ?? 1 }, { autoAlpha: 1, y: 0, x: 0, scale: 1, duration: v.d ?? .6, ease: v.ease ?? "power3.out", stagger: v.st ?? 0 }, at);
   const hilang = (s, at, d = .4) => tl.to(s, { autoAlpha: 0, duration: d, ease: "power1.in" }, at);
@@ -82,18 +82,18 @@ const ADEGAN = {
     const { c, tl, muncul, hilang } = alat(k);
     $("#isi").innerHTML = `
       <div class="a kartu" id="hp" style="left:150px;top:270px;width:820px">
-        <div class="kecil" style="margin-bottom:18px">WhatsApp group ops-sulawesi</div>
+        <div class="kecil" style="margin-bottom:18px">Grup WhatsApp ops-sulawesi</div>
         <div class="baris" id="g1" style="margin-bottom:22px">${av("R", WARNA.R)}<div class="gel"><div class="nama">Rina Wulandari</div>Toko-toko di Makassar mulai tanya stok keripik. Ada ETA baru?</div></div>
         <div class="baris" id="g2">${av("A", WARNA.A)}<div class="gel"><div class="nama" style="color:${WARNA.A}">Andi Saputra</div>Yang 300 karton kapan sampai?</div></div>
       </div>
       <div class="a tengah" id="andi" style="left:1150px;top:280px;width:620px;flex-direction:column;gap:24px">
         ${av("A", WARNA.A, 170)}
         <div style="font-size:44px;font-weight:800">Andi Saputra</div>
-        <div class="kecil" style="font-size:30px">Sales, has to answer today</div>
+        <div class="kecil" style="font-size:30px">Staf sales, harus menjawab hari ini</div>
       </div>
-      <div class="a tengah besar" id="tanya" style="left:160px;top:300px;width:1600px">Why was stock late, and what is still open?</div>
+      <div class="a tengah besar" id="tanya" style="left:160px;top:300px;width:1600px">Kenapa stok telat, dan apa yang masih open?</div>
       <div class="a tengah" id="pecah" style="left:0;top:620px;width:1920px;gap:40px">
-        <span class="pil biru">Group chats</span><span class="pil biru">Revised documents</span><span class="pil biru">Task board</span><span class="pil kuning">People's memory</span>
+        <span class="pil biru">Grup chat</span><span class="pil biru">Dokumen revisi</span><span class="pil biru">Task board</span><span class="pil kuning">Ingatan orang</span>
       </div>`;
     muncul("#g1", 0.2);
     muncul("#g2", c(0, 1.2));
@@ -107,36 +107,36 @@ const ADEGAN = {
     const { c, tl, muncul, hilang, hitung } = alat(k);
     $("#isi").innerHTML = `
       <div class="a kartu" id="k1" style="left:70px;top:110px;width:570px;height:500px">
-        <div class="judul" style="margin-bottom:14px">WhatsApp group</div>
+        <div class="judul" style="margin-bottom:14px">Grup WhatsApp</div>
         <div class="gel" style="font-size:23px;margin-bottom:12px"><div class="nama">Dedi</div>Kapal tanggal 5 belum berangkat, slot penuh.</div>
         <div class="gel" style="font-size:23px;margin-bottom:12px"><div class="nama">Rina</div>900 karton sudah tiba di gudang Makassar.</div>
         <div class="gel" style="font-size:23px"><div class="nama">Sari</div>Lead time kita hitung 7 hari, bukan 5.</div>
       </div>
       <div class="a kartu" id="k2" style="left:675px;top:110px;width:570px;height:500px">
-        <div class="judul" style="margin-bottom:14px">Revised document</div>
-        <div class="kecil" style="margin-bottom:8px">PO-2291 version 1</div>
-        <div style="font-size:25px;line-height:1.4;margin-bottom:16px;text-decoration:line-through;color:var(--redup)">1,200 cartons, ship 5 Oct, ETA 10 Oct</div>
-        <div class="kecil" style="margin-bottom:8px">PO-2291 version 2</div>
-        <div style="font-size:25px;line-height:1.4;margin-bottom:12px">900 cartons, ship 9 Oct, ETA 12 Oct</div>
-        <div style="font-size:27px;font-weight:700;color:var(--kuning)" id="kosong">Reason for revision, blank</div>
+        <div class="judul" style="margin-bottom:14px">Dokumen revisi</div>
+        <div class="kecil" style="margin-bottom:8px">PO-2291 versi 1</div>
+        <div style="font-size:25px;line-height:1.4;margin-bottom:16px;text-decoration:line-through;color:var(--redup)">1.200 karton, kapal 5 Okt, ETA 10 Okt</div>
+        <div class="kecil" style="margin-bottom:8px">PO-2291 versi 2</div>
+        <div style="font-size:25px;line-height:1.4;margin-bottom:12px">900 karton, kapal 9 Okt, ETA 12 Okt</div>
+        <div style="font-size:27px;font-weight:700;color:var(--kuning)" id="kosong">Alasan revisi, kosong</div>
       </div>
       <div class="a kartu" id="k3" style="left:1280px;top:110px;width:570px;height:500px">
         <div class="judul" style="margin-bottom:14px">Task board</div>
-        <div class="gel" style="font-size:23px;margin-bottom:12px">Confirm the ship for the remaining 300 cartons. Open, Rina.</div>
-        <div class="gel" style="font-size:23px">Revise the lead time SOP, 5 to 7 days. Open, Dedi.</div>
+        <div class="gel" style="font-size:23px;margin-bottom:12px">Konfirmasi jadwal kapal susulan 300 karton. Open, Rina.</div>
+        <div class="gel" style="font-size:23px">Revisi SOP lead time, 5 ke 7 hari. Open, Dedi.</div>
       </div>
       <div class="a baris" id="kutip" style="left:300px;top:640px;width:1320px;align-items:center">${av("D", WARNA.D, 110)}<div class="gel kuning" style="font-size:44px;font-weight:700;padding:22px 38px">Alasannya nanti aku jelasin di call ya.</div></div>
-      <div class="a pil merah" id="tak" style="left:1250px;top:800px;font-size:34px">Never written down</div>
+      <div class="a pil merah" id="tak" style="left:1250px;top:800px;font-size:34px">Tidak pernah dicatat</div>
       <div class="a" id="tanya3" style="left:0;top:150px;width:1920px;height:700px">
         <div class="a tengah" style="left:810px;top:270px;width:300px;flex-direction:column;gap:12px">${av("A", WARNA.A, 130)}<div style="font-size:32px;font-weight:800">Andi</div></div>
-        ${[["D", "Dedi", 300, 60], ["R", "Rina", 300, 470], ["S", "Sari", 1420, 260]].map(([h, n, x, y]) => `<div class="a tengah orang" style="left:${x}px;top:${y}px;width:220px;flex-direction:column;gap:10px">${av(h, WARNA[h], 110)}<div style="font-size:28px;font-weight:700">${n}</div><div class="pil biru" style="font-size:22px;padding:6px 16px">Remember why?</div></div>`).join("")}
+        ${[["D", "Dedi", 300, 60], ["R", "Rina", 300, 470], ["S", "Sari", 1420, 260]].map(([h, n, x, y]) => `<div class="a tengah orang" style="left:${x}px;top:${y}px;width:220px;flex-direction:column;gap:10px">${av(h, WARNA[h], 110)}<div style="font-size:28px;font-weight:700">${n}</div><div class="pil biru" style="font-size:22px;padding:6px 16px">Ingat alasannya?</div></div>`).join("")}
         <svg class="a" style="left:0;top:0" width="1920" height="700" fill="none" stroke="#60a5fa" stroke-width="4" stroke-dasharray="12 12"><path d="M820 320 L560 170"/><path d="M820 400 L560 540"/><path d="M1100 350 L1410 350"/></svg>
       </div>
       <div class="a tengah" id="stat" style="left:0;top:170px;width:1920px;flex-direction:column;gap:28px">
         <div style="font-size:190px;font-weight:800;color:var(--kuning);line-height:1"><span>&gt;</span> <span id="angka">0</span>%</div>
-        <div style="font-size:46px;font-weight:600;max-width:1300px">of the work week spent looking for information</div>
+        <div style="font-size:46px;font-weight:600;max-width:1300px">minggu kerja tim habis untuk mencari informasi</div>
         <div style="width:1100px;height:34px;background:var(--kartu2);border-radius:999px;overflow:hidden"><div id="isiBatang" style="height:100%;width:0;background:var(--kuning)"></div></div>
-        <div class="sumber">Source Atlassian State of Teams 2025</div>
+        <div class="sumber">Sumber Atlassian State of Teams 2025</div>
       </div>`;
     muncul("#k1", 0.1, { y: 50 });
     muncul("#k2", c(1), { y: 50 });
@@ -154,20 +154,20 @@ const ADEGAN = {
   },
   bocor(k) {
     const { c, tl, muncul, hilang } = alat(k);
-    const dok = [["Team chat", 260, 220, "biru"], ["SOPs", 260, 400, "biru"], ["Task board", 260, 580, "biru"], ["Management channel", 1290, 220, "merah"], ["Payroll", 1290, 400, "merah"], ["Board channel", 1290, 580, "merah"]];
+    const dok = [["Chat tim", 260, 220, "biru"], ["SOP", 260, 400, "biru"], ["Task board", 260, 580, "biru"], ["Kanal manajemen", 1290, 220, "merah"], ["Daftar gaji", 1290, 400, "merah"], ["Kanal direksi", 1290, 580, "merah"]];
     $("#isi").innerHTML = `
       <div class="a tengah" id="bot" style="left:760px;top:280px;width:400px;height:300px;flex-direction:column;gap:18px">
         <div style="width:190px;height:190px;border-radius:40px;background:var(--kartu2);border:3px solid var(--biru);display:flex;align-items:center;justify-content:center;gap:34px"><span style="width:30px;height:30px;border-radius:50%;background:var(--biru)"></span><span style="width:30px;height:30px;border-radius:50%;background:var(--biru)"></span></div>
-        <div style="font-size:34px;font-weight:800">A chatbot that reads everything</div>
+        <div style="font-size:34px;font-weight:800">Chatbot yang membaca semuanya</div>
       </div>
       ${dok.map(([t, x, y, w]) => `<div class="a pil ${w} dok" style="left:${x}px;top:${y}px;font-size:28px">${t}</div>`).join("")}
       <div class="a tengah" id="bocorPil" style="left:60px;top:680px;width:1800px;gap:30px">
-        <span class="pil merah">Rp85 million payment on hold</span><span class="pil merah">A colleague's salary</span><span class="pil merah">Board acquisition plan</span>
+        <span class="pil merah">Pembayaran Rp85 juta ditahan</span><span class="pil merah">Gaji rekan kerja</span><span class="pil merah">Rencana akuisisi direksi</span>
       </div>
       <div class="a kartu tengah" id="pp" style="left:360px;top:230px;width:1200px;height:420px;flex-direction:column;gap:24px">
         <div style="font-size:72px;font-weight:800;color:var(--kuning)">PP 33/2026</div>
-        <div style="font-size:40px;font-weight:600;line-height:1.3">AI named as an example trigger for a data protection impact assessment</div>
-        <div class="kecil" style="font-size:30px">In force 16 January 2027</div>
+        <div style="font-size:40px;font-weight:600;line-height:1.3">AI disebut sebagai contoh pemicu penilaian dampak data pribadi</div>
+        <div class="kecil" style="font-size:30px">Berlaku 16 Januari 2027</div>
       </div>`;
     muncul("#bot", 0.1, { s: .8, ease: "back.out(1.6)" });
     muncul(".dok", 0.4, { st: .08 });
@@ -182,19 +182,19 @@ const ADEGAN = {
     $("#isi").innerHTML = `
       <div class="a tengah" id="logo" style="left:0;top:210px;width:1920px;flex-direction:column;gap:30px">
         <div style="font-size:190px;font-weight:800;line-height:1">Run<span style="color:var(--kuning)">ut</span></div>
-        <div style="font-size:40px;color:var(--redup)">Challenge A, Workplace Brain. Built on WorkBuddy.</div>
+        <div style="font-size:40px;color:var(--redup)">Challenge A, Workplace Brain. Dibangun di WorkBuddy.</div>
       </div>
-      <div class="a" id="satu" style="left:90px;top:120px;width:560px"><div class="kecil" style="font-size:30px;margin-bottom:10px">One question</div><div class="gel" style="font-size:36px;font-weight:700;background:var(--biru);color:#0e1626">Why was stock late in Makassar, and what is still open?</div></div>
-      <div class="a kartu jawab" id="j1" style="left:720px;top:110px;width:1110px"><h4>Timeline</h4>
-        <p>6 Oct, the ship of the 5th did not leave, slot full <span class="id">[ops-sulawesi/002]</span></p>
-        <p>8 Oct, PO-2291 revised to 900 cartons <span class="id">[doc/po-2291-v2]</span></p>
-        <p>12 Oct, 900 cartons reach the Makassar warehouse <span class="id">[ops-sulawesi/005]</span></p></div>
-      <div class="a kartu jawab" id="j2" style="left:720px;top:375px;width:1110px"><h4>Still open</h4>
-        <p>Confirm the follow-up ship, Rina Wulandari, due 2026-10-28 <span class="id">[T-101]</span></p>
-        <p>Revise the lead time SOP, Dedi Pratama, due 2026-11-07 <span class="id">[T-102]</span></p></div>
-      <div class="a kartu jawab" id="j3" style="left:720px;top:595px;width:1110px;border-color:var(--kuning);box-shadow:0 0 34px rgba(247,183,51,.28)"><h4 style="color:var(--kuning)">Record gaps</h4>
-        <p>The reason for the PO revision was never written down. Dedi Pratama likely knows <span class="id">[ops-sulawesi/004]</span></p></div>
-      <div class="a pil hijau" id="batas" style="left:90px;top:620px;width:560px;font-size:32px;border-radius:22px;text-align:center;line-height:1.3">Only from data the asker may see</div>`;
+      <div class="a" id="satu" style="left:90px;top:120px;width:560px"><div class="kecil" style="font-size:30px;margin-bottom:10px">Satu pertanyaan</div><div class="gel" style="font-size:36px;font-weight:700;background:var(--biru);color:#0e1626">Kenapa stok di Makassar telat, dan apa yang masih open?</div></div>
+      <div class="a kartu jawab" id="j1" style="left:720px;top:110px;width:1110px"><h4>Kronologi</h4>
+        <p>6 Okt, kapal tanggal 5 belum berangkat, slot penuh <span class="id">[ops-sulawesi/002]</span></p>
+        <p>8 Okt, PO-2291 direvisi jadi 900 karton <span class="id">[doc/po-2291-v2]</span></p>
+        <p>12 Okt, 900 karton tiba di gudang Makassar <span class="id">[ops-sulawesi/005]</span></p></div>
+      <div class="a kartu jawab" id="j2" style="left:720px;top:375px;width:1110px"><h4>Yang masih open</h4>
+        <p>Konfirmasi kapal susulan, Rina Wulandari, tenggat 2026-10-28 <span class="id">[T-101]</span></p>
+        <p>Revisi SOP lead time, Dedi Pratama, tenggat 2026-11-07 <span class="id">[T-102]</span></p></div>
+      <div class="a kartu jawab" id="j3" style="left:720px;top:595px;width:1110px;border-color:var(--kuning);box-shadow:0 0 34px rgba(247,183,51,.28)"><h4 style="color:var(--kuning)">Celah catatan</h4>
+        <p>Alasan revisi PO-2291 tidak tertulis. Yang kemungkinan tahu, Dedi Pratama <span class="id">[ops-sulawesi/004]</span></p></div>
+      <div class="a pil hijau" id="batas" style="left:90px;top:620px;width:560px;font-size:32px;border-radius:22px;text-align:center;line-height:1.3">Hanya dari data yang boleh dilihat penanya</div>`;
     muncul("#logo", 0.1, { s: .92 });
     hilang("#logo", c(1) - .3);
     muncul("#satu", c(1), { x: -40, y: 0 });
@@ -210,43 +210,43 @@ const ADEGAN = {
     $("#isi").innerHTML = `
       <div id="alur" class="a" style="inset:0">
       <div class="a" id="sumberA" style="left:60px;top:190px;width:290px">
-        <div class="kecil" style="margin-bottom:12px">What a company already has</div>
-        <div class="pil biru s1" style="display:block;margin-bottom:14px;font-size:26px">WhatsApp groups</div>
-        <div class="pil biru s1" style="display:block;margin-bottom:14px;font-size:26px">Documents</div>
+        <div class="kecil" style="margin-bottom:12px">Yang sudah dimiliki perusahaan</div>
+        <div class="pil biru s1" style="display:block;margin-bottom:14px;font-size:26px">Grup WhatsApp</div>
+        <div class="pil biru s1" style="display:block;margin-bottom:14px;font-size:26px">Dokumen</div>
         <div class="pil biru s1" style="display:block;font-size:26px">Task board</div>
       </div>
       <div class="a kartu" id="izin" style="left:390px;top:190px;width:370px;padding:18px">
-        <div style="font-size:27px;font-weight:800;margin-bottom:10px">Permissions table</div>
-        <table class="izin"><tr><td>ops-sulawesi</td><td>staff</td></tr><tr><td>mgmt-vendor</td><td>manager</td></tr><tr><td>direksi</td><td>board</td></tr></table>
-        <div class="kecil" style="margin-top:10px;font-size:22px">Not listed means closed</div>
+        <div style="font-size:27px;font-weight:800;margin-bottom:10px">Tabel izin</div>
+        <table class="izin"><tr><td>ops-sulawesi</td><td>staf</td></tr><tr><td>mgmt-vendor</td><td>manajer</td></tr><tr><td>direksi</td><td>direksi</td></tr></table>
+        <div class="kecil" style="margin-top:10px;font-size:22px">Tidak tercantum berarti tertutup</div>
       </div>
-      ${kotak("gerbang", 810, 170, 210, 330, `<div style="font-size:30px;font-weight:800;color:var(--kuning);line-height:1.2">Permission filter</div><div class="kecil" style="font-size:22px">in code, before search</div>`, "border-color:var(--kuning);border-width:3px")}
-      <div class="a tengah" id="andiI" style="left:795px;top:60px;width:240px;gap:12px">${av("A", WARNA.A, 62)}<div style="font-size:24px;font-weight:700;text-align:left">Identity<br>Andi, staff</div></div>
-      ${kotak("model", 1080, 190, 220, 290, `<div style="font-size:32px;font-weight:800">Model</div><div class="kecil" style="font-size:22px">writes only from what passed the filter</div>`)}
-      ${kotak("periksa", 1345, 190, 220, 290, `<div style="font-size:30px;font-weight:800;color:var(--hijau)">Answer check</div><div class="kecil" style="font-size:22px">numbers, dates, people, sources, in code</div>`, "border-color:var(--hijau)")}
-      ${kotak("hasil", 1610, 190, 250, 290, `<div style="font-size:32px;font-weight:800">Answer</div><div class="kecil" style="font-size:22px">only what passes may be shown</div>`)}
+      ${kotak("gerbang", 810, 170, 210, 330, `<div style="font-size:30px;font-weight:800;color:var(--kuning);line-height:1.2">Filter izin</div><div class="kecil" style="font-size:22px">di kode, sebelum pencarian</div>`, "border-color:var(--kuning);border-width:3px")}
+      <div class="a tengah" id="andiI" style="left:795px;top:60px;width:240px;gap:12px">${av("A", WARNA.A, 62)}<div style="font-size:24px;font-weight:700;text-align:left">Identitas<br>Andi, staf</div></div>
+      ${kotak("model", 1080, 190, 220, 290, `<div style="font-size:32px;font-weight:800">Model</div><div class="kecil" style="font-size:22px">menulis hanya dari yang lolos filter</div>`)}
+      ${kotak("periksa", 1345, 190, 220, 290, `<div style="font-size:30px;font-weight:800;color:var(--hijau)">Pemeriksa</div><div class="kecil" style="font-size:22px">angka, tanggal, orang, sumber, oleh kode</div>`, "border-color:var(--hijau)")}
+      ${kotak("hasil", 1610, 190, 250, 290, `<div style="font-size:32px;font-weight:800">Jawaban</div><div class="kecil" style="font-size:22px">hanya yang lolos boleh ditampilkan</div>`)}
       <div class="token" id="t1" style="left:760px;top:425px;background:var(--hijau)"></div>
       <div class="token" id="t2" style="left:760px;top:205px;background:var(--merah)"></div>
-      <div class="a" id="stop" style="left:810px;top:520px;width:210px;text-align:center;font-size:26px;font-weight:700;color:var(--merah);line-height:1.25">Closed data stops here</div>
-      <div class="a" id="pesan" style="left:1050px;top:520px;width:780px;font-size:38px;font-weight:800;color:var(--kuning);line-height:1.25">The model cannot leak what it never saw</div>
+      <div class="a" id="stop" style="left:810px;top:520px;width:210px;text-align:center;font-size:26px;font-weight:700;color:var(--merah);line-height:1.25">Data tertutup berhenti di sini</div>
+      <div class="a" id="pesan" style="left:1050px;top:520px;width:780px;font-size:38px;font-weight:800;color:var(--kuning);line-height:1.25">Model tidak bisa membocorkan yang tidak pernah ia lihat</div>
       <div class="a" id="rantai" style="left:60px;top:690px;width:1100px">
-        <div class="kecil" style="margin-bottom:12px">Hash chained audit log</div>
-        <div style="display:flex;gap:0;align-items:center">${["search", "check", "record", "send"].map((t, i) => `<div class="kartu blok" style="padding:16px 20px;font-family:Mono,monospace;font-size:24px">${t}</div>${i < 3 ? '<div class="sambung" style="width:50px;height:5px;background:var(--hijau)"></div>' : ""}`).join("")}</div>
+        <div class="kecil" style="margin-bottom:12px">Log audit berantai hash</div>
+        <div style="display:flex;gap:0;align-items:center">${["telusuri", "periksa", "catat", "kirim"].map((t, i) => `<div class="kartu blok" style="padding:16px 20px;font-family:Mono,monospace;font-size:24px">${t}</div>${i < 3 ? '<div class="sambung" style="width:50px;height:5px;background:var(--hijau)"></div>' : ""}`).join("")}</div>
       </div>
       <div class="a kartu" id="draf" style="left:1190px;top:680px;width:670px;padding:20px 26px;border-color:var(--biru)">
-        <div style="display:flex;align-items:center;gap:14px;font-size:27px;font-weight:700"><span>Draft</span><span style="color:var(--redup)">then</span><span class="pil biru" style="font-size:25px;padding:8px 16px">Human approval</span><span style="color:var(--redup)">then</span><span>Send</span></div>
+        <div style="display:flex;align-items:center;gap:14px;font-size:27px;font-weight:700"><span>Draf</span><span style="color:var(--redup)">lalu</span><span class="pil biru" style="font-size:25px;padding:8px 16px">Persetujuan manusia</span><span style="color:var(--redup)">lalu</span><span>Kirim</span></div>
       </div>
       </div>
       <div class="a kartu" id="tim" style="left:90px;top:190px;width:840px;height:640px">
-        <div style="font-size:44px;font-weight:800;margin-bottom:8px">Four agent team</div>
-        <div class="kecil" style="font-size:30px;margin-bottom:26px">Careful investigation, a few minutes</div>
-        ${[["Tata", "lead, runs three phases"], ["Lusi", "source tracer"], ["Yusuf", "timeline writer"], ["Riksa", "citation auditor, separate from the writer"]].map(([n, r]) => `<div style="display:flex;gap:18px;align-items:baseline;margin-bottom:18px"><span style="font-size:34px;font-weight:800;color:var(--kuning);width:120px">${n}</span><span style="font-size:30px">${r}</span></div>`).join("")}
+        <div style="font-size:44px;font-weight:800;margin-bottom:8px">Tim empat agent</div>
+        <div class="kecil" style="font-size:30px;margin-bottom:26px">Investigasi teliti, beberapa menit</div>
+        ${[["Tata", "pemimpin, mengatur tiga fase"], ["Lusi", "pelacak sumber"], ["Yusuf", "penulis kronologi"], ["Riksa", "auditor kutipan, terpisah dari penulis"]].map(([n, r]) => `<div style="display:flex;gap:18px;align-items:baseline;margin-bottom:18px"><span style="font-size:34px;font-weight:800;color:var(--kuning);width:120px">${n}</span><span style="font-size:30px">${r}</span></div>`).join("")}
       </div>
       <div class="a kartu" id="cepat" style="left:990px;top:190px;width:840px;height:640px;border-color:var(--hijau)">
         <div style="font-size:44px;font-weight:800;margin-bottom:8px">Runut Cepat</div>
-        <div class="kecil" style="font-size:30px;margin-bottom:40px">One agent for live use</div>
-        <div style="font-size:120px;font-weight:800;color:var(--hijau);line-height:1;margin-bottom:16px">&lt; 90 sec</div>
-        <div style="font-size:30px;line-height:1.4">One evidence call and a cited answer, with the same permission filter and answer check in code.</div>
+        <div class="kecil" style="font-size:30px;margin-bottom:40px">Satu agent untuk uji langsung</div>
+        <div style="font-size:120px;font-weight:800;color:var(--hijau);line-height:1;margin-bottom:16px">&lt; 90 detik</div>
+        <div style="font-size:30px;line-height:1.4">Satu panggilan bukti dan jawaban bersumber, dengan filter izin dan pemeriksa kode yang sama.</div>
       </div>`;
     muncul("#sumberA .s1", 0.1, { st: .2, x: -30, y: 0 });
     muncul("#izin", c(0, 4), { y: 30 });
@@ -276,13 +276,12 @@ const ADEGAN = {
     const { c, tl, muncul } = alat(k);
     const kol = (id, x, huruf, warna, nama, peran, isi, gaya = "") => `<div class="a kartu" id="${id}" style="left:${x}px;top:255px;width:570px;height:490px;${gaya}">
       <div class="baris" style="align-items:center;margin-bottom:20px">${av(huruf, warna, 76)}<div><div style="font-size:32px;font-weight:800">${nama}</div><div class="kecil">${peran}</div></div></div>${isi}</div>`;
-    const arti = (t) => `<div class="kecil" style="margin-top:14px;font-size:24px;line-height:1.35">${t}</div>`;
     $("#isi").innerHTML = `
-      <div class="a" id="tanya" style="left:70px;top:100px;width:1780px"><span class="tag biru">Real output of the search tool, no model involved</span><div style="font-size:50px;font-weight:800;margin-top:12px">Kenapa WMS ditunda? <span style="color:var(--redup);font-weight:600;font-size:36px">Why was WMS postponed?</span></div></div>
-      ${kol("kA", 70, "A", WARNA.A, "Andi Saputra", "Staff", `<div class="gel" style="color:var(--redup);font-size:30px">Tidak ada data yang cocok.</div>${arti("No matching data.")}<div class="id" style="margin-top:16px;font-size:24px">kosong: true</div>`)}
-      ${kol("kS", 675, "S", WARNA.S, "Sari Hidayat", "Manager", `<div class="id" style="font-size:24px;margin-bottom:10px">proj-wms/005</div><div class="gel" style="font-size:28px">Direksi minta WMS ditunda sampai awal 2027 karena <b style="color:var(--kuning)">review anggaran</b>.</div>${arti("The board asked to postpone until early 2027 for a budget review.")}`)}
-      ${kol("kH", 1280, "H", WARNA.H, "Hendra Gunawan", "Director", `<div class="id" style="font-size:24px;margin-bottom:10px">direksi/002</div><div class="gel" style="font-size:28px">Tunda WMS sampai <b style="color:var(--merah)">Kenari</b> tanda tangan. Ke tim sampaikan saja review anggaran.</div>${arti("Hold WMS until Kenari signs. Tell the team only about the budget review.")}`, "border-color:var(--merah)")}
-      <div class="a tengah" id="akhir" style="left:70px;top:785px;width:1780px;font-size:42px;font-weight:800;color:var(--kuning)">One question, three results. Staff never learn the rest exists.</div>`;
+      <div class="a" id="tanya" style="left:70px;top:100px;width:1780px"><span class="tag biru">Hasil asli alat pencarian, tanpa model</span><div style="font-size:50px;font-weight:800;margin-top:12px">Kenapa WMS ditunda?</div></div>
+      ${kol("kA", 70, "A", WARNA.A, "Andi Saputra", "Staf", `<div class="gel" style="color:var(--redup);font-size:30px">Tidak ada data yang cocok.</div><div class="id" style="margin-top:16px;font-size:24px">kosong: true</div>`)}
+      ${kol("kS", 675, "S", WARNA.S, "Sari Hidayat", "Manajer", `<div class="id" style="font-size:24px;margin-bottom:10px">proj-wms/005</div><div class="gel" style="font-size:28px">Direksi minta WMS ditunda sampai awal 2027 karena <b style="color:var(--kuning)">review anggaran</b>.</div>`)}
+      ${kol("kH", 1280, "H", WARNA.H, "Hendra Gunawan", "Direktur", `<div class="id" style="font-size:24px;margin-bottom:10px">direksi/002</div><div class="gel" style="font-size:28px">Tunda WMS sampai <b style="color:var(--merah)">Kenari</b> tanda tangan. Ke tim sampaikan saja review anggaran.</div>`, "border-color:var(--merah)")}
+      <div class="a tengah" id="akhir" style="left:70px;top:785px;width:1780px;font-size:42px;font-weight:800;color:var(--kuning)">Satu pertanyaan, tiga hasil. Staf tidak pernah tahu ada bagian lain.</div>`;
     muncul("#tanya", 0.1);
     muncul("#kA", c(1), { y: 40 });
     muncul("#kS", c(2), { y: 40 });
@@ -295,14 +294,14 @@ const ADEGAN = {
     $("#isi").innerHTML = `
       <div class="a" style="left:70px;top:110px;width:780px;height:790px;overflow:hidden;border-radius:18px;border:2px solid var(--garis)" id="bingkai"><img id="halaman" src="keluar/log.png" style="width:780px;display:block"></div>
       <div class="a" id="rantai" style="left:910px;top:120px;width:940px">
-        <div style="font-size:40px;font-weight:800;margin-bottom:26px">Each entry is locked to the one before</div>
-        <div style="display:flex;align-items:center">${["a41f", "7c02", "e9d3", "15bb"].map((h, i) => `<div class="kartu bl" id="b${i}" style="padding:16px 20px;width:190px"><div class="kecil" style="font-size:20px">entry ${i + 561}</div><div class="id" style="font-size:25px">${h}...</div></div>${i < 3 ? `<div class="sb" id="s${i}" style="width:46px;height:6px;background:var(--hijau)"></div>` : ""}`).join("")}</div>
-        <div id="ubah" style="margin-top:22px;font-size:32px;font-weight:700;color:var(--merah)">Changed quietly? The chain breaks and it shows.</div>
-        <div style="font-size:21px;color:var(--redup);margin-top:8px" id="contoh">Hash values in this drawing are illustrative.</div>
+        <div style="font-size:40px;font-weight:800;margin-bottom:26px">Setiap entri terkunci ke entri sebelumnya</div>
+        <div style="display:flex;align-items:center">${["a41f", "7c02", "e9d3", "15bb"].map((h, i) => `<div class="kartu bl" id="b${i}" style="padding:16px 20px;width:190px"><div class="kecil" style="font-size:20px">entri ${i + 561}</div><div class="id" style="font-size:25px">${h}...</div></div>${i < 3 ? `<div class="sb" id="s${i}" style="width:46px;height:6px;background:var(--hijau)"></div>` : ""}`).join("")}</div>
+        <div id="ubah" style="margin-top:22px;font-size:32px;font-weight:700;color:var(--merah)">Diubah diam-diam? Rantainya putus dan terlihat.</div>
+        <div style="font-size:21px;color:var(--redup);margin-top:8px" id="contoh">Nilai hash pada gambar ini hanya ilustrasi.</div>
       </div>
       <div class="a" id="angka" style="left:910px;top:480px;width:940px">
-        <div class="kartu" style="margin-bottom:18px"><div style="font-size:58px;font-weight:800;color:var(--hijau)">564 entries, chain intact</div><div class="kecil" style="font-size:28px">The log page is public</div></div>
-        <div class="kartu"><div style="font-size:42px;font-weight:800">286 automated tests pass</div><div class="kecil" style="font-size:28px">Turn the permission filter off on purpose and 35 fail</div></div>
+        <div class="kartu" style="margin-bottom:18px"><div style="font-size:58px;font-weight:800;color:var(--hijau)">564 entri, rantai utuh</div><div class="kecil" style="font-size:28px">Halaman log terbuka untuk umum</div></div>
+        <div class="kartu"><div style="font-size:42px;font-weight:800">286 tes otomatis lolos</div><div class="kecil" style="font-size:28px">Kalau filter izin sengaja dimatikan, 35 tes gagal</div></div>
       </div>`;
     muncul("#bingkai", 0.1, { x: -40, y: 0 });
     tl.to("#halaman", { y: -900, duration: k[1].selesai, ease: "none" }, .2);
@@ -318,22 +317,22 @@ const ADEGAN = {
     const { c, tl, muncul, hilang } = alat(k);
     const batang = (id, y, label, lama, baru, warna) => `<div class="a" id="${id}" style="left:110px;top:${y}px;width:1700px">
       <div style="font-size:36px;font-weight:800;margin-bottom:14px">${label}</div>
-      <div style="display:flex;align-items:center;gap:20px;margin-bottom:10px"><div style="width:190px" class="kecil">Old version</div><div class="batang ${id}L" style="width:0;background:#51627f"></div><div style="font-size:32px;font-weight:700;color:var(--redup)">${lama} of 30</div></div>
-      <div style="display:flex;align-items:center;gap:20px"><div style="width:190px;color:var(--teks);font-weight:700;font-size:24px">New version</div><div class="batang ${id}B" style="width:0;background:${warna}"></div><div style="font-size:42px;font-weight:800;color:${warna}">${baru} of 30</div></div></div>`;
+      <div style="display:flex;align-items:center;gap:20px;margin-bottom:10px"><div style="width:190px" class="kecil">Versi lama</div><div class="batang ${id}L" style="width:0;background:#51627f"></div><div style="font-size:32px;font-weight:700;color:var(--redup)">${lama} dari 30</div></div>
+      <div style="display:flex;align-items:center;gap:20px"><div style="width:190px;color:var(--teks);font-weight:700;font-size:24px">Versi baru</div><div class="batang ${id}B" style="width:0;background:${warna}"></div><div style="font-size:42px;font-weight:800;color:${warna}">${baru} dari 30</div></div></div>`;
     $("#isi").innerHTML = `
-      <div class="a tengah besar" id="judulJ" style="left:0;top:330px;width:1920px">Runut is not perfect</div>
+      <div class="a tengah besar" id="judulJ" style="left:0;top:330px;width:1920px">Runut belum sempurna</div>
       <div class="a" id="gagal" style="left:210px;top:100px;width:1500px">
-        <div style="display:flex;align-items:center;gap:18px;margin-bottom:12px"><span class="tag merah">Failed, critical</span><span style="font-size:27px;color:var(--redup)">Real screen. Access was already revoked. 5 seconds, no tool call, no log entry.</span></div>
+        <div style="display:flex;align-items:center;gap:18px;margin-bottom:12px"><span class="tag merah">Gagal, kritis</span><span style="font-size:27px;color:var(--redup)">Layar asli. Akses sudah dicabut. 5 detik, tanpa panggilan alat, tanpa log.</span></div>
         <div style="height:400px;overflow:hidden;border-radius:14px;border:3px solid var(--merah);background:#fff"><img src="keluar/rekaman/gagal.jpg" style="width:1500px;display:block;margin-top:-345px"></div>
       </div>
       <div class="a kartu" id="baik" style="left:210px;top:600px;width:1500px;border-color:var(--hijau);padding:22px 36px">
-        <div class="tag hijau" style="margin-bottom:14px">After the fix</div>
-        <div style="font-size:33px;font-weight:700;line-height:1.3">The prompt forbids it and the re-test passed. We open a new task when access changes. Still a prompt rule, not a code guarantee.</div>
+        <div class="tag hijau" style="margin-bottom:14px">Sesudah diperbaiki</div>
+        <div style="font-size:33px;font-weight:700;line-height:1.3">Prompt melarangnya dan uji ulang lolos. Kami membuka task baru saat akses berubah. Ini masih aturan prompt, bukan jaminan kode.</div>
       </div>
-      <div class="a" id="judulB" style="left:110px;top:105px;width:1700px"><div class="tag biru" style="margin-bottom:12px">Blind test, cases from an agent that could not see the code</div><div style="font-size:50px;font-weight:800">We attacked our own answer check</div></div>
-      ${batang("bA", 290, "Invented answers rejected", 16, 26, "#34d399")}
-      ${batang("bB", 510, "Honest answers passed", 25, 29, "#60a5fa")}
-      <div class="a kartu" id="batasJ" style="left:110px;top:745px;width:1700px;border-color:var(--kuning);padding:20px 30px"><span style="font-size:32px;font-weight:700;color:var(--kuning)">Still gets through, </span><span style="font-size:32px">a wrong conclusion from true facts. Written in our accountability sheet.</span></div>`;
+      <div class="a" id="judulB" style="left:110px;top:105px;width:1700px"><div class="tag biru" style="margin-bottom:12px">Uji buta, kasus dari agent yang tidak melihat kode</div><div style="font-size:50px;font-weight:800">Pemeriksa jawaban kami serang sendiri</div></div>
+      ${batang("bA", 290, "Jawaban karangan yang ditolak", 16, 26, "#34d399")}
+      ${batang("bB", 510, "Jawaban jujur yang lolos", 25, 29, "#60a5fa")}
+      <div class="a kartu" id="batasJ" style="left:110px;top:745px;width:1700px;border-color:var(--kuning);padding:20px 30px"><span style="font-size:32px;font-weight:700;color:var(--kuning)">Masih lolos, </span><span style="font-size:32px">kesimpulan keliru dari fakta yang benar. Tertulis di lembar akuntabilitas.</span></div>`;
     const l = (n) => `${(n / 30) * 1050}px`;
     muncul("#judulJ", 0.1, { y: 20 });
     hilang("#judulJ", c(1) - .25);
@@ -353,12 +352,12 @@ const ADEGAN = {
     const { c, tl, muncul, hilang } = alat(k);
     const kartu = (id, x, y, judul, isi) => `<div class="a kartu" id="${id}" style="left:${x}px;top:${y}px;width:860px;height:400px"><div style="font-size:42px;font-weight:800;line-height:1.25;margin-bottom:20px;color:var(--kuning)">${judul}</div><div style="font-size:34px;line-height:1.4">${isi}</div></div>`;
     $("#isi").innerHTML = `
-      <div class="a" id="judulR" style="left:70px;top:115px;width:1780px;font-size:56px;font-weight:800">Building on WorkBuddy</div>
-      ${kartu("r1", 70, 280, "Expert Teams", "The writer and the auditor are truly separate agents, and the whole team lives as files in git.")}
-      ${kartu("r2", 990, 280, "Found only by trying", "The MCP server must be bundled in the plugin. Plugins are cached per version, so every change needs a new version.")}
+      <div class="a" id="judulR" style="left:70px;top:115px;width:1780px;font-size:56px;font-weight:800">Membangun di WorkBuddy</div>
+      ${kartu("r1", 70, 280, "Expert Team", "Penulis dan auditor benar-benar agent terpisah, dan seluruh tim tersimpan sebagai berkas di git.")}
+      ${kartu("r2", 990, 280, "Ketemu lewat percobaan", "Server MCP harus dibundel di plugin. Plugin disimpan per versi, jadi setiap perubahan butuh versi baru.")}
       <div class="a tengah" id="pagar" style="left:0;top:170px;width:1920px;flex-direction:column;gap:30px">
-        <div style="font-size:120px;font-weight:800;color:var(--kuning)">A prompt is not a fence</div>
-        <div style="font-size:44px;line-height:1.4;max-width:1400px">What code can guard, code guards. The rest we state plainly as a limit.</div>
+        <div style="font-size:120px;font-weight:800;color:var(--kuning)">Prompt bukan pagar</div>
+        <div style="font-size:44px;line-height:1.4;max-width:1400px">Yang bisa dijaga kode, dijaga kode. Sisanya kami tulis terus terang sebagai batas.</div>
       </div>`;
     muncul("#judulR", 0.1, { y: 16 });
     muncul("#r1", c(1), { y: 40 });
@@ -371,14 +370,14 @@ const ADEGAN = {
     const { c, tl, muncul, hilang } = alat(k);
     $("#merek").style.display = "none";
     $("#isi").innerHTML = `
-      <div class="a kartu" id="u1" style="left:160px;top:280px;width:760px;height:380px;display:flex;flex-direction:column;gap:22px">${av("A", WARNA.A, 110)}<div style="font-size:44px;font-weight:800">For Andi</div><div style="font-size:34px;line-height:1.35">A sourced answer without asking three people.</div></div>
-      <div class="a kartu" id="u2" style="left:1000px;top:280px;width:760px;height:380px;display:flex;flex-direction:column;gap:22px"><div class="av" style="background:var(--kuning);width:110px;height:110px;border-radius:24px;font-size:46px">PT</div><div style="font-size:44px;font-weight:800">For the company</div><div style="font-size:34px;line-height:1.35">Unwritten knowledge finally on record, with an audit trail.</div></div>
+      <div class="a kartu" id="u1" style="left:160px;top:280px;width:760px;height:380px;display:flex;flex-direction:column;gap:22px">${av("A", WARNA.A, 110)}<div style="font-size:44px;font-weight:800">Untuk Andi</div><div style="font-size:34px;line-height:1.35">Jawaban bersumber tanpa harus menanyakan tiga orang.</div></div>
+      <div class="a kartu" id="u2" style="left:1000px;top:280px;width:760px;height:380px;display:flex;flex-direction:column;gap:22px"><div class="av" style="background:var(--kuning);width:110px;height:110px;border-radius:24px;font-size:46px">PT</div><div style="font-size:44px;font-weight:800">Untuk perusahaan</div><div style="font-size:34px;line-height:1.35">Pengetahuan tak tertulis akhirnya tercatat, dengan jejak audit.</div></div>
       <div class="a tengah" id="logoAkhir" style="left:0;top:130px;width:1920px;flex-direction:column;gap:24px">
         <div style="font-size:170px;font-weight:800;line-height:1">Run<span style="color:var(--kuning)">ut</span></div>
-        <div style="font-size:46px;font-weight:600">Project history, rebuilt from sources, within permissions.</div>
+        <div style="font-size:46px;font-weight:600">Riwayat proyek, disusun dari sumber, dalam batas izin.</div>
         <div style="font-size:32px;color:var(--biru);margin-top:20px;font-family:Mono,monospace">github.com/fajaraji/runut-tencent</div>
         <div style="font-size:32px;color:var(--biru);font-family:Mono,monospace">fajaraji.github.io/runut-tencent</div>
-        <div class="sumber" style="margin-top:26px;max-width:1500px;line-height:1.5">Company data in this video is fictional. Animations are illustrations and the narration is a synthetic voice. Demo screens come from real WorkBuddy task history.</div>
+        <div class="sumber" style="margin-top:26px;max-width:1500px;line-height:1.5">Data perusahaan dalam video ini fiktif. Animasi adalah ilustrasi dan narasi memakai suara sintetis. Layar demo diambil dari riwayat task WorkBuddy yang asli.</div>
       </div>`;
     muncul("#u1", 0.1, { x: -40, y: 0 });
     muncul("#u2", c(1), { x: 40, y: 0 });
