@@ -42,8 +42,8 @@ The asker's identity comes from configuration, one file the server reads on ever
 
 ## How we check it
 
-- 286 automated tests (`npm test`) cover the code layer, including 31 cases modelled on the handbook examples and 225 cases that attack the answer check.
-- A mutation check switches the permission filter off on purpose. 35 tests then fail, which shows the tests catch leaks.
+- 288 automated tests (`npm test`) cover the code layer, including 31 cases modelled on the handbook examples and 225 cases that attack the answer check.
+- A mutation check switches the permission filter off on purpose. 37 tests then fail, which shows the tests catch leaks.
 - Agent-level runs in WorkBuddy are recorded in `docs/hasil-uji.md`, failures included.
 
 ## Known limits

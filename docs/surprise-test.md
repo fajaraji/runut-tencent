@@ -4,7 +4,7 @@ Juri memberi satu test case baru, dan agent harus menyelesaikannya secara live d
 
 ## Status
 
-Empat puluh tiga giliran di WorkBuddy selesai dalam 5 sampai 65 detik, jadi semuanya di bawah 90 detik. Dua belas giliran terakhir memakai pemeriksa jawaban yang dibangun ulang, 24 sampai 65 detik. Pada versi final, K22 selesai dalam 40 detik dan sumber bertentangan dalam 39 detik. K01, K06, K26, dan K30 lolos pada versi sedikit lebih awal. Kasus K04, K09 sampai K15, K17 sampai K21, K23, K25, K28, K29, dan K31 belum dijalankan sebagai percakapan agent.
+Empat puluh empat giliran di WorkBuddy selesai dalam 5 sampai 65 detik, jadi semuanya di bawah 90 detik. Dua belas giliran terakhir memakai pemeriksa jawaban yang dibangun ulang, 24 sampai 65 detik. Pada versi final, K22 selesai dalam 40 detik dan sumber bertentangan dalam 39 detik. K01, K06, K26, dan K30 lolos pada versi sedikit lebih awal. Kasus K04, K09 sampai K15, K17 sampai K21, K23, K25, K28, K29, dan K31 belum dijalankan sebagai percakapan agent.
 
 Waktu antre model berubah-ubah. Satu pertanyaan sederhana butuh 65 detik tanpa pengulangan, karena model antre sekitar 40 detik sebelum alat pertama. Jadi kirim pertanyaan segera, dan jangan ganti identitas sebelum jawaban selesai.
 

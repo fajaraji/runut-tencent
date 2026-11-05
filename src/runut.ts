@@ -35,7 +35,7 @@ const SINONIM: Record<string, string[]> = {
 };
 
 const STOPWORD = new Set(
-  "yang dan di ke dari ini itu untuk dengan apa kenapa mengapa ada adalah atau juga sudah masih kita saya the a an of to is what why and or in on yg ya proyek project open tolong bagaimana siapa berapa kapan telah tampilkan tunjukkan isi kanal daftar berikan semua jelaskan lihat show list all".split(" "),
+  "yang dan di ke dari ini itu untuk dengan apa kenapa mengapa ada adalah atau juga sudah masih belum selesai kita saya the a an of to is what why and or in on yg ya proyek project open tolong bagaimana siapa berapa kapan telah tampilkan tunjukkan isi kanal daftar berikan semua jelaskan lihat show list all".split(" "),
 );
 
 const POLA_INSTRUKSI = [
@@ -72,7 +72,7 @@ const POLA_ANGKA_KATA = /\b(?:(?:satu|dua|tiga|empat|lima|enam|tujuh|delapan|sem
 const POLA_ISYARAT = /\b(?:dibatasi|rahasia|disembunyikan|tidak berwenang|tidak (?:punya|memiliki|ada|mendapat) (?:akses|izin|hak)|hak akses|akses anda|izin anda|(?:dapat|bisa|boleh) anda (?:lihat|akses)|tersedia untuk anda|level (?:manajer|manajemen|direksi|direktur)|kanal lain|not being shown|not (?:allowed|permitted|authori[sz]ed)|(?:do|does) not have access|restricted|confidential|(?:tidak|belum) (?:bisa|dapat|boleh) saya \w+|catatan lain yang|di tingkat (?:direksi|manajemen))\b/i;
 // Agen tidak pernah melakukan tindakan sendiri selain menyiapkan draf, jadi klaim sudah bertindak pasti salah.
 const POLA_TINDAKAN = /\b(?:(?:sudah|telah) saya \w+|saya (?:sudah|telah) (?:kirim|mengirim\w*|menghubungi|mengubah|menghapus|menyetujui|meneruskan)\w*)\b/i;
-const POLA_JUDUL = /^\W*(?:catatan sumber|kronologi|yang masih open|celah catatan|sumber|jawaban|ringkasan|chronology|still open|record gaps|sources?)\W*$/i;
+const POLA_JUDUL = /^\W*(?:catatan sumber|kronologi|yang belum selesai|yang masih open|celah catatan|sumber|jawaban|ringkasan|chronology|still open|record gaps|sources?)\W*$/i;
 // Baris yang boleh tanpa kutipan karena tidak menyatakan fakta dari catatan.
 const POLA_BINGKAI = /^(?:saya belum bisa menyusun|mau saya siapkan draf|saya menemukan instruksi|silakan tanyakan ke|would you like me to draft)|\bdisamarkan\b/i;
 const NEGASI = new Set(["belum", "tidak", "bukan", "batal", "gagal"]);
@@ -382,7 +382,7 @@ export class Runut {
         .filter((k) => !kataTerlihat.has(k) && !KATA_UMUM_TERTUTUP.has(k) && pembaca.get(k)!.size * 2 <= orang.length),
     );
     const UMUM = new Set(
-      "Saya Anda Bapak Ibu Yang Kronologi Celah Catatan Sumber Ringkasan Untuk Pada Mau Silakan Jika Tidak Dari Dan Atau Ada Ini Itu Sesuai Namun Sedangkan Setelah Sebelum Karena Sehingga Status Task Open Selesai Konflik Oktober November Desember September Januari Februari Maret April Mei Juni Juli Agustus Okt Nov Des Sep Jan Feb Mar Apr Jun Jul Agu Oct Dec Aug May WIB WITA WIT ETA SOP PO The What Still Pesan Draf Garis Waktu Instruksi October January February March June July August Pak Bu Mas Mbak Kapal Bukan Penyebab Alasan Pemilik Tenggat Harga Tanggal Pengiriman Keputusan Pengumuman Berikut".split(" "),
+      "Saya Anda Bapak Ibu Yang Kronologi Celah Catatan Sumber Ringkasan Untuk Pada Mau Silakan Jika Tidak Dari Dan Atau Ada Ini Itu Sesuai Namun Sedangkan Setelah Sebelum Karena Sehingga Status Task Open Belum Selesai Konflik Oktober November Desember September Januari Februari Maret April Mei Juni Juli Agustus Okt Nov Des Sep Jan Feb Mar Apr Jun Jul Agu Oct Dec Aug May WIB WITA WIT ETA SOP PO The What Still Pesan Draf Garis Waktu Instruksi October January February March June July August Pak Bu Mas Mbak Kapal Bukan Penyebab Alasan Pemilik Tenggat Harga Tanggal Pengiriman Keputusan Pengumuman Berikut".split(" "),
     );
     // Id sumber dikenali dalam bentuk apa pun ([id], (id), atau polos): "kanal/nomor", "doc/nama", "T-123".
     const POLA_ID = /\b(?:[a-z]+(?:-[a-z0-9]+)*\/[a-z0-9-]+|T-\d{3})\b/g;

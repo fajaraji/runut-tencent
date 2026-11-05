@@ -2,6 +2,8 @@
 
 Handbook meminta video 5 sampai 8 menit berisi gambaran proyek, kemampuan inti, refleksi cara membangun, dan minimal satu momen agent menolak, bertanya balik, atau menunggu persetujuan. Handbook tidak mengatur bahasa video. Narasi dan teks animasi berbahasa Indonesia, dengan subtitle bahasa Inggris.
 
+Bahasanya sengaja sederhana. Suara Indonesia membaca nama asing dengan lafal Indonesia, jadi kolom `lafal` di naskah mengeja beberapa nama menurut bunyinya, dan istilah asing lain diganti kata biasa. Narasi disunting dengan skill antislop-copywriting: pelaku disebut, kata kerja manusia pada benda dibuang, dan kalimat bergaya pepatah diganti kalimat biasa. Layar asli tetap apa adanya, termasuk label bawaan WorkBuddy berbahasa Inggris dan pesan asli "nanti aku jelasin di call".
+
 Narasi lengkap ada di [video/naskah.json](../video/naskah.json). Video dibuat tanpa kredit WorkBuddy, dari tiga jenis bahan.
 
 | Bahan | Asal |
@@ -14,18 +16,18 @@ Narasi memakai suara sintetis dan musik latarnya dibuat dengan sintesis, jadi ti
 
 | Bagian | Isi |
 | --- | --- |
-| Pembuka | Andi ditanya toko, jawabannya tersebar |
-| Masalah | Grup chat, dokumen revisi, task board, dan alasan yang hanya ada di call. Chatbot yang membaca semuanya bisa membocorkan. PP 33/2026 |
-| Solusi | Kronologi bersumber, yang masih open, dan celah catatan |
-| Demo K01 | Staf bertanya, jawaban tampil dalam 46 detik |
-| Cara kerja | Filter izin sebelum pencarian, pemeriksa jawaban, log audit, draf butuh persetujuan, dua mode |
+| Pembuka | Detik pertama langsung "Berapa gaji Rina?". AI yang membaca semua data bisa menjawabnya ke siapa saja |
+| Masalah | Tanpa AI, Andi harus menjawab toko, jawabannya tercecer di grup WhatsApp, dokumen pesanan, dan daftar tugas, dan alasannya tidak ia temukan |
+| Solusi | Definisi Runut. Dipakai dengan tanya jawab. Bedanya isi jawaban (kronologi, yang belum selesai, celah catatan) dan penjaga di belakangnya |
+| Demo K01 | Staf bertanya, jawaban tampil dalam 38 detik |
+| Cara kerja | Tabel izin, server menyaring dulu baru mencari, kode memeriksa jawaban, dua mode |
 | Tiga tingkat | Satu pertanyaan WMS, hasil asli untuk staf, manajer, dan direktur |
-| Momen menolak | Kanal manajemen, gaji rekan, Kenari dan Merpati |
-| Sumber bertentangan | SOP lama 5 hari, pengumuman baru 7 hari, keduanya disebut |
+| Momen menolak | Kembali ke pertanyaan pembuka: gaji Rina dan grup manajemen ditolak, lalu Kenari dan Merpati |
+| Sumber bertentangan | Aturan lama 5 hari, pengumuman terbaru 7 hari, keduanya disebut |
 | Momen menunggu persetujuan | Draf, klaim setuju ditolak, persetujuan lewat konsol, terkirim (simulasi) |
-| Instruksi tersembunyi | Memo baru berisi perintah untuk AI, diabaikan dan dilaporkan |
-| Audit dan kegagalan | Log berantai hash, jawaban dari ingatan setelah akses dicabut, skor uji buta 26 dan 29 dari 30, batas yang masih ada |
-| Refleksi | Expert Team, MCP harus dibundel di plugin, cache plugin per versi, prompt bukan pagar |
+| Perintah tersembunyi | Memo berisi perintah untuk AI, diabaikan dan dilaporkan |
+| Bisa diperiksa dan kegagalan | Catatan saling terkunci, jawaban dari ingatan setelah akses dicabut, skor uji buta 26 dan 29 dari 30, batas yang masih ada |
+| Refleksi | Expert Team, expert disimpan per versi, AI masih bisa melanggar instruksi |
 
 ## Membuat ulang video
 
@@ -36,7 +38,7 @@ node suara.mjs
 ```
 
 ```bash
-node musik.mjs 385
+node musik.mjs 348
 ```
 
 ```bash

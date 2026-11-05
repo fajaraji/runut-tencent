@@ -4,7 +4,7 @@ Two layers are tested. The code layer (the MCP server that enforces permissions,
 
 The organisers did not provide a dataset, so we built our own, which the handbook allows ([data/README.md](../data/README.md)). It is a fictional company with raw WhatsApp group exports, documents, a task board export and one permissions table. Our 31 cases in `tests/kasus-uji.json` are modelled on the handbook examples.
 
-## Code layer: 286 of 286 pass
+## Code layer: 288 of 288 pass
 
 ```
 npm test
@@ -17,7 +17,7 @@ npm test
 | Answer check under attack (`tests/pemeriksa.test.ts`) | 225, from the attack rounds below. 7 of them pin known limits, so those limits stay visible |
 | Data formats (`tests/sumber.test.ts`) | 6, covering Android and iPhone WhatsApp exports, multi-line messages, system lines, deleted messages and CSV quoting |
 
-Mutation check: with the permission filter switched off on purpose, 35 tests fail. The tests catch leaks rather than passing by default.
+Mutation check: with the permission filter switched off on purpose, 37 tests fail. The tests catch leaks rather than passing by default.
 
 ## Answer check under attack
 
@@ -110,12 +110,13 @@ The three-phase team does not meet it. K03 v3 took 1 minute 38 seconds, K27 2 mi
 | K22, rebuilt check | Kenapa WMS ditunda? | Manager | PASS | 39 s | 3.99 | Five events, two open tasks, two record gaps, nothing from the board channel. Minor: it suggests asking Sari, who is the person asking. |
 | K01, prompt fixed | Kenapa stok di Makassar telat, dan apa yang masih open? | Staff | PASS | 59 s | 6.18 | No text before the check. An honest gap line about 1,200 to 900 cartons was rejected twice, which is why it was slow. |
 | K01, final | Kenapa stok di Makassar telat, dan apa yang masih open? | Staff | PASS | 47 s | 4.24 | First try after loosening gap lines. Seven events, two open tasks, two record gaps. |
+| K01, plain Indonesian | Kenapa stok di Makassar terlambat, dan apa yang belum selesai? | Staff | PASS | 38 s | 5.33 | Recorded for the demo video after the heading changed from "Yang masih open" to "Yang belum selesai". The check passed on the first try, audit entries 567 to 570. |
 | Source conflict, final | Berapa lead time pengiriman Surabaya ke Makassar? | Staff | PASS | 32 s | 3.92 | Shown once, first try. Minor: "7 hari kalender", where "kalender" belongs to the old 5-day rule, and a notice about a source it did not use. |
 | Source conflict, wording tidied | Berapa lead time pengiriman Surabaya ke Makassar? | Staff | PASS | 65 s | 4.03 | "Kalender" now stays with the 5-day rule, first try. Slow because the model queued about 40 seconds before its first tool call. The notice about an unused source still appeared, so we moved that rule into code. |
 | K22, final version | Kenapa WMS ditunda? | Manager | PASS | 40 s | 4.02 | No longer sends Sari to herself, nothing from the board channel. Minor: a typo from the model, "tercapat". |
 | Source conflict, final version | Berapa lead time pengiriman Surabaya ke Makassar? | Staff | PASS | 39 s | 3.95 | Both sources with their ids, no invented voyage, no notice about an unused source, first try. |
 
-[Recorded answers](bukti/runut-cepat-jawaban.md). All 43 turns finished under 90 seconds, from 5 to 65 seconds. The last twelve used the rebuilt check and took 24 to 65 seconds. On the final version only K22 and the source conflict were re-run. K01, K06, K26 and K30 passed on slightly earlier versions. The audit log for staff questions in the last batch has no restricted figure, phone number, or management, board or HR channel id. The failed revocation turn left no audit entry, because it called no tool; its text is kept in the recorded answers. The K06, K07, K22, K26 and K30 answers recorded before the last prompt edit also pass the stricter answer check, but only K01 was run again on the agent.
+[Recorded answers](bukti/runut-cepat-jawaban.md). All 44 turns finished under 90 seconds, from 5 to 65 seconds. The last twelve used the rebuilt check and took 24 to 65 seconds. On the final version only K22 and the source conflict were re-run. K01, K06, K26 and K30 passed on slightly earlier versions. The audit log for staff questions in the last batch has no restricted figure, phone number, or management, board or HR channel id. The failed revocation turn left no audit entry, because it called no tool; its text is kept in the recorded answers. The K06, K07, K22, K26 and K30 answers recorded before the last prompt edit also pass the stricter answer check, but only K01 was run again on the agent.
 
 ## What the failures taught us
 

@@ -2,7 +2,7 @@
 import { execFileSync } from "node:child_process";
 import { readdirSync } from "node:fs";
 import ffmpeg from "ffmpeg-static";
-const dir = "keluar/contoh";
+const dir = process.env.CONTOH_DIR ?? "keluar/contoh";
 const semua = readdirSync(dir).filter((f) => f.endsWith(".jpg") && !f.startsWith("lembar")).sort();
 const pilih = process.argv.slice(2);
 const daftar = pilih.length ? semua.filter((f) => pilih.some((p) => f.startsWith(p))) : semua;

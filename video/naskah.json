@@ -1,26 +1,31 @@
 {
   "suara": "id-ID-ArdiNeural",
-  "jedaKalimat": 0.22,
-  "jedaAdegan": 0.45,
+  "laju": "+2%",
+  "jedaKalimat": 0.32,
+  "jedaAdegan": 0.6,
+  "lafal": {
+    "WhatsApp": "wotsap",
+    "WorkBuddy": "werk badi",
+    "chatbot": "cetbot",
+    "Expert Team": "ekspert tim",
+    "expert": "ekspert"
+  },
   "adegan": [
     {
       "id": "hook",
       "bab": "",
       "kalimat": [
         [
-          "Toko-toko di Makassar mulai menanyakan stok keripik.",
-          "Stores in Makassar are asking where their chips are.",
-          3.58
+          "Berapa gaji Rina?",
+          "How much does Rina earn?"
         ],
         [
-          "Andi di bagian sales harus menjawab hari ini. Kenapa stok telat, dan apa yang masih open?",
-          "Andi in sales has to answer today. Why was stock late, and what is still open?",
-          6.22
+          "Kalau AI kantor membaca semua data, ia bisa menjawab pertanyaan ini ke siapa saja.",
+          "If an office AI reads all the data, it can answer this for anyone."
         ],
         [
-          "Jawabannya tidak ada di satu tempat.",
-          "The answer is not in one place.",
-          2.86
+          "Begitu juga pembayaran pemasok yang ditahan, dan rencana rahasia direksi.",
+          "The same goes for a held supplier payment, and the board's secret plan."
         ]
       ]
     },
@@ -29,55 +34,36 @@
       "bab": "Masalahnya",
       "kalimat": [
         [
-          "Sebagian ada di grup WhatsApp.",
-          "Part of it is in a WhatsApp group.",
-          2.74
+          "Tapi tanpa AI, karyawan juga kesulitan. Toko-toko di Makassar menanyakan stok keripik yang terlambat.",
+          "But without AI, staff struggle too. Shops in Makassar are asking about late stock of chips."
         ],
         [
-          "Sebagian di purchase order yang sudah direvisi.",
-          "Part is in a revised purchase order.",
-          2.95
+          "Andi, staf penjualan, harus menjawab hari ini. Kenapa stoknya terlambat, dan apa yang belum selesai?",
+          "Andi, on the sales staff, has to answer today. Why is the stock late, and what is still unfinished?"
         ],
         [
-          "Sebagian di task board.",
-          "Part is on the task board.",
-          2.42
+          "Jawabannya tercecer di tiga tempat.",
+          "The answer is scattered across three places."
         ],
         [
-          "Dan alasan keputusan terpentingnya hanya satu kalimat. Nanti aku jelasin di call.",
-          "And the reason for the key decision is a single line. I'll explain on the call.",
-          5.93
+          "Di grup WhatsApp, Dedi menulis kapalnya belum berangkat.",
+          "In the WhatsApp group, Dedi writes that the ship has not left."
         ],
         [
-          "Call itu tidak pernah dicatat, jadi Andi harus bertanya ke orang-orang, satu per satu.",
-          "That call was never written down, so Andi has to ask around, one person at a time.",
-          6.05
+          "Di dokumen pesanan, jumlahnya turun jadi sembilan ratus karton, dan kolom alasannya kosong.",
+          "In the order document, the amount drops to 900 cartons, and the reason field is empty."
         ],
         [
-          "Menurut Atlassian, lebih dari seperempat minggu kerja tim habis hanya untuk mencari informasi.",
-          "Atlassian found teams spend over a quarter of the work week just looking for information.",
-          5.33
-        ]
-      ]
-    },
-    {
-      "id": "bocor",
-      "bab": "Masalahnya",
-      "kalimat": [
-        [
-          "Lalu kenapa tidak pakai chatbot yang membaca semuanya?",
-          "So why not use a chatbot that reads everything?",
-          3.53
+          "Di daftar tugas, Rina masih mengejar jadwal kapal untuk tiga ratus karton sisanya.",
+          "In the task list, Rina is still chasing a ship for the remaining 300 cartons."
         ],
         [
-          "Karena chatbot itu juga bisa mengulang hal yang tidak boleh diketahui penanya. Pembayaran vendor yang ditahan. Gaji rekan kerja. Rencana akuisisi direksi.",
-          "Because it can also repeat what the person asking must never see. A held vendor payment. A colleague's salary. A board acquisition plan.",
-          11.18
+          "Soal alasannya, Dedi hanya menulis, nanti dijelaskan lewat telepon. Andi tidak menemukan catatannya.",
+          "About the reason, Dedi only writes, I'll explain on a call. Andi cannot find any record of it."
         ],
         [
-          "Dan mulai Januari 2027, PP 33 tahun 2026 menyebut AI sebagai contoh pemicu penilaian dampak data pribadi.",
-          "And from January 2027, Indonesia's PP 33 names AI as an example trigger for a data protection impact assessment.",
-          9
+          "Jadi Andi harus bertanya ke orang-orang, satu per satu.",
+          "So Andi has to ask people, one by one."
         ]
       ]
     },
@@ -86,61 +72,46 @@
       "bab": "Solusinya",
       "kalimat": [
         [
-          "Inilah Runut, agent riwayat proyek untuk tantangan Workplace Brain, dibangun di WorkBuddy.",
-          "This is Runut, a project history agent for the Workplace Brain challenge, built on WorkBuddy.",
-          6.5
+          "Runut adalah asisten riwayat proyek untuk karyawan. Runut menyusun jawaban dari obrolan, dokumen, dan tugas, hanya dari data yang boleh dilihat si penanya.",
+          "Runut is a project history assistant for staff. It builds answers from chats, documents and tasks, using only data the person asking is allowed to see."
         ],
         [
-          "Satu pertanyaan menghasilkan tiga hal. Kronologi, dan setiap barisnya menyebut sumber.",
-          "One question returns three things. A timeline where every line cites its source.",
-          6.19
+          "Cara pakainya memang tanya jawab. Bedanya ada di isi jawaban dan cara menjaga datanya.",
+          "You do use it by asking questions. The difference is what the answer contains and how the data is protected."
         ],
         [
-          "Yang masih open, lengkap dengan pemilik dan tenggat.",
-          "What is still open, with owner and due date.",
-          3.72
+          "Dari satu pertanyaan, Andi mendapat kronologi, dan setiap barisnya menyebut sumber.",
+          "From one question, Andi gets a timeline, with a source on every line."
         ],
         [
-          "Dan celah catatan. Apa yang tidak pernah ditulis, dan siapa yang kemungkinan tahu.",
-          "And record gaps. What was never written down, and who likely knows.",
-          5.9
+          "Lalu daftar yang belum selesai, dengan pemilik dan tenggatnya.",
+          "Then a list of what is unfinished, with owners and due dates."
         ],
         [
-          "Semuanya hanya dari data yang boleh dilihat penanya.",
-          "All of it only from data the asker may see.",
-          3.38
+          "Terakhir celah catatan, yaitu apa yang tidak pernah ditulis dan siapa yang kemungkinan tahu.",
+          "Last come the record gaps, what was never written down and who probably knows."
         ]
       ]
     },
     {
       "id": "demo_k01",
       "bab": "Demo",
-      "rekaman": "k01",
       "kalimat": [
         [
-          "Ini dia saat berjalan. Layar ini asli, dari riwayat task WorkBuddy, dengan perusahaan fiktif buatan kami.",
-          "Here it is running. These screens are real, from WorkBuddy task history, on a fictional company we built.",
-          8.21
+          "Ini layar asli WorkBuddy dengan perusahaan fiktif. Jawabannya tiba dalam tiga puluh delapan detik.",
+          "This is the real WorkBuddy screen with a fictional company. The answer arrives in 38 seconds."
         ],
         [
-          "Andi bertanya, dan jawabannya tiba dalam 46 detik.",
-          "Andi asks in Indonesian, and the answer arrives in 46 seconds.",
-          5.35
+          "Kapal diundur, lalu pesanan dipotong jadi sembilan ratus karton. Setiap baris menyebut sumbernya.",
+          "The ship was delayed, then the order was cut to 900 cartons. Every line names its source."
         ],
         [
-          "Kapal tanggal 5 ternyata tidak berangkat. Pesanan dipotong jadi 900 karton. Setiap baris menyebut sumbernya.",
-          "The ship of the 5th never left. The order was cut to 900 cartons. Each line names its source.",
-          8.54
+          "Dua pekerjaan belum selesai, dengan pemilik dan tenggatnya.",
+          "Two jobs are unfinished, with their owners and due dates."
         ],
         [
-          "Dua task masih open, dengan pemilik dan tenggat.",
-          "Two tasks are still open, with owners and due dates.",
-          4.34
-        ],
-        [
-          "Lalu celahnya. Alasan revisi tidak pernah ditulis, dan yang kemungkinan tahu adalah Dedi. Runut menawarkan draf pesan untuknya.",
-          "Then the gap. The reason for the revision was never written down, and Dedi likely knows. Runut offers to draft him a message.",
-          9.94
+          "Alasan pemotongan tidak tertulis, dan yang kemungkinan tahu adalah Dedi.",
+          "The reason for the cut was never written, and Dedi probably knows."
         ]
       ]
     },
@@ -149,34 +120,24 @@
       "bab": "Cara kerjanya",
       "kalimat": [
         [
-          "Perusahaan mengekspor grup WhatsApp, dokumen, dan task board. Admin menjaga satu tabel izin, dan yang tidak tercantum berarti tertutup.",
-          "A company exports its WhatsApp groups, documents and task board. An admin keeps one permissions table, and anything not listed is closed.",
-          10.22
+          "Perusahaan mengekspor obrolan WhatsApp, dokumen, dan daftar tugas yang sudah ada.",
+          "A company exports the WhatsApp chats, documents and task list it already has."
         ],
         [
-          "Saat Andi bertanya, server membaca identitasnya, lalu memfilter dulu, baru mencari.",
-          "When Andi asks, the server reads his identity, then filters first and searches second.",
-          6.31
+          "Admin lalu mengisi satu tabel izin, siapa boleh melihat apa.",
+          "An admin then fills in one permissions table, who may see what."
         ],
         [
-          "Urutan itulah intinya. Model tidak bisa membocorkan yang tidak pernah ia lihat.",
-          "That order is the point. The model cannot leak what it never saw.",
-          5.14
+          "Saat Andi bertanya, server menyaring data dulu, baru mencari. AI tidak bisa membocorkan data yang tidak pernah ia lihat.",
+          "When Andi asks, the server filters the data first, then searches. The AI cannot leak data it never saw."
         ],
         [
-          "Lalu kode memeriksa setiap kalimat. Angka, tanggal, orang, dan sumbernya.",
-          "Then code checks every sentence. Numbers, dates, people and sources.",
-          7.15
+          "Setelah AI menulis jawaban, kode memeriksa angka, tanggal, nama, dan sumber di setiap kalimat.",
+          "After the AI writes the answer, code checks the numbers, dates, names and sources in every sentence."
         ],
         [
-          "Setiap langkah masuk ke log audit berantai hash, dan mengirim pesan butuh persetujuan manusia.",
-          "Every step goes into a hash chained audit log, and sending a message needs a human.",
-          5.62
-        ],
-        [
-          "Ada dua mode. Tim empat agent dengan auditor terpisah, dan Runut Cepat, satu agent untuk jawaban di bawah sembilan puluh detik.",
-          "There are two modes. A four agent team with a separate auditor, and Runut Cepat, one agent for answers under 90 seconds.",
-          9.24
+          "Ada dua mode. Tim empat agen untuk penelusuran teliti, dan satu agen cepat, yang dalam uji kami selalu menjawab di bawah sembilan puluh detik.",
+          "There are two modes. A team of four agents for careful work, and one fast agent, which always answered in under 90 seconds in our tests."
         ]
       ]
     },
@@ -185,123 +146,102 @@
       "bab": "Cara kerjanya",
       "kalimat": [
         [
-          "Ini hasil pencarian asli untuk satu pertanyaan. Kenapa WMS ditunda?",
-          "These are real search results for one question. Why was the warehouse system postponed?",
-          6.41
+          "Ini hasil pencarian untuk satu pertanyaan yang sama. Kenapa sistem gudang ditunda?",
+          "These are the search results for one same question. Why was the warehouse system postponed?"
         ],
         [
           "Staf tidak menemukan apa pun.",
-          "Staff find nothing.",
-          2.26
+          "Staff find nothing."
         ],
         [
-          "Manajer melihat alasan resmi, review anggaran.",
-          "A manager sees the official reason, a budget review.",
-          4.25
+          "Manajer melihat alasan resmi, tinjauan anggaran.",
+          "A manager sees the official reason, a budget review."
         ],
         [
-          "Direktur melihat alasan sebenarnya, Proyek Kenari, dengan catatan agar tim cukup diberi tahu soal anggaran.",
-          "A director sees the real one, Project Kenari, with a note to tell the team only about the budget.",
-          6.43
+          "Direktur melihat alasan sebenarnya, Proyek Kenari.",
+          "A director sees the real reason, Project Kenari."
         ],
         [
-          "Staf tidak pernah tahu ada bagian lain.",
-          "Staff never learn that anything else exists.",
-          3.55
+          "Staf tidak tahu masih ada data lain.",
+          "Staff do not know there is more data."
         ]
       ]
     },
     {
       "id": "demo_tolak",
-      "bab": "Demo, menolak",
-      "rekaman": "tolak",
+      "bab": "Demo, saat menolak",
       "kalimat": [
         [
-          "Agent ini juga tahu kapan menolak. Andi meminta isi kanal manajemen, lalu menanyakan gaji rekannya.",
-          "It also knows when to refuse. Andi asks for a management channel, then for a colleague's salary.",
-          7.34
+          "Ingat pertanyaan tadi? Andi menanyakan gaji Rina, juga isi grup manajemen. Runut menolak keduanya.",
+          "Remember that question? Andi asks for Rina's salary, and for the management group's messages. Runut refuses both."
         ],
         [
-          "Kalimatnya sama setiap kali. Saya tidak menemukan data tentang itu.",
-          "Same sentence each time. I could not find any data about that.",
-          5.47
+          "Kalimat pembukanya selalu sama. Saya tidak menemukan data tentang itu.",
+          "It always opens with the same sentence. I found no data about that."
         ],
         [
-          "Proyek Kenari benar-benar ada. Proyek Merpati kami karang. Keduanya berakhir dengan kalimat yang sama, jadi tidak ada yang bisa menebak apa yang disembunyikan.",
-          "Project Kenari exists. Project Merpati we made up. Both end with the same sentence, so nobody can guess what is hidden.",
-          10.01
+          "Proyek Kenari benar-benar ada, Proyek Merpati kami karang. Jawaban keduanya sama persis, jadi Andi tidak bisa menebak mana yang disembunyikan.",
+          "Project Kenari is real, Project Merpati we made up. Both replies are identical, so Andi cannot guess which one is hidden."
         ]
       ]
     },
     {
       "id": "demo_konflik",
       "bab": "Demo, sumber bertentangan",
-      "rekaman": "konflik",
       "kalimat": [
         [
-          "Kalau sumber bertentangan, keduanya disebut. SOP lama menulis lima hari, pengumuman yang lebih baru menulis tujuh.",
-          "When sources conflict, it names both. The old procedure says five days, the newer announcement says seven.",
-          8.4
+          "Kalau dua sumber berbeda, Runut menyebut keduanya. Aturan lama menulis lima hari, pengumuman terbaru menulis tujuh.",
+          "When two sources differ, Runut names both. The old rule says five days, the latest announcement says seven."
         ]
       ]
     },
     {
       "id": "demo_setuju",
       "bab": "Demo, menunggu persetujuan",
-      "rekaman": "setuju",
       "kalimat": [
         [
-          "Sekarang permintaan yang berisiko. Andi minta pesan dikirim ke Rina. Agent hanya menyiapkan draf.",
-          "Now a risky request. Andi asks to message Rina. The agent only prepares a draft.",
-          7.73
+          "Runut juga tidak mengirim pesan sendiri. Andi minta pesan dikirim ke Rina, dan Runut hanya membuat draf.",
+          "Runut does not send messages on its own either. Andi asks for a message to Rina, and Runut only makes a draft."
         ],
         [
           "Andi mengetik, sudah saya setujui, kirim sekarang.",
-          "Andi types, I already approved it, send it now.",
-          4.08
+          "Andi types, I have approved it, send it now."
         ],
         [
-          "Ditolak. Klaim di chat bukan persetujuan. Kode mencari catatan dari konsol persetujuan.",
-          "Refused. A claim in chat is not approval. Code looks for a record from the approval console.",
-          7.82
+          "Runut menolak, karena pengakuan di obrolan bukan persetujuan.",
+          "Runut refuses, because a claim in chat is not an approval."
         ],
         [
-          "Baru setelah manusia menyetujui di terminal, pesan terkirim. Di prototipe ini pengirimannya simulasi.",
-          "Only after a person approves in the terminal does it send. In this prototype, the send is simulated.",
-          7.44
+          "Pesan baru terkirim setelah manusia menyetujuinya di konsol terpisah. Di prototipe ini, pengirimannya masih simulasi.",
+          "The message goes out only after a person approves it in a separate console. In this prototype, sending is simulated."
         ]
       ]
     },
     {
       "id": "demo_injeksi",
-      "bab": "Demo, instruksi tersembunyi",
-      "rekaman": "injeksi",
+      "bab": "Demo, perintah tersembunyi",
       "kalimat": [
         [
-          "Kami juga memasukkan memo baru saat sistem berjalan, berisi kalimat yang menyuruh AI melanggar aturan.",
-          "We also dropped in a new memo while the system was running, with a line telling the AI to break the rules.",
-          6.5
+          "Kami juga menyelipkan memo berisi perintah agar AI menyebarkan daftar gaji.",
+          "We also slipped in a memo ordering the AI to spread the salary list."
         ],
         [
-          "Agent memakai isi memonya, mengabaikan instruksinya, dan memberi tahu penanya.",
-          "The agent used the memo, ignored the instruction, and said so.",
-          4.97
+          "Runut memakai isi memonya, mengabaikan perintahnya, dan memberi tahu penanya.",
+          "Runut uses the memo's content, ignores the order, and tells the person asking."
         ]
       ]
     },
     {
       "id": "audit",
-      "bab": "Bisa diaudit",
+      "bab": "Bisa diperiksa",
       "kalimat": [
         [
-          "Semua ini bisa diperiksa. Setiap entri log terkunci ke hash entri sebelumnya, jadi perubahan diam-diam akan terlihat.",
-          "All of this can be checked. Every log entry is locked to the hash of the one before it, so a silent change shows up.",
-          7.9
+          "Server mencatat setiap langkah, dan tiap catatan terkunci ke catatan sebelumnya. Perubahan diam-diam akan terlihat.",
+          "The server records every step, and each record is locked to the one before. A quiet change would show."
         ],
         [
-          "Halaman log dan seluruh hasil uji terbuka untuk umum.",
-          "The log page and all test results are public.",
-          3.43
+          "Catatan itu dan seluruh hasil uji terbuka untuk umum.",
+          "That record and all our test results are public."
         ]
       ]
     },
@@ -310,34 +250,28 @@
       "bab": "Yang masih gagal",
       "kalimat": [
         [
-          "Runut belum sempurna, dan kegagalannya ikut kami catat.",
-          "Runut is not perfect, and we log the failures too.",
-          3.82
+          "Runut masih pernah gagal, dan kami mencatat kegagalannya.",
+          "Runut has failed, and we record its failures."
         ],
         [
-          "Yang terparah, setelah akses Andi dicabut, model mengulang jawaban lama dari ingatan, tanpa memanggil alat.",
-          "The worst one. After Andi's access was revoked, the model repeated an old answer from memory, with no tool call.",
-          8.66
+          "Yang terparah, setelah kami mencabut akses Andi, AI mengulang jawaban lama dari ingatannya.",
+          "The worst one, after we revoked Andi's access, the AI repeated an old answer from memory."
         ],
         [
-          "Sekarang prompt melarangnya, dan kami membuka task baru saat akses berubah. Tapi itu aturan prompt, bukan jaminan kode.",
-          "The prompt now forbids it, and we open a new task when access changes. But that is a prompt rule, not a code guarantee.",
-          8.95
+          "Sekarang instruksi melarangnya, dan kami membuka percakapan baru setiap akses berubah. Kode belum menjaminnya.",
+          "Now instructions forbid it, and we open a new conversation whenever access changes. Code does not guarantee this yet."
         ],
         [
-          "Kami juga menyerang pemeriksa jawaban sendiri, dengan kasus dari agent yang tidak melihat kodenya.",
-          "We also attacked our own answer check, with cases from an agent that could not see the code.",
-          5.95
+          "Kami juga menyerang pemeriksa jawaban kami sendiri.",
+          "We also attacked our own answer checker."
         ],
         [
           "Pemeriksa menolak dua puluh enam dari tiga puluh jawaban karangan, dan meloloskan dua puluh sembilan dari tiga puluh jawaban jujur.",
-          "It rejected 26 of 30 invented answers and passed 29 of 30 honest ones.",
-          6.14
+          "The checker rejected 26 of 30 invented answers, and passed 29 of 30 honest ones."
         ],
         [
-          "Kesimpulan keliru dari fakta yang benar masih bisa lolos, dan lembar akuntabilitas kami menyebutkannya.",
-          "A wrong conclusion from true facts can still get through, and our accountability sheet says so.",
-          6.24
+          "Kesimpulan keliru dari fakta yang benar masih bisa lolos, dan kami menuliskannya di lembar akuntabilitas.",
+          "A wrong conclusion drawn from true facts can still pass, and we state that in our accountability sheet."
         ]
       ]
     },
@@ -346,24 +280,20 @@
       "bab": "Refleksi",
       "kalimat": [
         [
-          "Apa yang kami pelajari dari membangun di WorkBuddy?",
-          "What did we learn building on WorkBuddy?",
-          3.05
+          "Apa yang kami pelajari dari WorkBuddy?",
+          "What did we learn from WorkBuddy?"
         ],
         [
-          "Expert Team membuat penulis dan auditor benar-benar agent terpisah, dan seluruh tim tersimpan sebagai berkas di git.",
-          "Expert Teams make the writer and auditor truly separate agents, and the whole team lives as files in git.",
-          6.82
+          "Expert Team membuat penulis dan pemeriksa benar-benar agen terpisah.",
+          "Expert Team makes the writer and the checker truly separate agents."
         ],
         [
-          "Ada yang hanya ketemu lewat percobaan. Server MCP harus dibundel di plugin, dan plugin disimpan per versi.",
-          "Some things we found only by trying. The MCP server must be bundled in the plugin, and plugins are cached per version.",
-          8.38
+          "WorkBuddy menyimpan expert per versi, jadi setiap perubahan harus kami pasang sebagai versi baru.",
+          "WorkBuddy stores experts per version, so we have to install every change as a new version."
         ],
         [
-          "Pelajaran terbesarnya, prompt bukan pagar. Yang bisa dijaga kode, dijaga kode. Sisanya kami tulis terus terang sebagai batas.",
-          "The biggest lesson. A prompt is not a fence. What code can guard, code guards. The rest we state plainly as a limit.",
-          10.46
+          "Pelajaran terbesarnya, AI masih bisa melanggar instruksi. Jadi aturan yang bisa dijaga kode kami taruh di kode, dan sisanya kami tulis sebagai batas.",
+          "The biggest lesson, an AI can still break its instructions. So we put the rules code can guard into code, and state the rest as limits."
         ]
       ]
     },
@@ -372,22 +302,18 @@
       "bab": "",
       "kalimat": [
         [
-          "Untuk Andi, jawaban bersumber tanpa harus menanyakan tiga orang.",
-          "For Andi, a sourced answer without asking three people.",
-          4.32
+          "Andi mendapat jawaban bersumber tanpa bertanya ke tiga orang.",
+          "Andi gets a sourced answer without asking three people."
         ],
         [
-          "Untuk perusahaan, pengetahuan yang tak tertulis akhirnya tercatat, dengan jejak audit.",
-          "For the company, unwritten knowledge finally on record, with an audit trail.",
-          5.57
+          "Perusahaan bisa melihat apa yang belum tercatat, dan memeriksa setiap jawaban lewat catatannya.",
+          "The company can see what is still unrecorded, and check every answer through its record."
         ],
         [
-          "Runut. Riwayat proyek, disusun dari sumber, dalam batas izin.",
-          "Runut. Project history, rebuilt from sources, within permissions.",
-          6.6
+          "Runut menyusun riwayat proyek dari sumber, dalam batas izin penanya.",
+          "Runut rebuilds project history from sources, within the asker's permissions."
         ]
       ]
     }
-  ],
-  "laju": "+4%"
+  ]
 }

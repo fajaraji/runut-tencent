@@ -172,6 +172,25 @@ test("telusuri: satu panggilan membawa bukti dan task proyek terkait, tanpa proy
   assert.ok(!task.some((id) => id.startsWith("T-2")), task.join(", "));
 });
 
+test("telusuri: pertanyaan berbahasa Indonesia penuh menemukan bukti dan task yang sama", () => {
+  const { sebagai } = siapkan();
+  const ambil = (tanya: string) => {
+    const h = sebagai("u-andi").telusuri(tanya);
+    return { bukti: (h.bukti ?? []).map((b) => b.id), task: (h.task ?? []).map((t) => t.id) };
+  };
+  assert.deepEqual(ambil("Kenapa stok di Makassar terlambat, dan apa yang belum selesai?").task, ambil("Kenapa stok di Makassar telat, dan apa yang masih open?").task);
+  const bukti = ambil("Kenapa stok di Makassar terlambat, dan apa yang belum selesai?").bukti;
+  assert.ok(bukti.includes("ops-sulawesi/002") && bukti.includes("ops-sulawesi/004"), bukti.join(", "));
+});
+
+test("periksa_jawaban: judul Yang belum selesai bukan kalimat fakta", () => {
+  const { sebagai } = siapkan();
+  const andi = sebagai("u-andi");
+  andi.telusuri("Kenapa stok di Makassar terlambat, dan apa yang belum selesai?");
+  const hasil = andi.periksaJawaban("**Kronologi**\n1. 6 Okt: Kapal tanggal 5 belum berangkat karena slot penuh, pengiriman diundur. [ops-sulawesi/002]\n**Yang belum selesai**\n- Konfirmasi jadwal kapal susulan 300 karton, pemilik: Rina Wulandari, tenggat: 2026-10-28 [T-101]");
+  assert.equal(hasil.lolos, true, JSON.stringify(hasil));
+});
+
 test("periksa_jawaban: angka dicocokkan per kalimat dengan kutipan kalimat itu", () => {
   const r = siapkan().sebagai("u-andi");
   // Dari jawaban lead time di WorkBuddy: 5 dan 7 ada di sumber lain pada baris yang sama, tapi bukan di kutipan kalimatnya.

@@ -18,7 +18,7 @@
 | RUN-14 | Jalankan ulang agent di WorkBuddy dengan dataset baru | `docs/hasil-uji.md` | Selesai: K01, K22, K24, K27 lolos |
 | RUN-15 | Agent cepat untuk surprise test 90 detik | `workbuddy/runut-cepat/`, `docs/surprise-test.md` | Selesai: 31 giliran, 5 sampai 65 detik. Lima skenario panggung lolos setelah dua perbaikan, K01 diulang pada prompt terakhir |
 | RUN-16 | Serang pemeriksa jawaban tanpa kredit | `src/runut.ts`, `tests/pemeriksa.test.ts`, `tests/kasus-buta.json`, `docs/hasil-uji.md` | Kode selesai: uji buta 26 dari 30 karangan tertolak dan 29 dari 30 jawaban jujur lolos, sebelumnya 16 dan 25. Dua belas giliran di WorkBuddy selesai dalam 24 sampai 65 detik, K22 dan sumber bertentangan lolos pada versi final |
-| RUN-17 | Video demo 6 menit 6 detik, bahasa Indonesia dengan subtitle Inggris | `video/`, `docs/naskah-demo.md` | Selesai: animasi, layar asli riwayat WorkBuddy, suara sintetis, dan musik buatan sendiri. Berkas video tidak disimpan di git |
+| RUN-17 | Video demo 5 menit 45 detik, bahasa Indonesia sederhana dengan subtitle Inggris | `video/`, `docs/naskah-demo.md` | Selesai: animasi, layar asli riwayat WorkBuddy, suara sintetis, dan musik buatan sendiri. Berkas video tidak disimpan di git |
 
 ## Yang tetap butuh manusia
 

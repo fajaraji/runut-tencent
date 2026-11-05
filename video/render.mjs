@@ -31,7 +31,7 @@ const cdp = await halaman.createCDPSession();
 const potret = async (kualitas = 90) => Buffer.from((await cdp.send("Page.captureScreenshot", { format: "jpeg", quality: kualitas, optimizeForSpeed: true })).data, "base64");
 
 if (contoh) {
-  const dir = join(keluar, "contoh");
+  const dir = join(keluar, process.env.CONTOH_DIR ?? "contoh");
   mkdirSync(dir, { recursive: true });
   for (const a of waktu.filter((x) => !pilih.length || pilih.includes(x.id))) {
     await buka();
@@ -49,12 +49,30 @@ if (contoh) {
   process.exit(0);
 }
 
+// --ulang a,b: hanya adegan ini yang dirender, sisanya disalin dari keluar/gambar-lama.mp4 sesuai keluar/waktu-lama.json.
+const iUlang = process.argv.indexOf("--ulang");
+const ulang = iUlang >= 0 ? process.argv[iUlang + 1].split(",") : null;
+const lama = ulang ? JSON.parse(readFileSync(join(keluar, "waktu-lama.json"), "utf8")) : [];
+let awalLama = 0;
+const bingkaiLama = Object.fromEntries(lama.map((a) => { const n = Math.round(a.durasi * FPS); const v = [a.id, { mulai: awalLama, n }]; awalLama += n; return v; }));
 const hasil = join(keluar, "gambar.mp4");
 const enkoder = spawn(ffmpeg, ["-y", "-hide_banner", "-loglevel", "error", "-f", "image2pipe", "-framerate", String(FPS), "-c:v", "mjpeg", "-i", "-", "-c:v", "libx264", "-preset", "veryfast", "-crf", "20", "-pix_fmt", "yuv420p", "-r", String(FPS), hasil], { stdio: ["pipe", "inherit", "inherit"] });
 let nomor = 0;
 const mulai = Date.now();
 const total = waktu.reduce((s, a) => s + Math.round(a.durasi * FPS), 0);
 for (const a of waktu) {
+  if (ulang && !ulang.includes(a.id)) {
+    const u = bingkaiLama[a.id];
+    if (!u || u.n !== Math.round(a.durasi * FPS)) throw new Error(`adegan ${a.id} berubah panjang, tambahkan ke --ulang`);
+    await new Promise((ok, gagal) => {
+      const dekoder = spawn(ffmpeg, ["-hide_banner", "-loglevel", "error", "-ss", (u.mulai / FPS).toFixed(4), "-i", join(keluar, "gambar-lama.mp4"), "-frames:v", String(u.n), "-f", "image2pipe", "-c:v", "mjpeg", "-q:v", "2", "-"], { stdio: ["ignore", "pipe", "inherit"] });
+      dekoder.stdout.pipe(enkoder.stdin, { end: false });
+      dekoder.on("close", (kode) => (kode ? gagal(new Error(`salin ${a.id}`)) : ok()));
+    });
+    nomor += u.n;
+    console.log("salin", a.id);
+    continue;
+  }
   await buka();
   await halaman.evaluate((x) => window.MUAT(x), a);
   const jumlah = Math.round(a.durasi * FPS);

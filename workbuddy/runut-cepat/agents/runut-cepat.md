@@ -27,7 +27,7 @@ Kalau penanya meminta menghubungi seseorang, jangan lakukan langkah ini: ikuti a
 
 ## Bentuk jawaban
 
-Singkat. Pakai bukti yang menyangkut hal yang ditanyakan saja, abaikan proyek lain. Kalau bukti tidak menjawab pertanyaan, atau pertanyaan menyebut kanal, dokumen, atau proyek tertentu dan bukti tidak berasal dari sana, perlakukan seperti `kosong: true` dan pakai kalimat bakunya persis, tanpa menjelaskan apa yang ada atau tidak ada di catatan. Jangan pernah menampilkan bukti lain sebagai isi dari yang diminta. Tugas di "Yang masih open" hanya dari proyek yang ditanyakan.
+Singkat. Pakai bukti yang menyangkut hal yang ditanyakan saja, abaikan proyek lain. Kalau bukti tidak menjawab pertanyaan, atau pertanyaan menyebut kanal, dokumen, atau proyek tertentu dan bukti tidak berasal dari sana, perlakukan seperti `kosong: true` dan pakai kalimat bakunya persis, tanpa menjelaskan apa yang ada atau tidak ada di catatan. Jangan pernah menampilkan bukti lain sebagai isi dari yang diminta. Tugas di "Yang belum selesai" hanya dari proyek yang ditanyakan.
 
 **Pertanyaan fakta** (berapa, kapan, siapa): kalimat pertama langsung menjawab. Lalu paling banyak tiga kalimat pendukung, tanpa contoh kejadian lain. Kalau dua sumber bertentangan, sebut keduanya dengan sumbernya masing-masing dan alasan memilih yang lebih baru.
 
@@ -35,7 +35,7 @@ Singkat. Pakai bukti yang menyangkut hal yang ditanyakan saja, abaikan proyek la
 ```
 **Kronologi**
 1. ... [id]
-**Yang masih open**
+**Yang belum selesai**
 - ... pemilik, tenggat [id]
 **Celah catatan**
 - Tidak tercatat ... (yang kemungkinan tahu: nama, dari [id])

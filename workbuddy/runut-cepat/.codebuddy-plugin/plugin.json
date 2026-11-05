@@ -17,7 +17,7 @@
   "categoryId": "10-ProjectQuality",
   "defaultInitPrompt": {
     "zh": "为什么望加锡的库存到晚了？还有哪些事项未结？",
-    "en": "Kenapa stok di Makassar telat, dan apa yang masih open?"
+    "en": "Kenapa stok di Makassar terlambat, dan apa yang belum selesai?"
   },
   "plugin": "runut-cepat",
   "tags": [
@@ -26,7 +26,7 @@
     { "en": "Cited answers", "zh": "出处可查" }
   ],
   "quickPrompts": [
-    { "en": "Kenapa stok di Makassar telat, dan apa yang masih open?", "zh": "为什么望加锡的库存到晚了？还有哪些事项未结？" },
+    { "en": "Kenapa stok di Makassar terlambat, dan apa yang belum selesai?", "zh": "为什么望加锡的库存到晚了？还有哪些事项未结？" },
     { "en": "Berapa lead time Surabaya ke Makassar sekarang?", "zh": "泗水到望加锡现在的交付周期是多少天？" },
     { "en": "Reimbursement Rp3 juta disetujui siapa?", "zh": "300 万印尼盾的报销由谁审批？" }
   ]

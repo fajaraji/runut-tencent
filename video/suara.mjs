@@ -21,7 +21,9 @@ const durasi = (berkas) => {
 };
 
 // Berkas disimpan per isi kalimat, jadi mengubah satu kalimat tidak mengulang yang lain.
-async function suara(teks) {
+const eja = (t) => Object.entries(naskah.lafal ?? {}).reduce((h, [a, b]) => h.split(a).join(b), t);
+async function suara(asli) {
+  const teks = eja(asli);
   const nama = createHash("sha1").update(`${naskah.suara}|${naskah.laju ?? ""}|${teks}`).digest("hex").slice(0, 16);
   const tujuan = join(dirSuara, `${nama}.mp3`);
   if (existsSync(tujuan)) return tujuan;
