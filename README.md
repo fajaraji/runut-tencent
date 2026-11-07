@@ -48,6 +48,8 @@ Every run, failures included, is in [docs/hasil-uji.md](docs/hasil-uji.md).
 
 | Document | Link |
 | --- | --- |
+| **Getting started (non-technical)** | [docs/panduan-mulai.md](docs/panduan-mulai.md) — no terminal required |
+| Technical guide | [docs/panduan-teknis.md](docs/panduan-teknis.md) — CLI, architecture, limits |
 | Project description | [docs/deskripsi-proyek.md](docs/deskripsi-proyek.md) |
 | Accountability sheet | [docs/accountability-sheet.md](docs/accountability-sheet.md) |
 | Test results, failures included | [docs/hasil-uji.md](docs/hasil-uji.md) |
@@ -62,16 +64,31 @@ Every run, failures included, is in [docs/hasil-uji.md](docs/hasil-uji.md).
 | Folder | Contents |
 | --- | --- |
 | `src/` | Runut MCP server. Readers for WhatsApp exports and CSV, permission filter before search, masking, hidden-instruction flags, answer check, draft-only messaging, hash-chained audit log |
-| `workbuddy/` | The two WorkBuddy experts above |
-| `data/` | Our own fictional dataset (PT Sinar Rasa Nusantara, a snack distributor): raw WhatsApp exports, documents, tasks, permissions table. See [data/README.md](data/README.md) |
+| `workbuddy/runut-tim/` | WorkBuddy expert team: Tata (lead), Lusi (source tracer), Yusuf (timeline writer), Riksa (citation auditor) |
+| `workbuddy/runut-cepat/` | Single agent for the 90-second live test. See [docs/surprise-test.md](docs/surprise-test.md) |
+| `data/` | Our own fictional dataset (PT Sinar Rasa Nusantara, a snack distributor): raw WhatsApp exports, documents, task board, permissions table. See [data/README.md](data/README.md) |
 | `tests/` | 288 automated tests, including 31 handbook-style cases and 225 attacks on the answer check |
-| `scripts/` | Installer, identity switch, approval console, MCP smoke test, results page generator |
+| `scripts/` | Installer, identity switch, approval console, MCP smoke test, results page generator, browser control panel |
+| `installer/` | One-click installers for Windows and macOS, plus the control panel page |
 | `video/` | Source of the demo video: script, animated scenes, voice, music and render steps. The rendered file and screen captures are not in git |
-| `docs/` | Submission documents and evidence screenshots |
+| `docs/` | Submission documents, guides, and evidence screenshots |
 
 ## Run it
 
 Needs Node.js 24 or newer (TypeScript runs directly, no build step) and WorkBuddy for Windows or macOS.
+
+### The short way (no terminal)
+
+Download the repo, then double-click the installer for your machine:
+
+| Machine | File |
+| --- | --- |
+| Windows | `installer/pasang-windows.bat` |
+| macOS / Linux | `installer/pasang-mac.command` |
+
+It checks Node.js, installs everything, and opens a browser control panel where you can switch roles and approve messages. Full walkthrough: **[docs/panduan-mulai.md](docs/panduan-mulai.md)**.
+
+### The command-line way
 
 ```bash
 npm install
@@ -97,9 +114,9 @@ The first time you summon an expert, WorkBuddy asks to connect the `runut` MCP s
 node scripts/ganti-identitas.ts manajer
 ```
 
-The switch applies on the next question, with no restart. Start a new task after any identity or access change.
+The switch applies on the next question, with no restart. Start a new task after any identity or access change — the permission filter guards the tools, not the conversation memory.
 
-Messages to colleagues are only sent after a person approves them:
+Messages to colleagues are only sent after a person approves them, in the control panel or:
 
 ```bash
 node scripts/setujui.ts
@@ -109,8 +126,10 @@ node scripts/setujui.ts
 node scripts/setujui.ts <draft_id>
 ```
 
-Rebuild the results page from the audit log:
+Other scripts:
 
 ```bash
-node scripts/buat-halaman.ts
+node scripts/coba-mcp.ts u-andi "Kenari"   # smoke test without WorkBuddy
+node scripts/pengaturan.ts                  # control panel on localhost:4173
+node scripts/buat-halaman.ts                # rebuild the results page
 ```

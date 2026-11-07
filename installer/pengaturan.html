@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Panel Kendali Runut</title>
+<style>
+:root {
+  --bg:#fbfaf7; --fg:#1d1c1a; --muted:#6b6862; --line:#e4e1da; --card:#ffffff;
+  --ok:#1f7a4d; --bad:#b3261e; --warn:#8a5a00; --accent:#2f5d8a; --okbg:#eef6f1; --warnbg:#fdf6e8; --badbg:#fdeeed;
+}
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--fg); font:15px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif; }
+main { max-width:960px; margin:0 auto; padding:32px 16px 72px; }
+header { border-bottom:1px solid var(--line); padding-bottom:18px; margin-bottom:28px; }
+h1 { font-size:24px; font-weight:500; margin:0 0 4px; }
+header p { color:var(--muted); margin:0; font-size:14px; }
+h2 { font-size:17px; font-weight:500; margin:34px 0 6px; }
+.sub { color:var(--muted); font-size:13px; margin:0 0 14px; }
+.card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin-bottom:14px; }
+.kartu { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; margin-bottom:14px; }
+.kartu div { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:12px 14px; }
+.kartu b { display:block; font-size:15px; font-weight:500; margin-bottom:2px; }
+.kartu span { color:var(--muted); font-size:12px; }
+.peran-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:10px; }
+.peran { text-align:left; background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 16px; cursor:pointer; font:inherit; color:inherit; transition:border-color .12s, background .12s; }
+.peran:hover { border-color:var(--accent); }
+.peran[aria-pressed="true"] { border-color:var(--accent); background:#eef3f8; }
+.peran .nama { font-weight:500; font-size:15px; display:flex; align-items:center; gap:8px; }
+.peran .jab { display:block; color:var(--muted); font-size:13px; margin-top:2px; }
+.peran .ringkas { display:block; color:var(--muted); font-size:12px; margin-top:8px; line-height:1.5; }
+.peran .tag { display:inline-block; font-size:11px; padding:1px 7px; border-radius:99px; background:#eef3f8; color:var(--accent); border:1px solid #cddcee; margin-top:8px; }
+.avatar { width:26px; height:26px; border-radius:50%; background:#eef3f8; color:var(--accent); display:inline-flex; align-items:center; justify-content:center; font-size:12px; font-weight:500; flex:none; }
+.btn { font:inherit; font-size:14px; padding:8px 16px; border-radius:8px; border:1px solid var(--line); background:var(--card); cursor:pointer; color:inherit; }
+.btn:hover { border-color:var(--accent); color:var(--accent); }
+.btn.primary { background:var(--accent); border-color:var(--accent); color:#fff; }
+.btn.primary:hover { background:#24507a; }
+.btn:disabled { opacity:.5; cursor:default; }
+.draf { border:1px solid var(--line); border-radius:12px; padding:14px 16px; margin-bottom:10px; background:var(--card); }
+.draf.disetujui { background:var(--okbg); border-color:#cfe4d9; }
+.draf .kepada { font-weight:500; font-size:14px; margin-bottom:6px; }
+.draf .isi { white-space:pre-wrap; font-size:13px; color:var(--fg); background:var(--bg); border:1px solid var(--line); border-radius:8px; padding:10px 12px; margin-bottom:10px; max-height:220px; overflow:auto; }
+.draf .aksi { display:flex; gap:8px; align-items:center; }
+.pesan { padding:11px 15px; border-radius:10px; font-size:14px; margin-bottom:14px; display:none; }
+.pesan.hilang { display:block; }
+.pesan.ok { background:var(--okbg); border:1px solid #cfe4d9; color:var(--ok); }
+.pesan.warn { background:var(--warnbg); border:1px solid #ecdcb4; color:var(--warn); }
+.pesan.bad { background:var(--badbg); border:1px solid #f0c9c7; color:var(--bad); }
+.catatan { background:var(--warnbg); border:1px solid #ecdcb4; border-radius:10px; padding:13px 16px; font-size:14px; color:var(--warn); margin-bottom:14px; }
+.audit { font-family:ui-monospace,Consolas,monospace; font-size:12px; }
+.audit div { padding:5px 0; border-bottom:1px solid var(--line); display:flex; gap:12px; }
+.audit div:last-child { border-bottom:none; }
+.audit .waktu { color:var(--muted); flex:none; width:150px; }
+.kosong { color:var(--muted); font-size:14px; padding:20px 0; text-align:center; }
+footer { color:var(--muted); font-size:13px; margin-top:36px; border-top:1px solid var(--line); padding-top:16px; }
+code { font-family:ui-monospace,Consolas,monospace; font-size:12px; background:var(--bg); border:1px solid var(--line); border-radius:4px; padding:1px 5px; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <h1>Panel Kendali Runut</h1>
+  <p>Atur siapa yang sedang bertanya, setujui pesan, dan lihat status Runut. Halaman ini hanya terbuka di komputer ini.</p>
+</header>
+
+<div id="pesan" class="pesan"></div>
+
+<h2>Status</h2>
+<p class="sub">Apakah Runut sudah terpasang di WorkBuddy dan siap dipakai.</p>
+<div class="kartu" id="status-kartu"></div>
+
+<h2>Siapa yang sedang bertanya</h2>
+<p class="sub">Pilih orang. Runut akan melihat catatan yang boleh dibaca orang itu saja. Berlaku di pertanyaan berikutnya.</p>
+<div id="peran-grid" class="peran-grid"></div>
+
+<div id="ingat-task" class="catatan" style="display:none">
+  <strong>Sekarang buka task baru di WorkBuddy.</strong> Percakapan lama masih ingat jawaban sebelumnya, jadi mulailah dari task baru sebelum bertanya lagi.
+</div>
+
+<h2>Persetujuan pesan</h2>
+<p class="sub">Runut hanya bisa menyiapkan draf. Tidak ada yang terkirim sampai Anda menyetujuinya di sini.</p>
+<div id="draf-daftar"></div>
+
+<h2>Aktivitas terakhir</h2>
+<p class="sub">Setiap pencarian dan jawaban dicatat. Baris yang diubah belakangan akan ketahuan.</p>
+<div class="card audit" id="audit-daftar"></div>
+
+<footer>
+  Halaman ini berjalan di komputer Anda sendiri, di <code>localhost</code>. Data tidak dikirim ke mana pun.
+</footer>
+</main>
+
+<script>
+const el = (id) => document.getElementById(id);
+const peranLabel = { staf:"Staf", manajer:"Manajer", direktur:"Direktur", baru:"Karyawan baru", hr:"HR", it:"IT" };
+
+function pesan(teks, jenis) {
+  const p = el("pesan");
+  p.textContent = teks;
+  p.className = "pesan hilang " + (jenis || "ok");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+async function muat() {
+  let data;
+  try {
+    const r = await fetch("/api/status", { cache: "no-store" });
+    data = await r.json();
+  } catch {
+    pesan("Tidak bisa terhubung ke server panel. Pastikan panel masih terbuka.", "bad");
+    return;
+  }
+  renderStatus(data.pemasangan);
+  renderPeran(data);
+  renderDraf(data.draf);
+  renderAudit(data.audit);
+}
+
+function renderStatus(p) {
+  const kartu = el("status-kartu");
+  const plugin = p.plugins.map((x) => x.nama).join(", ");
+  const okPlugin = p.semuaTerpasang;
+  kartu.innerHTML = `
+    <div><b>${okPlugin ? "Terpasang" : "Belum lengkap"}</b><span>${okPlugin ? "Siap dipakai di WorkBuddy" : "Plugin belum lengkap: " + plugin}</span></div>
+    <div><b>${p.dataAda ? "Data siap" : "Data hilang"}</b><span>${p.dataAda ? "Berkas izin dan catatan ditemukan" : "Folder data tidak ditemukan"}</span></div>
+    <div><b>${p.audit.jumlah}</b><span>Entri log audit · rantai ${p.audit.utuh ? "utuh" : "rusak di baris " + p.audit.rusakDi}</span></div>
+    <div><b>${p.mcpPenggunaAda ? "MCP terhubung" : "MCP belum disalin"}</b><span>${p.mcpPenggunaAda ? "Sudah muncul di mcp.json WorkBuddy" : "Sudah connect dari WorkBuddy saat Summon"}</span></div>`;
+}
+
+function renderPeran(data) {
+  const grid = el("peran-grid");
+  const aktif = data.identitas.peran;
+  grid.innerHTML = data.peran.map((p) => {
+    const inisial = p.nama.split(" ").map((w) => w[0]).slice(0, 2).join("");
+    return `<button class="peran" data-peran="${p.peran}" aria-pressed="${p.peran === aktif}">
+      <span class="nama"><span class="avatar">${inisial}</span>${p.nama}</span>
+      <span class="jab">${p.jabatan}</span>
+      <span class="ringkas">${p.ringkas}</span>
+      <span class="tag" style="margin-top:8px">${peranLabel[p.peran]}</span>
+    </button>`;
+  }).join("");
+
+  grid.querySelectorAll(".peran").forEach((b) => {
+    b.addEventListener("click", async () => {
+      const peran = b.dataset.peran;
+      const r = await fetch("/api/identitas", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ peran }),
+      });
+      const d = await r.json();
+      if (!d.ok) { pesan(d.galat || "Gagal mengganti identitas.", "bad"); return; }
+      pesan(d.pesan, "ok");
+      el("ingat-task").style.display = "block";
+      await muat();
+    });
+  });
+}
+
+function renderDraf(draf) {
+  const kotak = el("draf-daftar");
+  if (!draf.length) {
+    kotak.innerHTML = `<div class="card kosong">Belum ada draf pesan. Kalau Runut menemukan celah catatan, ia menawarkan menyiapkan pesan — jawab "ya" dan drafnya akan muncul di sini.</div>`;
+    return;
+  }
+  kotak.innerHTML = draf.map((d) => `
+    <div class="draf ${d.disetujui ? "disetujui" : ""}">
+      <div class="kepada">Ke: ${d.namaKepada}</div>
+      <div class="isi">${escapeHtml(d.isi)}</div>
+      <div class="aksi">
+        ${d.disetujui
+          ? `<span style="color:var(--ok);font-size:13px">Disetujui. Kembali ke WorkBuddy dan minta Runut mengirimnya.</span>`
+          : `<button class="btn primary" data-setujui="${d.id}">Setujui draf ini</button>
+             <span style="color:var(--muted);font-size:13px">Klik setelah Anda membaca isinya.</span>`}
+      </div>
+    </div>`).join("");
+
+  kotak.querySelectorAll("[data-setujui]").forEach((b) => {
+    b.addEventListener("click", async () => {
+      const id = b.dataset.setujui;
+      b.disabled = true;
+      const r = await fetch("/api/setujui", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ id }),
+      });
+      const d = await r.json();
+      if (!d.ok) { pesan(d.pesan || "Gagal menyetujui.", "bad"); b.disabled = false; return; }
+      pesan(d.pesan, "ok");
+      await muat();
+    });
+  });
+}
+
+function renderAudit(entri) {
+  const kotak = el("audit-daftar");
+  if (!entri.length) {
+    kotak.innerHTML = `<div style="color:var(--muted);text-align:center;padding:12px 0">Belum ada aktivitas tercatat.</div>`;
+    return;
+  }
+  kotak.innerHTML = entri.map((e) => `
+    <div><span class="waktu">${e.waktu.slice(0, 19).replace("T", " ")}</span><span>${e.pengguna} · ${e.alat}</span></div>`).join("");
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
+muat();
+setInterval(muat, 5000);
+</script>
+</body>
+</html>

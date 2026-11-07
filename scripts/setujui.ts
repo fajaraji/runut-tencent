@@ -1,34 +1,30 @@
-import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
-import { dirname, join, resolve } from "node:path";
+import { join, resolve } from "node:path";
+import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { catat } from "../src/audit.ts";
+import { daftarDraf, setujuiDraf } from "./workbuddy.ts";
 
 // Konsol persetujuan untuk manusia. Model di WorkBuddy tidak punya alat untuk ini.
 // Pakai: node scripts/setujui.ts <draf_id>   (tanpa argumen: daftar draf yang menunggu)
+//
+// Panel kendali di browser (scripts/pengaturan.ts) memakai fungsi yang sama,
+// jadi menyetujui di panel dan perintah ini menghasilkan catatan persetujuan yang sama.
 
 const akar = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const logDir = process.env.RUNUT_LOG ?? join(akar, "logs");
 const id = process.argv[2];
 
 if (!id) {
-  const dir = join(logDir, "draf");
-  const daftar = existsSync(dir) ? readdirSync(dir) : [];
-  const menunggu = daftar.filter((f) => !existsSync(join(logDir, "persetujuan", f)));
+  const menunggu = daftarDraf(logDir).filter((d) => !d.disetujui);
   if (!menunggu.length) console.log("Tidak ada draf yang menunggu persetujuan.");
-  for (const f of menunggu) {
-    const d = JSON.parse(readFileSync(join(dir, f), "utf8"));
-    console.log(`${d.id}  ke ${d.namaKepada}: ${d.isi}`);
+  for (const { draf } of menunggu) {
+    console.log(`${draf.id}  ke ${draf.namaKepada}: ${draf.isi}`);
   }
   process.exit(0);
 }
 
-const fileDraf = join(logDir, "draf", `${id}.json`);
-if (!existsSync(fileDraf)) {
-  console.error(`Draf ${id} tidak ditemukan.`);
+const hasil = setujuiDraf(logDir, id);
+if (!hasil.ok) {
+  console.error(hasil.pesan);
   process.exit(1);
 }
-const draf = JSON.parse(readFileSync(fileDraf, "utf8"));
-mkdirSync(join(logDir, "persetujuan"), { recursive: true });
-writeFileSync(join(logDir, "persetujuan", `${id}.json`), JSON.stringify({ id, disetujui: new Date().toISOString() }, null, 2));
-catat(join(logDir, "audit.jsonl"), draf.dari, "persetujuan_manusia", { draf: id }, { disetujui: true });
-console.log(`Draf ${id} ke ${draf.namaKepada} disetujui. Agent sekarang boleh mengirimnya.`);
+console.log(hasil.pesan);

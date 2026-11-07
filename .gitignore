@@ -5,3 +5,4 @@ logs/
 *.log
 
 video/keluar/
+.workbuddy-ai/
