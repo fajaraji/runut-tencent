@@ -73,57 +73,61 @@ Every run, failures included, is in [docs/hasil-uji.md](docs/hasil-uji.md).
 | `video/` | Source of the demo video: script, animated scenes, voice, music and render steps. The rendered file and screen captures are not in git |
 | `docs/` | Submission documents, guides, and evidence screenshots |
 
-## Run it
+## Install Runut into WorkBuddy
 
-Needs Node.js 24 or newer (TypeScript runs directly, no build step) and WorkBuddy for Windows or macOS.
+You need two things on your computer:
 
-### The short way (no terminal)
+- **Node.js 24 or newer** — download from [nodejs.org](https://nodejs.org) (choose LTS). Check with `node --version`.
+- **WorkBuddy** for Windows or macOS — Runut runs inside it as an expert.
 
-Download the repo, then double-click the installer for your machine:
+There are two ways to install. Pick the one that fits you.
 
-| Machine | File |
-| --- | --- |
-| Windows | `installer/pasang-windows.bat` |
-| macOS / Linux | `installer/pasang-mac.command` |
+### Option A — For non-technical users (double-click, no terminal)
 
-It checks Node.js, installs everything, and opens a browser control panel where you can switch roles and approve messages. Full walkthrough: **[docs/panduan-mulai.md](docs/panduan-mulai.md)**.
+1. **Close WorkBuddy completely.** It reads its expert list at startup, so it must be closed before installing.
+2. **Double-click the installer** for your machine:
 
-### The command-line way
+   | Machine | File to double-click |
+   | --- | --- |
+   | Windows | `installer/pasang-windows.bat` |
+   | macOS / Linux | `installer/pasang-mac.command` |
+
+   > On Mac, if it says *"unidentified developer"*: right-click the file → **Open** → **Open** again. This is only needed once.
+
+3. **Wait for it to finish.** A black window opens and runs through four steps automatically — checking Node.js, downloading dependencies, installing Runut into WorkBuddy, and opening the control panel. Press Enter when prompted.
+4. **Open WorkBuddy.** Go to **Experts** in the left menu, find **Runut Project History Team**, click **Summon**, and allow the connection when asked.
+5. **Type your question**, for example: `Kenapa stok di Makassar telat, dan apa yang masih open?`
+
+The browser control panel stays open for switching roles and approving messages. Full walkthrough: **[docs/panduan-mulai.md](docs/panduan-mulai.md)**.
+
+### Option B — For technical users (command line)
 
 ```bash
 npm install
-```
-
-```bash
 npm test
 ```
 
-```bash
-node scripts/coba-mcp.ts u-andi "Kenari"
-```
-
-Install into WorkBuddy. Close it completely first, because an app still shutting down can drop Runut Cepat from My Experts. Then reopen it.
+Close WorkBuddy completely before installing — an app still shutting down can drop Runut from My Experts.
 
 ```bash
 node scripts/pasang-workbuddy.ts staf
 ```
 
-The first time you summon an expert, WorkBuddy asks to connect the `runut` MCP server. Switch the asker, for example from staff (Andi) to manager (Sari):
+Reopen WorkBuddy. Summon an expert and allow the `runut` MCP server connection when prompted.
+
+Switch the asker (applies on the next question, no restart):
 
 ```bash
 node scripts/ganti-identitas.ts manajer
 ```
 
-The switch applies on the next question, with no restart. Start a new task after any identity or access change — the permission filter guards the tools, not the conversation memory.
+Start a new task after any identity or access change — the permission filter guards the tools, not the conversation memory.
 
-Messages to colleagues are only sent after a person approves them, in the control panel or:
-
-```bash
-node scripts/setujui.ts
-```
+Approve draft messages before sending:
 
 ```bash
-node scripts/setujui.ts <draft_id>
+node scripts/setujui.ts              # list drafts awaiting approval
+node scripts/setujui.ts <draft_id>   # approve a draft
 ```
 
 Other scripts:
@@ -133,3 +137,5 @@ node scripts/coba-mcp.ts u-andi "Kenari"   # smoke test without WorkBuddy
 node scripts/pengaturan.ts                  # control panel on localhost:4173
 node scripts/buat-halaman.ts                # rebuild the results page
 ```
+
+Technical guide with architecture and limits: **[docs/panduan-teknis.md](docs/panduan-teknis.md)**.
