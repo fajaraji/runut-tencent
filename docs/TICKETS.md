@@ -1,25 +1,25 @@
-# Tiket Runut menuju submission (deadline 4 November 2026)
+# Runut Tickets toward Submission (deadline November 4, 2026)
 
-| No | Tiket | Hasil | Status |
+| No | Ticket | Output | Status |
 | --- | --- | --- | --- |
-| RUN-01 | MCP server dengan filter akses, penyamaran, deteksi instruksi, persetujuan, log berantai | `src/` | Selesai |
-| RUN-02 | Expert team WorkBuddy (Tata, Lusi, Yusuf, Riksa) | `workbuddy/runut-tim/` | Selesai |
-| RUN-03 | 20 kasus uji ala handbook, lapisan kode diuji otomatis | `tests/kasus-uji.json`, `tests/` | Selesai |
-| RUN-04 | Pasang Runut ke WorkBuddy | `scripts/pasang-workbuddy.ts` | Selesai |
-| RUN-05 | Jalankan kasus uji di WorkBuddy, catat hasil termasuk yang gagal | `docs/hasil-uji.md`, `docs/bukti/` | Selesai |
-| RUN-06 | Accountability sheet satu halaman | `docs/accountability-sheet.md` | Selesai |
-| RUN-07 | Diagram arsitektur dengan batas kepercayaan | `docs/arsitektur.md` | Selesai |
-| RUN-08 | Deskripsi proyek (overview, insight, desain, nilai bisnis) | `docs/deskripsi-proyek.md` | Selesai |
-| RUN-09 | Product sharing: peran WorkBuddy dan pelajaran | `docs/product-sharing.md` | Selesai |
-| RUN-10 | Naskah video demo 5 sampai 8 menit | `docs/naskah-demo.md` | Selesai |
-| RUN-11 | Halaman log audit dan hasil uji sebagai live URL | `docs/index.html` di GitHub Pages | Selesai |
-| RUN-12 | README final, commit, push | repo | Selesai |
-| RUN-13 | Dataset sendiri: export WhatsApp, dokumen, task, tabel izin, tiga cerita proyek | `data/`, `src/sumber.ts` | Selesai |
-| RUN-14 | Jalankan ulang agent di WorkBuddy dengan dataset baru | `docs/hasil-uji.md` | Selesai: K01, K22, K24, K27 lolos |
-| RUN-15 | Agent cepat untuk surprise test 90 detik | `workbuddy/runut-cepat/`, `docs/surprise-test.md` | Selesai: 31 giliran, 5 sampai 65 detik. Lima skenario panggung lolos setelah dua perbaikan, K01 diulang pada prompt terakhir |
-| RUN-16 | Serang pemeriksa jawaban tanpa kredit | `src/runut.ts`, `tests/pemeriksa.test.ts`, `tests/kasus-buta.json`, `docs/hasil-uji.md` | Kode selesai: uji buta 26 dari 30 karangan tertolak dan 29 dari 30 jawaban jujur lolos, sebelumnya 16 dan 25. Dua belas giliran di WorkBuddy selesai dalam 24 sampai 65 detik, K22 dan sumber bertentangan lolos pada versi final |
-| RUN-17 | Video demo 5 menit 45 detik, bahasa Indonesia sederhana dengan subtitle Inggris | `video/`, `docs/naskah-demo.md` | Selesai: animasi, layar asli riwayat WorkBuddy, suara sintetis, dan musik buatan sendiri. Berkas video tidak disimpan di git |
+| RUN-01 | MCP server with access filter, masking, instruction detection, approval, hash-chained log | `src/` | Done |
+| RUN-02 | WorkBuddy expert team (Tata, Lusi, Yusuf, Riksa) | `workbuddy/runut-tim/` | Done |
+| RUN-03 | 20 handbook-style test cases, code layer tested automatically | `tests/kasus-uji.json`, `tests/` | Done |
+| RUN-04 | Install Runut into WorkBuddy | `scripts/pasang-workbuddy.ts` | Done |
+| RUN-05 | Run test cases in WorkBuddy, record results including failures | `docs/hasil-uji.md`, `docs/bukti/` | Done |
+| RUN-06 | One-page accountability sheet | `docs/accountability-sheet.md` | Done |
+| RUN-07 | Architecture diagram with trust boundaries | `docs/arsitektur.md` | Done |
+| RUN-08 | Project description (overview, insight, design, business value) | `docs/deskripsi-proyek.md` | Done |
+| RUN-09 | Product sharing: WorkBuddy's role and lessons learned | `docs/product-sharing.md` | Done |
+| RUN-10 | 5 to 8 minute demo video script | `docs/naskah-demo.md` | Done |
+| RUN-11 | Audit log page and test results as live URL | `docs/index.html` on GitHub Pages | Done |
+| RUN-12 | Final README, commit, push | repo | Done |
+| RUN-13 | Original dataset: WhatsApp export, documents, tasks, permission table, three project stories | `data/`, `src/sumber.ts` | Done |
+| RUN-14 | Re-run agents in WorkBuddy with new dataset | `docs/hasil-uji.md` | Done: K01, K22, K24, K27 passed |
+| RUN-15 | Fast agent for 90-second surprise test | `workbuddy/runut-cepat/`, `docs/surprise-test.md` | Done: 31 turns, 5 to 65 seconds. Five stage scenarios passed after two fixes, K01 re-run on final prompt |
+| RUN-16 | Attack the answer checker without credit | `src/runut.ts`, `tests/pemeriksa.test.ts`, `tests/kasus-buta.json`, `docs/hasil-uji.md` | Code complete: blind test 26 of 30 fabrications rejected and 29 of 30 honest answers passed, previously 16 and 25. Twelve turns in WorkBuddy completed in 24 to 65 seconds, K22 and conflicting sources passed on final version |
+| RUN-17 | 5 minute 45 second demo video, simple Indonesian with English subtitles | `video/`, `docs/naskah-demo.md` | Done: animation, real WorkBuddy task history screens, synthetic voice, and self-made music. Video file not stored in git |
 
-## Yang tetap butuh manusia
+## What still needs a human
 
-- Mendengarkan video demo, mengunggahnya, dan mengisi formulir submission.
+- Watch the demo video, upload it, and fill in the submission form.

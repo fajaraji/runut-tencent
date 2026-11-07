@@ -1,273 +1,273 @@
-# Mulai Pakai Runut
+# Getting Started with Runut
 
-*Panduan untuk orang yang bukan programmer. Tanpa perlu mengetik perintah terminal.*
-
----
-
-## Problemsnya: sesuatu happened, tapi tidak ada yang bisa jelaskan
-
-Bayangkan Anda baru masuk ke tim operasional. Tiga minggu lalu stok di Makassar terlambat. Toko-toko menanyakan. Anda cari tahu, tapi:
-
-- Alasan sebenarnya ada di grup WhatsApp yang tidak semua orang masuk.
-- Dokumennya sudah direvisi dua kali, dan revisi terakhir tidak menuliskan alasan.
-- Task board menunjukkan dua task masih open, tapi tidak menjelaskan kenapa masih menggantung.
-- Orang yang tahu organisasinya sekarang sudah pindah ke tim lain.
-
-Anda tanya ke empat orang. Empat jawaban berbeda.
-
-**Runut menyusun ulang cerita itu dari catatan yang sudah ada** — pesan WhatsApp, dokumen, dan task board — laluši jawaban Anda dalam tiga bagian:
-
-1. **Kronologi** — urutan kejadian, setiap kalimat menyebut sumbernya. `[ops-sulawesi/004]`
-2. **Yang masih open** — task yang belum selesai, lengkap dengan pemilik dan tenggatnya.
-3. **Celah catatan** — keputusan yang alasan tidak pernah ditulis, dan siapa yang ada di percakapan itu dan kemungkinan tahu.
-
-Dan satu hal yang paling penting: **Runut hanya menampilkan catatan yang boleh Anda lihat.** Kalau sebuah proyek rahasia ada di grup direksi, Runut tidak akan memberi Anda cuplikan kecil pun — dan tidak akan memberi Anda kesan bahwa data itu ada.
+*A guide for non-programmers. No terminal commands required.*
 
 ---
 
-## Apa yang perlu Anda siapkan
+## The problem: something happened, but nobody can explain it
 
-| Yang perlu | Kenapa | Cara mendapatkannya |
+Imagine you just joined an operations team. Three weeks ago, stock in Makassar was late. Stores are asking. You try to find out, but:
+
+- The real reason is in a WhatsApp group that not everyone has access to.
+- The document has been revised twice, and the latest revision doesn't state the reason.
+- The task board shows two tasks still open, but doesn't explain why they're hanging.
+- The person who knew the backstory has moved to another team.
+
+You ask four people. You get four different answers.
+
+**Runut reconstructs the story from existing records** — WhatsApp messages, documents, and task boards — then gives you an answer in three parts:
+
+1. **Chronology** — the sequence of events, with each sentence citing its source. `[ops-sulawesi/004]`
+2. **What's still open** — unfinished tasks, with owners and deadlines.
+3. **Record gaps** — decisions whose rationale was never written down, and who was in the conversation and likely knows.
+
+And the most important thing: **Runut only shows records you're allowed to see.** If a confidential project exists in a directors-only group, Runut won't give you even a hint — and won't give you the impression that such data exists.
+
+---
+
+## What you need
+
+| Requirement | Why | How to get it |
 |---|---|---|
-| **WorkBuddy** | Runut berjalan sebagai ahli (expert) di dalam WorkBuddy. | Sudah terpasang di komputer Anda. |
-| **Node.js versi 24 atau lebih baru** | Runut adalah program kecil yang berjalan di komputer Anda, bukan layanan online. | Unduh dari [nodejs.org](https://nodejs.org) → pilih versi LTS. |
+| **WorkBuddy** | Runut runs as an expert inside WorkBuddy. | Already installed on your computer. |
+| **Node.js version 24 or newer** | Runut is a small program that runs on your computer, not an online service. | Download from [nodejs.org](https://nodejs.org) → choose the LTS version. |
 
-**Cara memastikan Node.js sudah ada:** buka Terminal (Mac) atau Command Prompt (Windows), ketik `node --version`, lalu tekan Enter. Kalau yang muncul angka **24** atau lebih besar, Anda sudah siap. Kalau muncul error, berarti belum terpasang — unduh dari nodejs.org lalu jalankan lagi.
+**How to check Node.js is installed:** open Terminal (Mac) or Command Prompt (Windows), type `node --version`, then press Enter. If the number shown is **24** or higher, you're ready. If you get an error, it's not installed — download it from nodejs.org and try again.
 
-> **Kenapa harus di komputer sendiri?**
-> Datanya adalah pesan dan dokumen perusahaan. Kalau semuanya berjalan di server orang lain, berarti data itu keluar dari kendali perusahaan Anda. Runut berjalan di laptop Anda, datanya tidak pernah meninggalkan mesin itu.
+> **Why on your own computer?**
+> The data consists of company messages and documents. If everything runs on someone else's server, that data leaves your company's control. Runut runs on your laptop; the data never leaves that machine.
 
 ---
 
-## Pemasangan: klik dua kali
+## Installation: double-click
 
-### Langkah 1 — Tutup WorkBuddy
+### Step 1 — Close WorkBuddy
 
-Tutup WorkBuddy sepenuhnya. Ini penting: WorkBuddy membaca daftar ahlinya saat dibuka, jadi kalau masih terbuka, Runut baru tidak akan terbaca.
+Close WorkBuddy completely. This is important: WorkBuddy reads its expert list when it opens, so if it's still running, the new Runut won't be picked up.
 
-### Langkah 2 — Klik dua kali file pemasang
+### Step 2 — Double-click the installer file
 
-Buka folder `installer` di dalam folder Runut:
+Open the `installer` folder inside the Runut folder:
 
-| Komputer | File yang diklik dua kali |
+| Computer | File to double-click |
 |---|---|
 | **Windows** | `pasang-windows.bat` |
 | **Mac** | `pasang-mac.command` |
 
-> **Di Mac:** kalau muncul *"Cannot be opened because it is from an unidentified developer"*, klik kanan file itu → **Open** → **Open** lagi. Ini hanya sekali saja.
+> **On Mac:** if you see *"Cannot be opened because it is from an unidentified developer"*, right-click the file → **Open** → **Open** again. This is only needed once.
 
-Jendela hitam akan terbuka dan bekerja sendiri. Anda akan melihat tahap-tahapnya:
+A black window will open and work on its own. You'll see the stages:
 
 ```
-[1/4] Node.js terdeteksi: v24.x.x
-[2/4] Mengunduh pustaka yang dibutuhkan Runut. Ini bisa memakan waktu satu menit.
-[3/4] Memasang Runut ke WorkBuddy.
-[4/4] Membuka panel kendali Runut di browser.
+[1/4] Node.js detected: v24.x.x
+[2/4] Downloading Runut dependencies. This may take a minute.
+[3/4] Installing Runut into WorkBuddy.
+[4/4] Opening Runut control panel in browser.
 ```
 
-**Yang perlu Anda lakukan:** tunggu sampai selesai, lalu tekan Enter saat diminta. Tidak perlu mengetik apa pun.
+**What you need to do:** wait until it finishes, then press Enter when prompted. No typing required.
 
-Kalau muncul pesan **"Node.js BELUM TERPASANG"**, tutup jendela itu, unduh Node.js dari [nodejs.org](https://nodejs.org), pasang, lalu klik dua kali file pemasang lagi.
+If you see the message **"Node.js is NOT installed"**, close that window, download Node.js from [nodejs.org](https://nodejs.org), install it, then double-click the installer file again.
 
-### Langkah 3 — Buka panel kendali
+### Step 3 — Open the control panel
 
-Browser Anda akan terbuka ke **Panel Kendali Runut**. Halaman ini açık untuk Controls Runut — mengganti siapa yang sedang bertanya, menyetujui pesan, dan melihat status.
+Your browser will open to the **Runut Control Panel**. This page is your dashboard for Runut — switching who's asking, approving messages, and viewing status.
 
-Biarkan halaman ini tetap terbuka selama memakai Runut.
+Keep this page open while using Runut.
 
 ---
 
-## Pertanyaan pertama
+## Your first question
 
-### Langkah 1 — Buka WorkBuddy
+### Step 1 — Open WorkBuddy
 
-Klik ikon WorkBuddy di laptop Anda.
+Click the WorkBuddy icon on your laptop.
 
-### Langkah 2 — Panggil tim Runut
+### Step 2 — Summon the Runut team
 
-Di menu kiri, klik **Experts - Skills - Connectors**. Anda akan melihat kartu:
+In the left menu, click **Experts - Skills - Connectors**. You'll see a card:
 
 > **Runut Project History Team**
 > Rebuilds why a project happened the way it did from chats, documents and tasks...
 
-Klik tombol **Summon**.
+Click the **Summon** button.
 
-![Kartu ahli Runut di WorkBuddy, dengan tombol Summon](../bukti/01-tim-terdaftar.jpg)
+![Runut expert card in WorkBuddy, with Summon button](bukti/01-tim-terdaftar.jpg)
 
-### Langkah 3 — Izinkan Runut
+### Step 3 — Allow Runut
 
-Saat pertama kali dipanggil, WorkBuddy akan bertanya apakah boleh menghubungkan alat Runut. Pilih **Allow**.
+The first time you summon it, WorkBuddy will ask whether to connect Runut's tools. Select **Allow**.
 
-> **Kenapa harus diizinkan?** Runut butuh membaca catatan proyek Anda untuk bisa menjawab. Izin ini hanya berlaku di komputer ini.
+> **Why allow it?** Runut needs to read your project records to answer. This permission only applies on this computer.
 >
-> **Kenapa hanya sekali?** Setelah disetujui, WorkBuddy tidak akan menanyakannya lagi.
+> **Why only once?** After approval, WorkBuddy won't ask again.
 
-### Langkah 4 — Tulis pertanyaannya
+### Step 4 — Type your question
 
-Ketik pertanyaan Anda dalam bahasa sehari-hari. Tidak ada format khusus.
+Type your question in everyday language. No special format needed.
 
 ```
 Kenapa stok di Makassar telat, dan apa yang masih open?
 ```
 
-Tiga pertanyaan ini sudah tersedia sebagai tombol siap klik di kartu ahli:
+Three questions are available as ready-to-click buttons on the expert card:
 
 - *Kenapa stok di Makassar telat, dan apa yang masih open?*
 - *Berapa lead time Surabaya ke Makassar sekarang?*
 - *Siapa yang memegang pengiriman susulan 300 karton?*
 
-### Langkah 5 — Tunggu
+### Step 5 — Wait
 
-Tim Runut bekerja di belakang layar: satu agen mencari bukti, satu menyusun kronologi, satu memeriksa setiap kalimat terhadap sumbernya. **Satu sampai tiga menit.**
+The Runut team works behind the scenes: one agent searches for evidence, one builds the chronology, one checks every sentence against its source. **One to three minutes.**
 
-Anda akan melihat indikator "3 team members" di bawah jawaban, dan jumlah kredit yang terpakai di footer.
+You'll see a "3 team members" indicator below the answer, and the credits used in the footer.
 
-### Langkah 6 — Baca jawabannya
+### Step 6 — Read the answer
 
-Contoh jawaban nyata:
+Example real answer:
 
-![Jawaban Runut: kronologi dengan sumber, catatan sumber, dan tawaran menyiapkan draf pesan](../bukti/K01-v5-akhir.jpg)
+![Runut answer: chronology with sources, source notes, and offer to prepare a draft message](bukti/K01-v5-akhir.jpg)
 
-Perhatikan tiga bagiannya:
+Notice the three parts:
 
-- **Kronologi** — setiap kalimat diakhiri sumbernya, jadi Anda bisa melacak sendiri
-- **Catatan sumber** — kalau dua sumber berbeda, Runut menyebut keduanya dan menjelaskan mana yang dipakai dan kenapa
-- **Celah catatan** — ini bagian paling berguna. Di sini Runut akan mengatakan *"Alasan revisi tidak tercatat di dokumen; chat.ops-sulawesi/004*Dedi Pratama*menyatakan akan menjelaskan di call"*
+- **Chronology** — each sentence ends with its source, so you can trace it yourself
+- **Source notes** — if two sources disagree, Runut mentions both and explains which one it used and why
+- **Record gaps** — this is the most useful part. Here Runut will say *"The reason for the revision is not recorded in the document; chat.ops-sulawesi/004*Dedi Pratama*said he will explain on a call"*
 
-Dan kalimat terakhirnya:
+And the final line:
 
-> *Mau saya siapkan draf pesan ke Dedi Pratama untuk menanyakannya?*
-
----
-
-## Kalau pertanyaannya tentang proyek yang tidak boleh Anda lihat
-
-Runut menjawab **sama persis** untuk proyek yang ada tapi-rahasia dan proyek yang tidak ada sama sekali:
-
-![Jawaban Runut untuk Proyek Kenari, proyek yang tidak boleh dilihat staf](../bukti/K03-v2-lolos.jpg)
-
-> *Saya tidak menemukan data tentang itu. Silakan tanyakan ke atasan langsung Anda.*
-
-Tidak ada petunjuk, tidak ada tanda bahwa ada data lain di balik layar. Ini bukan keajaiban — filter hak akses berjalan **sebelum** pencarian, jadi data yang tidak boleh dibaca tidak pernah sampai ke model.
-
-Kalau Anda bertanya tentang **Proyek Merpati** — proyek yang benar-benar tidak ada — jawabannya **huruf per huruf sama**.
+> *Shall I prepare a draft message to Dedi Pratama to ask him?*
 
 ---
 
-## Melihat masalah dari sudut pandang orang lain
+## If the question is about a project you're not allowed to see
 
-Ini bagian yang paling sering tidak людей tahu: **jawaban Runut berbeda tergantung siapa yang bertanya**, karena tiap orang punya hak akses berbeda.
+Runut answers **exactly the same** for a project that exists but is confidential and a project that doesn't exist at all:
 
-Contohnya, satu pertanyaan yang sama tentang wadahnya:
+![Runut answer for Project Kenari, a project that staff can't see](bukti/K03-v2-lolos.jpg)
 
-| Sebagai | Yang terlihat |
+> *I couldn't find any data about that. Please ask your direct supervisor.*
+
+No hint, no sign that there's other data behind the scenes. This isn't magic — the access filter runs **before** the search, so data you're not allowed to read never reaches the model.
+
+If you ask about **Project Merpati** — a project that truly doesn't exist — the answer is **word-for-word identical**.
+
+---
+
+## Seeing the problem from someone else's perspective
+
+This is the part most people don't realize: **Runut's answer differs depending on who's asking**, because each person has different access rights.
+
+For example, the same question about containers:
+
+| As | What they see |
 |---|---|
-| **Staf** (Andi) | "Ada permintaan review anggaran dari direksi." Tidak ada nama proyek, tidak ada angka. |
-| **Manajer** (Sari) | "Proyek Kenari" disebut sebagai penyebabnya, dengan catatan untuk menyampaikan ke tim hanya soal anggaran. |
-| **Direktur** (Hendra) | Detail lengkapnya, termasuk task yang harus diuji tuntas di Manado. |
+| **Staff** (Andi) | "There's a budget review request from the board." No project name, no numbers. |
+| **Manager** (Sari) | "Project Kenari" is named as the cause, with a note to communicate only about the budget to the team. |
+| **Director** (Hendra) | Full details, including tasks that need to be resolved in Manado. |
 
-Tiga jawaban, satu pertanyaan, tiga hak akses berbeda.
+Three answers, one question, three different access levels.
 
-### Cara mengganti peran
+### How to switch roles
 
-Kembali ke **Panel Kendali Runut** di browser (tabnya masih terbuka). Di bagian **Siapa yang sedang bertanya**, klik orang yang Anda inginkan.
+Go back to the **Runut Control Panel** in your browser (the tab is still open). Under **Who's asking**, click the person you want.
 
-![Panel kendali: enam kartu orang, satu yang dipilih](../bukti/panel-kendali.jpg)
+![Control panel: six person cards, one selected](bukti/panel-kendali.jpg)
 
-Role switch ini terjadi **langsung, tanpa restart**.
+The role switch happens **instantly, without restart**.
 
-> ### Penting: buka task baru setelah mengganti peran
+> ### Important: open a new task after switching roles
 >
-> Percakapan lama masih ingat jawaban sebelumnya. Kalau Anda mengganti peran lalu bertanya di task yang sama, Runut bisa replying jawaban lama — dan jawaban lama itu mungkin berisi hal yang tidak boleh Anda lihat.
+> Old conversations still remember previous answers. If you switch roles and then ask in the same task, Runut might repeat the old answer — and that old answer might contain things you're not allowed to see.
 >
-> **Setelah mengganti peran: klik "New Task" di WorkBuddy, panggil Runut lagi, lalu tanyakan.** Ini satu-satunya aturan yang wajib dijaga.
+> **After switching roles: click "New Task" in WorkBuddy, summon Runut again, then ask.** This is the one rule you must follow.
 
-Enam orang yang bisa dipilih:
+The six people you can choose from:
 
-| Orang | Jabatan | Lihat apa |
+| Person | Title | What they can see |
 |---|---|---|
-| **Andi Saputra** | Staf Admin Penjualan, Makassar | Grup penjualan, logistik, dokumen umum |
-| **Sari Hidayat** | Manajer Operasional | Semua di atas, plus grup manajemen |
-| **Hendra Gunawan** | Direktur Utama | Semua, termasuk kanal direksi dan data HR |
-| **Tika Ramadhani** | Staf Marketing (baru, 19 Okt) | Dokumen umum, grup penjualan dan marketing |
-| **Maya Lestari** | HR Business Partner | Semua, plus data karyawan dan daftar gaji |
-| **Yoga Permana** | IT Lead | Semua, plus grup WMS dan dokumen TI |
+| **Andi Saputra** | Sales Admin Staff, Makassar | Sales groups, logistics, general documents |
+| **Sari Hidayat** | Operations Manager | All of the above, plus management groups |
+| **Hendra Gunawan** | Director | Everything, including board channels and HR data |
+| **Tika Ramadhani** | Marketing Staff (new, joined Oct 19) | General documents, sales and marketing groups |
+| **Maya Lestari** | HR Business Partner | Everything, plus employee data and salary lists |
+| **Yoga Permana** | IT Lead | Everything, plus WMS groups and IT documents |
 
 ---
 
-## Mengirim pesan ke rekan kerja
+## Sending a message to a colleague
 
-Kalau Runut menemukan celah catatan, dia menawarkan menyiapkan pesan. **Pesan tidak akan terkirim sendiri** — Runut hanya membuat draf.
+If Runut finds a record gap, it offers to prepare a message. **The message won't send itself** — Runut only creates a draft.
 
-### Alurnya
+### The flow
 
-**1.** Jawab **"ya"** saat Runut menawarkan menyiapkan draf. Ia menampilkan draft lengkapnya:
+**1.** Answer **"yes"** when Runut offers to prepare a draft. It displays the complete draft:
 
-![Draf pesan Runut ke Dedi Pratama, dengan status "Menunggu persetujuan Anda"](../bukti/K16-draf.jpg)
+![Runut draft message to Dedi Pratama, with status "Awaiting your approval"](bukti/K16-draf.jpg)
 
-**2.** Buka **Panel Kendali Runut** → bagian **Persetujuan pesan**. Drafnya ada di sana, dengan isi lengkap dan tombol **Setujui draf ini**.
+**2.** Open the **Runut Control Panel** → **Message approval** section. The draft is there, with full content and an **Approve this draft** button.
 
-**3.** Klik **Setujui draf ini** setelah Anda membaca isinya.
+**3.** Click **Approve this draft** after you've read the content.
 
-**4.** Kembali ke WorkBuddy dan minta Runut mengirimnya:
+**4.** Go back to WorkBuddy and tell Runut to send it:
 
 ```
 Sudah saya setujui, kirim sekarang.
 ```
 
-### Kenapa harus disetujui manual
+### Why manual approval is required
 
-Kalau Anda bilang *"sudah saya setujui"* di chat tanpa menyetujui di panel, Runut akan menolak:
+If you say *"I've approved it"* in chat without approving in the panel, Runut will refuse:
 
-![Runut menolak mengirim karena draf belum disetujui di konsol persetujuan](../bukti/K16-kirim-ditolak.jpg)
+![Runut refusing to send because the draft hasn't been approved in the approval console](bukti/K16-kirim-ditolak.jpg)
 
-> *Pesan belum bisa dikirim — sistem menunjukkan bahwa draf ini **belum disetujui** di konsol persetujuan.*
+> *The message can't be sent yet — the system shows that this draft **has not been approved** in the approval console.*
 
-Ini bukan fitur yang bisa dilewati. Model **tidak punya alat** untuk menyetujui pesan — persetujuan harus datang dari manusia, lewat panel. Kalau tidak begitu, siapa pun yang bisa menyuruh Runut ("kirim pesan ini ke direksi") bisa menyuruh data yang tidak boleh keluar keluar dari perusahaan.
+This is not a feature that can be bypassed. The model **has no tool** to approve messages — approval must come from a human, through the panel. Otherwise, anyone who could instruct Runut ("send this message to the board") could cause data that shouldn't go out to leave the company.
 
-> **Catatan:** pada versi ini, pengiriman masih simulasi — pesan tercatat di log, tapi belum benar-benar terkirim ke WhatsApp.
+> **Note:** in this version, sending is still simulated — the message is logged, but not actually sent to WhatsApp.
 
 ---
 
-## Kalau ada yang tidak jalan
+## If something doesn't work
 
-| Gejalanya | Yang harus dilakukan |
+| Symptom | What to do |
 |---|---|
-| "Runut tidak muncul di daftar Expert" | Tutup WorkBuddy sepenuhnya, klik dua kali `pasang-windows.bat` (atau `pasang-mac.command`), lalu buka lagi. |
-| WorkBuddy tidak pernah bertanya izin connects | Buka dari kartu ahli pakai tombol **Summon**. Izin hanya diminta saat dipanggil dari situ. |
-| Jawaban mengulang isi percakapan lama | Anda mengganti peran tanpa membuka task baru. Klik **New Task**, panggil lagi, tanyakan ulang. |
-| "Node.js BELUM TERPASANG" | Unduh Node.js versi 24+ dari [nodejs.org](https://nodejs.org), pasang, ulangi. |
-| Panel kendali tidak terbuka | Buka `http://localhost:4173` di browser. Kalau tidak ada, jalankan `node scripts/pengaturan.ts` dari folder Runut. |
-| Pertanyaan dijawab "tidak ada data" padahal seharusnya ada | Runut mencari dengan kata kunci. Coba lagi dengan nama PO, nama tempat, atau nama orang. |
-| Ingin mulai dari nol | Hapus folder `logs` di dalam folder Runut, lalu pasang ulang. |
+| "Runut doesn't appear in the Expert list" | Close WorkBuddy completely, double-click `pasang-windows.bat` (or `pasang-mac.command`), then open it again. |
+| WorkBuddy never asks for connection permission | Open from the expert card using the **Summon** button. Permission is only requested when summoned from there. |
+| Answer repeats old conversation content | You switched roles without opening a new task. Click **New Task**, summon again, ask again. |
+| "Node.js is NOT installed" | Download Node.js version 24+ from [nodejs.org](https://nodejs.org), install, retry. |
+| Control panel doesn't open | Open `http://localhost:4173` in your browser. If nothing's there, run `node scripts/pengaturan.ts` from the Runut folder. |
+| Question answered "no data found" when it should exist | Runut searches by keywords. Try again with a PO number, place name, or person's name. |
+| Want to start fresh | Delete the `logs` folder inside the Runut folder, then reinstall. |
 
 ---
 
-## Apa yang Runut tidak lakukan
+## What Runut doesn't do
 
-Jujur saja, karena ini yang perlu Anda tahu sebelum percaya:
+Honestly, because this is what you need to know before trusting it:
 
-- **Runut tidak pernah mengirim pesan tanpa persetujuan Anda.**
-- **Runut tidak akan pernah mengisyaratkan bahwa data rahasia ada.** Kalau sebuah proyek tidak boleh Anda lihat, jawabannya sama persis dengan proyek yang tidak ada.
-- **Runut tidak menebak.** Kalau catatannya kosong, dia bilang kosong dan memberi tahu siapa yang biasanya tahu topik itu.
-- **Runut tidak mengizinkan isi dokumen untuk mengarahkan AI.** Kalau ada memo yang berisi perintah untuk AI, Runut mengabaikannya dan memberitahu Anda bahwa dia mengabaikannya.
-- **Nomor identitas dan nomor telepon tetap disamarkan**, kecuali Anda bertanya sebagai HR dan memang perlu.
-
----
-
-## Kalau Anda mau lihat sisi teknisnya
-
-Ada panduan terpisah untuk developers dan juri hackathon: **[panduan-teknis.md](panduan-teknis.md)**. Di situ ada perintah terminal, cara menjalankan 286 pengujian otomatis, dan arsitekturnya.
+- **Runut never sends messages without your approval.**
+- **Runut will never hint that confidential data exists.** If you're not allowed to see a project, the answer is identical to a project that doesn't exist.
+- **Runut doesn't guess.** If the records are empty, it says so and tells you who usually knows about that topic.
+- **Runut doesn't allow document content to instruct the AI.** If a memo contains instructions for the AI, Runut ignores them and tells you it ignored them.
+- **ID numbers and phone numbers stay masked**, unless you're asking as HR and genuinely need them.
 
 ---
 
-## Yang bekerja di belakang layar
+## If you want to see the technical side
 
-Runut bukan satu program besar yang mengulang-ulang GPT. Ia punya dua lapis:
+There's a separate guide for developers and hackathon judges: **[panduan-teknis.md](panduan-teknis.md)**. It covers terminal commands, how to run 288 automated tests, and the architecture.
 
-- **Empat agen** yang bekerja bergantian: satu mencari bukti, satu menyusun kronologi, satu memeriksa setiap kalimat, dan satu lead yang mengoordinasikan.
-- **Satu server** yang memegang aturan di dalam kode — filter hak akses berjalan sebelum pencarian, identitas tidak pernah bisa diminta sebagai argumen, setiap jawaban diperiksa sebelum ditampilkan, dan setiap pencarian dicatat dalam log berantai hash yang langsung ketahuan kalau diubah.
+---
 
-Aturan ada di kode, bukan di prompt. Prompt bisa dijebol; kode tidak.
+## What works behind the scenes
 
-Yang tidak bisa ia lakukan: filter hak akses melindungi alat, **bukan percakapan**. Itu sebabnya task baru setelah ganti peran bukan saran — itu aturan.
+Runut isn't one big program that repeatedly calls GPT. It has two layers:
+
+- **Four agents** that work in sequence: one searches for evidence, one builds the chronology, one checks every sentence, and a lead who coordinates.
+- **One server** that holds the rules in code — the access filter runs before search, identity can never be passed as an argument, every answer is checked before display, and every search is logged in a hash-chained audit trail that immediately reveals tampering.
+
+The rules are in code, not in prompts. Prompts can be broken; code can't.
+
+What it can't do: the access filter protects the tool, **not the conversation**. That's why opening a new task after switching roles isn't a suggestion — it's a rule.

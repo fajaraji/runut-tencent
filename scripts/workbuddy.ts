@@ -4,26 +4,26 @@ import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { catat } from "../src/audit.ts";
 
-// Lokasi WorkBuddy dan penulisan MCP server Runut.
-// WorkBuddy hanya membagikan MCP server milik plugin ke agent di expert. Saat pengguna
-// menekan "connect", WorkBuddy menyalin server itu ke mcp.json pengguna, jadi konfigurasi
-// ditulis di kedua tempat. Identitas ada di satu berkas yang dibaca server setiap panggilan,
-// sehingga bisa diganti tanpa restart.
+// WorkBuddy location and MCP server configuration for Runut.
+// WorkBuddy only exposes a plugin's MCP server to the agent in the expert. When the user
+// clicks "connect", WorkBuddy copies that server to the user's mcp.json, so configuration
+// is written in both places. Identity is stored in a single file read by the server on every call,
+// so it can be switched without restart.
 //
-// Logika di berkas ini dipakai oleh tiga pemakai: skrip CLI (ganti-identitas.ts,
-// setujui.ts) dan panel kendali di browser (pengaturan.ts). Satu implementasi, tiga pintu.
+// The logic in this file is used by three callers: CLI scripts (ganti-identitas.ts,
+// setujui.ts) and the browser control panel (pengaturan.ts). One implementation, three doors.
 
 export const IDENTITAS = { staf: "u-andi", manajer: "u-sari", direktur: "u-hendra", baru: "u-tika", hr: "u-maya", it: "u-yoga" } as const;
 export type Peran = keyof typeof IDENTITAS;
 
-// Nama yang bisa dibaca manusia untuk tiap peran, dipakai di panel kendali.
+// Human-readable names for each role, used in the control panel.
 export const NAMA_PERAN: Record<Peran, { id: string; nama: string; jabatan: string; ringkas: string }> = {
-  staf: { id: "u-andi", nama: "Andi Saputra", jabatan: "Staf Admin Penjualan, Makassar", ringkas: "Staf penjualan. Lihat grup penjualan, logistik, dan dokumen umum." },
-  manajer: { id: "u-sari", nama: "Sari Hidayat", jabatan: "Manajer Operasional", ringkas: "Manajer. Lihat semua yang dilihat staf, plus grup manajemen." },
-  direktur: { id: "u-hendra", nama: "Hendra Gunawan", jabatan: "Direktur Utama", ringkas: "Direktur. Lihat semua, termasuk kanal direksi dan data HR." },
-  baru: { id: "u-tika", nama: "Tika Ramadhani", jabatan: "Staf Marketing (bergabung 19 Okt 2026)", ringkas: "Karyawan baru. Lihat dokumen umum dan grup penjualan/marketing." },
-  hr: { id: "u-maya", nama: "Maya Lestari", jabatan: "HR Business Partner", ringkas: "HR. Lihat semua, plus data karyawan dan daftar gaji." },
-  it: { id: "u-yoga", nama: "Yoga Permana", jabatan: "IT Lead", ringkas: "IT. Lihat semua, plus grup WMS dan dokumen TI." },
+  staf: { id: "u-andi", nama: "Andi Saputra", jabatan: "Sales Admin Staff, Makassar", ringkas: "Sales staff. Can see sales groups, logistics, and general documents." },
+  manajer: { id: "u-sari", nama: "Sari Hidayat", jabatan: "Operations Manager", ringkas: "Manager. Can see everything staff sees, plus management groups." },
+  direktur: { id: "u-hendra", nama: "Hendra Gunawan", jabatan: "Director", ringkas: "Director. Can see everything, including board channels and HR data." },
+  baru: { id: "u-tika", nama: "Tika Ramadhani", jabatan: "Marketing Staff (joined Oct 19, 2026)", ringkas: "New hire. Can see general documents and sales/marketing groups." },
+  hr: { id: "u-maya", nama: "Maya Lestari", jabatan: "HR Business Partner", ringkas: "HR. Can see everything, plus employee data and salary lists." },
+  it: { id: "u-yoga", nama: "Yoga Permana", jabatan: "IT Lead", ringkas: "IT. Can see everything, plus WMS groups and IT documents." },
 };
 
 export const PLUGIN = ["runut-tim", "runut-cepat"] as const;
@@ -46,10 +46,10 @@ export function bacaIdentitas(): { peran: Peran | null; id: string } {
   return { peran, id };
 }
 
-// ---------------------------------------------------------------- Persetujuan
-// Konsol persetujuan. Logika ini sengaja TIDAK pernah dipanggil dari dalam model:
-// tidak ada alat MCP yang bisa menulis berkas persetujuan, jadi persetujuan selalu
-// datang dari manusia lewat CLI atau panel kendali di browser.
+// ---------------------------------------------------------------- Approval
+// Approval console. This logic is intentionally NEVER called from within the model:
+// no MCP tool can write the approval file, so approval always
+// comes from a human via CLI or the browser control panel.
 
 export type Draf = {
   id: string;
@@ -76,12 +76,12 @@ export function daftarDraf(logDir: string): { draf: Draf; disetujui: boolean }[]
 
 export function setujuiDraf(logDir: string, id: string): { ok: boolean; pesan: string } {
   const fileDraf = join(dirDraf(logDir), `${id}.json`);
-  if (!existsSync(fileDraf)) return { ok: false, pesan: `Draf ${id} tidak ditemukan.` };
+  if (!existsSync(fileDraf)) return { ok: false, pesan: `Draft ${id} not found.` };
   const draf = JSON.parse(readFileSync(fileDraf, "utf8")) as Draf;
   mkdirSync(dirPersetujuan(logDir), { recursive: true });
   writeFileSync(join(dirPersetujuan(logDir), `${id}.json`), JSON.stringify({ id, disetujui: new Date().toISOString() }, null, 2));
   catat(join(logDir, "audit.jsonl"), draf.dari, "persetujuan_manusia", { draf: id }, { disetujui: true });
-  return { ok: true, pesan: `Draf ${id} ke ${draf.namaKepada} disetujui. Agent sekarang boleh mengirimnya.` };
+  return { ok: true, pesan: `Draft ${id} to ${draf.namaKepada} approved. The agent may now send it.` };
 }
 
 const serverRunut = () => ({

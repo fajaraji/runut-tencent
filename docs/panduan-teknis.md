@@ -1,20 +1,20 @@
-# Panduan Teknis Runut
+# Runut Technical Guide
 
-*Untuk developers dan juri hackathon. Panduan untuk pengguna non-teknis ada di [panduan-mulai.md](panduan-mulai.md).*
+*For developers and hackathon judges. The guide for non-technical users is at [panduan-mulai.md](panduan-mulai.md).*
 
 ---
 
-## Kebutuhan
+## Requirements
 
-| Komponen | Versi | Catatan |
+| Component | Version | Notes |
 |---|---|---|
-| Node.js | 24 atau lebih baru | TypeScript dijalankan langsung, tanpa build step. `node --version` harus ≥ 24. |
-| WorkBuddy | Windows atau macOS | Expert plugin. |
-| Python | 3.x | Dipakai installer untuk mendaftarkan expert lewat `register_expert.py` WorkBuddy. Di Windows dipanggil lewat `py`. |
+| Node.js | 24 or newer | TypeScript runs directly, no build step. `node --version` must be ≥ 24. |
+| WorkBuddy | Windows or macOS | Expert plugin. |
+| Python | 3.x | Used by the installer to register the expert via WorkBuddy's `register_expert.py`. On Windows, invoked via `py`. |
 
 ---
 
-## Pemasangan lewat terminal
+## Installation via terminal
 
 ```bash
 npm install
@@ -22,128 +22,128 @@ npm test
 node scripts/pasang-workbuddy.ts staf
 ```
 
-**Tutup WorkBuddy dulu** sebelum menjalankan `pasang-workbuddy.ts`, lalu buka lagi setelah selesai. Peran yang tersedia: `staf`, `manajer`, `direktur`, `baru`, `hr`, `it`.
+**Close WorkBuddy first** before running `pasang-workbuddy.ts`, then reopen it after. Available roles: `staf`, `manajer`, `direktur`, `baru`, `hr`, `it`.
 
-Installer ini:
-1. Menyalin `workbuddy/runut-tim` dan `workbuddy/runut-cepat` ke `~/.workbuddy-ai/plugins/marketplaces/my-experts/plugins/`
-2. Menaikkan versi plugin (`0.1.0` → `0.1.<unix-minute>`), lalu menghapus cache versi lama — WorkBuddy menjalankan salinan cache per versi, jadi versi harus naik setiap perubahan
-3. Menulis `logs/identitas.txt`
-4. Menulis `.mcp.json` di dalam tiap plugin, menunjuk ke `src/server.ts` dengan `RUNUT_USER_FILE`
-5. Mendaftarkan kedua plugin lewat `register_expert.py` milik WorkBuddy
-6. Menghapus sisa entri `runut-staf` / `runut-manajer` dari `mcp.json` pengguna (bentuk lama)
+This installer:
+1. Copies `workbuddy/runut-tim` and `workbuddy/runut-cepat` to `~/.workbuddy-ai/plugins/marketplaces/my-experts/plugins/`
+2. Bumps the plugin version (`0.1.0` → `0.1.<unix-minute>`), then clears the old version cache — WorkBuddy runs a cached copy per version, so the version must increase on every change
+3. Writes `logs/identitas.txt`
+4. Writes `.mcp.json` inside each plugin, pointing to `src/server.ts` with `RUNUT_USER_FILE`
+5. Registers both plugins via WorkBuddy's `register_expert.py`
+6. Removes leftover `runut-staf` / `runut-manajer` entries from the user's `mcp.json` (legacy format)
 
-Alternatif tanpa terminal: klik dua kali `installer/pasang-windows.bat` atau `installer/pasang-mac.command`.
+Alternative without terminal: double-click `installer/pasang-windows.bat` or `installer/pasang-mac.command`.
 
 ---
 
-## Perintah lain
+## Other commands
 
 ```bash
-# Ganti identitas penanya. Berlaku di pertanyaan berikutnya, tanpa restart.
+# Switch the asking identity. Takes effect on the next question, without restart.
 node scripts/ganti-identitas.ts manajer
 
-# Daftar draf yang menunggu persetujuan
+# List drafts awaiting approval
 node scripts/setujui.ts
 
-# Setujui satu draf
+# Approve a draft
 node scripts/setujui.ts <draft_id>
 
-# Smoke test MCP tanpa WorkBuddy
+# Smoke test MCP without WorkBuddy
 node scripts/coba-mcp.ts u-andi "Kenari"
 
-# Bangun ulang halaman hasil uji dari log audit
+# Rebuild the test results page from audit log
 node scripts/buat-halaman.ts
 
-# Panel kendali di browser (localhost:4173)
+# Control panel in browser (localhost:4173)
 node scripts/pengaturan.ts
 ```
 
-### CLI dan panel kendali berbagi satu implementasi
+### CLI and control panel share one implementation
 
-`scripts/workbuddy.ts` menyimpan logika yang dipakai ketiga pemanggil:
+`scripts/workbuddy.ts` holds the logic used by all three callers:
 
-| Fungsi | Dipakai oleh |
+| Function | Used by |
 |---|---|
 | `tulisIdentitas` / `bacaIdentitas` | `ganti-identitas.ts`, `pengaturan.ts` |
 | `daftarDraf` / `setujuiDraf` | `setujui.ts`, `pengaturan.ts` |
 | `tulisMcp` | `pasang-workbuddy.ts` |
 
-Jadi menyetujui draf di browser dan menyetujuinya lewat terminal menghasilkan berkas dan entri log audit yang identik. Panel hanya menulis ke `logs/identitas.txt`, `logs/draf/`, dan `logs/persetujuan/` — tidak ada jalur kedua.
+So approving a draft in the browser and approving it via terminal produce identical files and audit log entries. The panel only writes to `logs/identitas.txt`, `logs/draf/`, and `logs/persetujuan/` — there is no second path.
 
-Panel mendengarkan di `127.0.0.1` saja, dan menolak permintaan yang `remoteAddress`-nya bukan loopback. Model tidak punya alat MCP yang memanggil `pengaturan.ts`, jadi persetujuan tetapmustahil dilakukan model.
+The panel listens on `127.0.0.1` only, and rejects requests whose `remoteAddress` is not loopback. The model has no MCP tool that calls `pengaturan.ts`, so approval remains impossible for the model to perform.
 
 ---
 
-## Struktur
+## Structure
 
 ```
-src/          MCP server: pembaca WhatsApp/CSV, filter izin, masking,
-              penanda instruksi tersembunyi, pemeriksa jawaban,
-              pesan draf-saja, log audit berantai hash
-workbuddy/    Dua plugin: runut-tim (empat agen) dan runut-cepat (satu agen)
-data/         Dataset fiktif PT Sinar Rasa Nusantara
-tests/        286 pengujian otomatis
-scripts/      Pemasang, ganti identitas, konsol persetujuan, panel, halaman hasil
-installer/    Pemasang sekali-klik dan halaman panel kendali
-docs/         Dokumen dan bukti tangkapan layar
+src/          MCP server: WhatsApp/CSV reader, permission filter, masking,
+              hidden instruction detection, answer checker,
+              draft-only messaging, hash-chained audit log
+workbuddy/    Two plugins: runut-tim (four agents) and runut-cepat (single agent)
+data/         Fictional dataset for PT Sinar Rasa Nusantara
+tests/        288 automated tests
+scripts/      Installer, identity switcher, approval console, panel, results page
+installer/    One-click installers and control panel HTML
+docs/         Documentation and screenshot evidence
 ```
 
-### Empat agen
+### Four agents
 
-| Agen | Nama | Peran | Batas giliran |
+| Agent | Name | Role | Turn limit |
 |---|---|---|---|
 | `runut-team-lead` | Tata | Lead, History Editor | 150 |
 | `penelusur-sumber` | Lusi | Source Tracer | 50 |
 | `penyusun-kronologi` | Yusuf | Timeline Writer | 50 |
 | `pemeriksa-sumber` | Riksa | Citation Auditor | 50 |
 
-SOP: **Telusuri** → **Susun** → **Periksa** → **Catat, lalu sampaikan**. Kalau bukti kosong, fase 2 dan 3 dilewati dan jawaban "~30 detik".
+SOP: **Search** → **Compose** → **Verify** → **Record, then deliver**. If evidence is empty, phases 2 and 3 are skipped and the answer takes "~30 seconds".
 
-`runut-cepat` adalah agen tunggal dengan batas 4 panggilan alat dan 12 giliran, untuk jawaban di bawah 90 detik.
+`runut-cepat` is a single agent with a limit of 4 tool calls and 12 turns, for answers under 90 seconds.
 
 ---
 
-## Di mana batas kepercayaannya
+## Where the trust boundary is
 
-Filter hak akses berjalan **sebelum** pencarian, di dalam server MCP. Tidak ada prompt yang memegang aturan ini.
+The access filter runs **before** search, inside the MCP server. No prompt holds this rule.
 
-| Aturan | Diimplementasikan di |
+| Rule | Implemented in |
 |---|---|
-| Sumber di luar `data/izin.csv` tertutup untuk semua | `src/runut.ts` — filter sebelum pencarian |
-| Identitas tidak bisa diminta sebagai argumen alat | `src/server.ts` — `RUNUT_USER_FILE` dibaca tiap panggilan |
-| "Tidak ada" dan "tidak boleh" menjawab identik | `src/runut.ts` — `TIDAK_DITEMUKAN` |
-| NIK dan telepon disamarkan | `src/runut.ts` — kecuali HR yang memang bertanya |
-| Instruksi di dalam sumber diperlakukan sebagai data | `src/runut.ts` — `POLA_INSTRUKSI` |
-| Setiap kalimat harus mengutip sumber yang sah | `src/runut.ts` — `periksaJawaban` |
-| Tidak bisa mengirim tanpa persetujuan manusia | `src/runut.ts` — alat kirim menolak tanpa berkas persetujuan |
-| Log audit tidak bisa diubah diam-diam | `src/audit.ts` — rantai hash |
+| Sources outside `data/izin.csv` are closed to everyone | `src/runut.ts` — filter before search |
+| Identity cannot be passed as a tool argument | `src/server.ts` — `RUNUT_USER_FILE` read on every call |
+| "Not found" and "not allowed" answer identically | `src/runut.ts` — `TIDAK_DITEMUKAN` |
+| ID numbers and phone numbers are masked | `src/runut.ts` — except HR when genuinely needed |
+| Instructions inside sources are treated as data | `src/runut.ts` — `POLA_INSTRUKSI` |
+| Every sentence must cite a valid source | `src/runut.ts` — `periksaJawaban` |
+| Cannot send without human approval | `src/runut.ts` — send tool refuses without approval file |
+| Audit log cannot be silently modified | `src/audit.ts` — hash chain |
 
 ---
 
-## Batasan yang diketahui
+## Known limitations
 
-- **Filter izin melindungi alat, bukan percakapan.** Percakapan lama masih ingat jawaban sebelumnya. Setelah ganti identitas atau ubah hak akses, **mulailah dari task baru**.
-- Konsol persetujuan berjalan di mesin yang sama dengan WorkBuddy.
-- Identitas berasal dari konfigurasi, bukan SSO perusahaan.
-- Pemeriksa jawaban adalah aturan tetap, bukan pembaca. Pada jawaban yang ditulis agen terpisah, ia menolak 26 dari 30 jawaban karangan dan meloloskan 29 dari 30 jawaban jujur — tapi tidak bisa menangkap kesimpulan yang salah dari fakta yang benar.
-- `runut-cepat` tidak punya agen pemeriksa terpisah.
-- Pencarian berbasis kata kunci dengan daftar sinotim kecil. Pertanyaan yang jauh dari Istilah sumber bisa gagal dan menjawab "tidak ada" alih-alih menebak.
-- Daftar kata untuk pemeriksaan catatan tertutup disetel untuk dataset ini.
+- **The permission filter protects the tool, not the conversation.** Old conversations still remember previous answers. After switching identity or changing access rights, **start from a new task**.
+- The approval console runs on the same machine as WorkBuddy.
+- Identity comes from configuration, not enterprise SSO.
+- The answer checker is a fixed rule, not a reader. On answers written by a separate agent, it rejects 26 of 30 fabricated answers and passes 29 of 30 honest ones — but it cannot catch wrong conclusions drawn from correct facts.
+- `runut-cepat` has no separate checker agent.
+- Search is keyword-based with a small synonym list. Questions far from source terminology may fail and answer "not found" rather than guess.
+- The keyword list for record-gap detection is tuned for this dataset.
 
 ---
 
-## Pengujian
+## Testing
 
 ```bash
 npm test
 ```
 
-286 pengujian: 24 akuntabilitas, 31 kasus bergaya handbook (K01–K31), 225 serangan terhadap pemeriksa jawaban, 6 format data.
+288 tests: 24 accountability, 31 handbook-style cases (K01–K31), 225 attacks against the answer checker, 6 data format tests.
 
-**Pemeriksaan mutasi:** mematikan filter izin dengan sengaja membuat 35 pengujian gagal — itu buktinya pengujian benar-benar menangkap kebocoran.
+**Mutation testing:** intentionally disabling the permission filter causes 35 tests to fail — proof that the tests actually catch leaks.
 
 ```bash
 node scripts/coba-mcp.ts u-andi "Kenari"
 ```
 
-Smoke test langsung ke MCP server tanpa WorkBuddy.
+Smoke test directly against the MCP server without WorkBuddy.

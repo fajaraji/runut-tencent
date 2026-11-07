@@ -17,13 +17,13 @@ import {
   type Peran,
 } from "./workbuddy.ts";
 
-// Panel kendali Runut. Halaman web lokal untuk orang yang tidak nyaman dengan terminal.
-// Fungsinya: ganti identitas penanya, setujui draf pesan, lihat status pemasangan, dan lihat ujung log audit.
+// Runut control panel. A local web page for people who aren't comfortable with the terminal.
+// Features: switch asking identity, approve draft messages, view installation status, and view the tail of the audit log.
 //
-// Keamanan:
-// - Hanya mendengarkan di 127.0.0.1. Tidak bisa diakses dari jaringan lain.
-// - Menolak permintaan yang bukan dari loopback.
-// - Persetujuan tetap di luar jangkauan model: tidak ada alat MCP yang memanggil server ini.
+// Security:
+// - Listens on 127.0.0.1 only. Cannot be accessed from other networks.
+// - Rejects requests not from loopback.
+// - Approval remains out of the model's reach: no MCP tool calls this server.
 
 const akar = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const logDir = process.env.RUNUT_LOG ?? join(akar, "logs");
@@ -104,17 +104,17 @@ async function tangani(req: IncomingMessage, res: ServerResponse): Promise<void>
   const alamat = req.url ?? "/";
   const metode = req.method ?? "GET";
 
-  // Hanya localhost. Menolak apa pun yang datang dari luar mesin ini.
+  // Localhost only. Reject anything coming from outside this machine.
   const alamatIp = req.socket.remoteAddress ?? "";
   if (!["127.0.0.1", "::1", "::ffff:127.0.0.1"].includes(alamatIp)) {
-    json(res, { galat: "Hanya diakses dari localhost." }, 403);
+    json(res, { galat: "Only accessible from localhost." }, 403);
     return;
   }
 
   if (metode === "GET" && (alamat === "/" || alamat === "/pengaturan.html")) {
     if (!existsSync(HALAMAN)) {
       res.writeHead(500, { "content-type": "text/plain; charset=utf-8" });
-      res.end("Berkas halaman panel tidak ditemukan.");
+      res.end("Panel HTML file not found.");
       return;
     }
     res.writeHead(200, { "content-type": "text/html; charset=utf-8", "cache-control": "no-store" });
@@ -142,18 +142,18 @@ async function tangani(req: IncomingMessage, res: ServerResponse): Promise<void>
     try {
       peran = (JSON.parse(tubuh) as { peran?: string }).peran ?? "";
     } catch {
-      json(res, { galat: "Permintaan tidak valid." }, 400);
+      json(res, { galat: "Invalid request." }, 400);
       return;
     }
     if (!(peran in IDENTITAS)) {
-      json(res, { galat: `Peran harus salah satu dari ${Object.keys(IDENTITAS).join(", ")}.` }, 400);
+      json(res, { galat: `Role must be one of ${Object.keys(IDENTITAS).join(", ")}.` }, 400);
       return;
     }
     tulisIdentitas(peran as Peran);
     json(res, {
       ok: true,
       identitas: dataIdentitas(),
-      pesan: `Identitas Runut sekarang ${peran} (${IDENTITAS[peran as Peran]}). Berlaku di pertanyaan berikutnya.`,
+      pesan: `Runut identity is now ${peran} (${IDENTITAS[peran as Peran]}). Takes effect on the next question.`,
     });
     return;
   }
@@ -164,11 +164,11 @@ async function tangani(req: IncomingMessage, res: ServerResponse): Promise<void>
     try {
       id = (JSON.parse(tubuh) as { id?: string }).id ?? "";
     } catch {
-      json(res, { galat: "Permintaan tidak valid." }, 400);
+      json(res, { galat: "Invalid request." }, 400);
       return;
     }
     if (!id) {
-      json(res, { galat: "Id draf wajib diisi." }, 400);
+      json(res, { galat: "Draft ID is required." }, 400);
       return;
     }
     const hasil = setujuiDraf(logDir, id);
@@ -176,16 +176,16 @@ async function tangani(req: IncomingMessage, res: ServerResponse): Promise<void>
     return;
   }
 
-  json(res, { galat: "Tidak ditemukan." }, 404);
+  json(res, { galat: "Not found." }, 404);
 }
 
 const server = createServer((req, res) => {
   tangani(req, res).catch(() => {
-    if (!res.headersSent) json(res, { galat: "Kesalahan di server panel." }, 500);
+    if (!res.headersSent) json(res, { galat: "Panel server error." }, 500);
   });
 });
 
 server.listen(port, "127.0.0.1", () => {
-  console.log(`Panel kendali Runut: http://localhost:${port}`);
-  console.log("Halaman ini hanya bisa dibuka di komputer ini. Tutup dengan Ctrl+C.");
+  console.log(`Runut control panel: http://localhost:${port}`);
+  console.log("This page is only accessible on this computer. Close with Ctrl+C.");
 });

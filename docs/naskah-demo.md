@@ -1,37 +1,37 @@
-# Naskah video demo Runut
+# Runut Demo Video Script
 
-Handbook meminta video 5 sampai 8 menit berisi gambaran proyek, kemampuan inti, refleksi cara membangun, dan minimal satu momen agent menolak, bertanya balik, atau menunggu persetujuan. Handbook tidak mengatur bahasa video. Narasi dan teks animasi berbahasa Indonesia, dengan subtitle bahasa Inggris.
+The handbook requires a 5 to 8 minute video covering project overview, core capabilities, reflection on the build approach, and at least one moment where the agent refuses, asks back, or waits for approval. The handbook does not specify the video language. Narration and animated text are in Indonesian, with English subtitles.
 
-Bahasanya sengaja sederhana. Suara Indonesia membaca nama asing dengan lafal Indonesia, jadi kolom `lafal` di naskah mengeja beberapa nama menurut bunyinya, dan istilah asing lain diganti kata biasa. Narasi disunting dengan skill antislop-copywriting: pelaku disebut, kata kerja manusia pada benda dibuang, dan kalimat bergaya pepatah diganti kalimat biasa. Layar asli tetap apa adanya, termasuk label bawaan WorkBuddy berbahasa Inggris dan pesan asli "nanti aku jelasin di call".
+The language is intentionally simple. An Indonesian voice reads foreign names with Indonesian pronunciation, so the `lafal` field in the script spells some names phonetically, and other foreign terms are replaced with plain words. The narration was edited with the antislop-copywriting skill: actors are named, human verbs applied to objects are removed, and proverb-style sentences are replaced with plain sentences. The actual screen remains as-is, including WorkBuddy's built-in English labels and the original "nanti aku jelasin di call" message.
 
-Narasi lengkap ada di [video/naskah.json](../video/naskah.json). Video dibuat tanpa kredit WorkBuddy, dari tiga jenis bahan.
+The full narration is in [video/naskah.json](../video/naskah.json). The video was produced without WorkBuddy credits, from three types of materials.
 
-| Bahan | Asal |
+| Material | Source |
 | --- | --- |
-| Animasi | [video/adegan.html](../video/adegan.html), ilustrasi yang digambar dengan kode |
-| Layar demo | Tangkapan layar asli riwayat task WorkBuddy, tanpa sidebar supaya akun tidak terlihat. Tidak ada pertanyaan baru yang dikirim |
-| Hasil alat | Keluaran asli `telusuri` per peran, halaman log audit, dan hasil `npm test` |
+| Animation | [video/adegan.html](../video/adegan.html), illustrations drawn with code |
+| Demo screen | Real screenshots of WorkBuddy task history, without the sidebar so the account isn't visible. No new questions were sent |
+| Tool output | Real `telusuri` output per role, audit log page, and `npm test` results |
 
-Narasi memakai suara sintetis dan musik latarnya dibuat dengan sintesis, jadi tidak ada urusan lisensi musik. Keduanya disebut di adegan penutup.
+The narration uses a synthetic voice and the background music is synth-generated, so there are no music licensing concerns. Both are mentioned in the closing scene.
 
-| Bagian | Isi |
+| Section | Content |
 | --- | --- |
-| Pembuka | Detik pertama langsung "Berapa gaji Rina?". AI yang membaca semua data bisa menjawabnya ke siapa saja |
-| Masalah | Tanpa AI, Andi harus menjawab toko, jawabannya tercecer di grup WhatsApp, dokumen pesanan, dan daftar tugas, dan alasannya tidak ia temukan |
-| Solusi | Definisi Runut. Dipakai dengan tanya jawab. Bedanya isi jawaban (kronologi, yang belum selesai, celah catatan) dan penjaga di belakangnya |
-| Demo K01 | Staf bertanya, jawaban tampil dalam 38 detik |
-| Cara kerja | Tabel izin, server menyaring dulu baru mencari, kode memeriksa jawaban, dua mode |
-| Tiga tingkat | Satu pertanyaan WMS, hasil asli untuk staf, manajer, dan direktur |
-| Momen menolak | Kembali ke pertanyaan pembuka: gaji Rina dan grup manajemen ditolak, lalu Kenari dan Merpati |
-| Sumber bertentangan | Aturan lama 5 hari, pengumuman terbaru 7 hari, keduanya disebut |
-| Momen menunggu persetujuan | Draf, klaim setuju ditolak, persetujuan lewat konsol, terkirim (simulasi) |
-| Perintah tersembunyi | Memo berisi perintah untuk AI, diabaikan dan dilaporkan |
-| Bisa diperiksa dan kegagalan | Catatan saling terkunci, jawaban dari ingatan setelah akses dicabut, skor uji buta 26 dan 29 dari 30, batas yang masih ada |
-| Refleksi | Expert Team, expert disimpan per versi, AI masih bisa melanggar instruksi |
+| Opening | First second is immediately "Berapa gaji Rina?". An AI that reads all data could answer that to anyone |
+| Problem | Without AI, Andi must answer the store, the answer is scattered across WhatsApp groups, order documents, and task lists, and the reason is not found |
+| Solution | Runut definition. Used through Q&A. Difference in answer content (chronology, what's unfinished, record gaps) and the guardrails behind it |
+| Demo K01 | Staff asks, answer appears in 38 seconds |
+| How it works | Permission table, server filters before searching, code checks the answer, two modes |
+| Three levels | One WMS question, real output for staff, manager, and director |
+| Refusal moment | Return to the opening question: Rina's salary and management group are refused, then Kenari and Merpati |
+| Conflicting sources | Old rule 5 days, latest announcement 7 days, both cited |
+| Approval waiting moment | Draft, claim approval rejected, approval via console, sent (simulation) |
+| Hidden instruction | Memo with instruction for AI, ignored and reported |
+| Auditable and failure | Interlocked records, answer from memory after access revoked, blind test scores 26 and 29 out of 30, remaining limits |
+| Reflection | Expert Team, experts stored per version, AI can still violate instructions |
 
-## Membuat ulang video
+## Rebuilding the video
 
-Berkas hasil tidak disimpan di git. Jalankan dari folder `video`, setelah `npm install` di sana.
+Output files are not stored in git. Run from the `video` folder, after `npm install` there.
 
 ```bash
 node suara.mjs
@@ -49,6 +49,6 @@ node potret-log.mjs
 node render.mjs
 ```
 
-Hasilnya `video/keluar/runut-demo.mp4`. Layar demo disimpan di `video/keluar/rekaman/` dan tidak ikut di repo, karena diambil dari aplikasi di laptop pembuat.
+The result is `video/keluar/runut-demo.mp4`. Demo screens are stored in `video/keluar/rekaman/` and are not included in the repo, as they were captured from the creator's laptop.
 
-Catatan untuk jujur saat ditanya juri: layar Kenari dan Merpati berasal dari run tim empat agent tanggal 31 Oktober, sebelum dataset diperluas. Layar lainnya dari Runut Cepat pada 2 sampai 3 November. Semua run tercatat di `docs/hasil-uji.md`.
+Note for honesty when asked by judges: the Kenari and Merpati screens come from the four-agent team run on October 31, before the dataset was expanded. Other screens are from Runut Cepat on November 2 to 3. All runs are recorded in `docs/hasil-uji.md`.

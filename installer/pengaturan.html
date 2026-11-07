@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="id">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Panel Kendali Runut</title>
+<title>Runut Control Panel</title>
 <style>
 :root {
   --bg:#fbfaf7; --fg:#1d1c1a; --muted:#6b6862; --line:#e4e1da; --card:#ffffff;
@@ -59,40 +59,40 @@ code { font-family:ui-monospace,Consolas,monospace; font-size:12px; background:v
 <body>
 <main>
 <header>
-  <h1>Panel Kendali Runut</h1>
-  <p>Atur siapa yang sedang bertanya, setujui pesan, dan lihat status Runut. Halaman ini hanya terbuka di komputer ini.</p>
+  <h1>Runut Control Panel</h1>
+  <p>Manage who's asking, approve messages, and view Runut status. This page is only accessible on this computer.</p>
 </header>
 
 <div id="pesan" class="pesan"></div>
 
 <h2>Status</h2>
-<p class="sub">Apakah Runut sudah terpasang di WorkBuddy dan siap dipakai.</p>
+<p class="sub">Whether Runut is installed in WorkBuddy and ready to use.</p>
 <div class="kartu" id="status-kartu"></div>
 
-<h2>Siapa yang sedang bertanya</h2>
-<p class="sub">Pilih orang. Runut akan melihat catatan yang boleh dibaca orang itu saja. Berlaku di pertanyaan berikutnya.</p>
+<h2>Who's asking</h2>
+<p class="sub">Select a person. Runut will only see records that person is allowed to read. Takes effect on the next question.</p>
 <div id="peran-grid" class="peran-grid"></div>
 
 <div id="ingat-task" class="catatan" style="display:none">
-  <strong>Sekarang buka task baru di WorkBuddy.</strong> Percakapan lama masih ingat jawaban sebelumnya, jadi mulailah dari task baru sebelum bertanya lagi.
+  <strong>Now open a new task in WorkBuddy.</strong> Old conversations still remember previous answers, so start from a new task before asking again.
 </div>
 
-<h2>Persetujuan pesan</h2>
-<p class="sub">Runut hanya bisa menyiapkan draf. Tidak ada yang terkirim sampai Anda menyetujuinya di sini.</p>
+<h2>Message approval</h2>
+<p class="sub">Runut can only prepare drafts. Nothing is sent until you approve it here.</p>
 <div id="draf-daftar"></div>
 
-<h2>Aktivitas terakhir</h2>
-<p class="sub">Setiap pencarian dan jawaban dicatat. Baris yang diubah belakangan akan ketahuan.</p>
+<h2>Recent activity</h2>
+<p class="sub">Every search and answer is logged. Tampered rows will be detected.</p>
 <div class="card audit" id="audit-daftar"></div>
 
 <footer>
-  Halaman ini berjalan di komputer Anda sendiri, di <code>localhost</code>. Data tidak dikirim ke mana pun.
+  This page runs on your own computer, at <code>localhost</code>. Data is not sent anywhere.
 </footer>
 </main>
 
 <script>
 const el = (id) => document.getElementById(id);
-const peranLabel = { staf:"Staf", manajer:"Manajer", direktur:"Direktur", baru:"Karyawan baru", hr:"HR", it:"IT" };
+const peranLabel = { staf:"Staff", manajer:"Manager", direktur:"Director", baru:"New hire", hr:"HR", it:"IT" };
 
 function pesan(teks, jenis) {
   const p = el("pesan");
@@ -107,7 +107,7 @@ async function muat() {
     const r = await fetch("/api/status", { cache: "no-store" });
     data = await r.json();
   } catch {
-    pesan("Tidak bisa terhubung ke server panel. Pastikan panel masih terbuka.", "bad");
+    pesan("Cannot connect to the panel server. Make sure the panel is still running.", "bad");
     return;
   }
   renderStatus(data.pemasangan);
@@ -121,10 +121,10 @@ function renderStatus(p) {
   const plugin = p.plugins.map((x) => x.nama).join(", ");
   const okPlugin = p.semuaTerpasang;
   kartu.innerHTML = `
-    <div><b>${okPlugin ? "Terpasang" : "Belum lengkap"}</b><span>${okPlugin ? "Siap dipakai di WorkBuddy" : "Plugin belum lengkap: " + plugin}</span></div>
-    <div><b>${p.dataAda ? "Data siap" : "Data hilang"}</b><span>${p.dataAda ? "Berkas izin dan catatan ditemukan" : "Folder data tidak ditemukan"}</span></div>
-    <div><b>${p.audit.jumlah}</b><span>Entri log audit · rantai ${p.audit.utuh ? "utuh" : "rusak di baris " + p.audit.rusakDi}</span></div>
-    <div><b>${p.mcpPenggunaAda ? "MCP terhubung" : "MCP belum disalin"}</b><span>${p.mcpPenggunaAda ? "Sudah muncul di mcp.json WorkBuddy" : "Sudah connect dari WorkBuddy saat Summon"}</span></div>`;
+    <div><b>${okPlugin ? "Installed" : "Incomplete"}</b><span>${okPlugin ? "Ready to use in WorkBuddy" : "Plugins incomplete: " + plugin}</span></div>
+    <div><b>${p.dataAda ? "Data ready" : "Data missing"}</b><span>${p.dataAda ? "Permission and record files found" : "Data folder not found"}</span></div>
+    <div><b>${p.audit.jumlah}</b><span>Audit log entries · chain ${p.audit.utuh ? "intact" : "broken at row " + p.audit.rusakDi}</span></div>
+    <div><b>${p.mcpPenggunaAda ? "MCP connected" : "MCP not copied"}</b><span>${p.mcpPenggunaAda ? "Present in WorkBuddy's mcp.json" : "Will connect from WorkBuddy on Summon"}</span></div>`;
 }
 
 function renderPeran(data) {
@@ -149,7 +149,7 @@ function renderPeran(data) {
         body: JSON.stringify({ peran }),
       });
       const d = await r.json();
-      if (!d.ok) { pesan(d.galat || "Gagal mengganti identitas.", "bad"); return; }
+      if (!d.ok) { pesan(d.galat || "Failed to switch identity.", "bad"); return; }
       pesan(d.pesan, "ok");
       el("ingat-task").style.display = "block";
       await muat();
@@ -160,18 +160,18 @@ function renderPeran(data) {
 function renderDraf(draf) {
   const kotak = el("draf-daftar");
   if (!draf.length) {
-    kotak.innerHTML = `<div class="card kosong">Belum ada draf pesan. Kalau Runut menemukan celah catatan, ia menawarkan menyiapkan pesan — jawab "ya" dan drafnya akan muncul di sini.</div>`;
+    kotak.innerHTML = `<div class="card kosong">No draft messages yet. When Runut finds a record gap, it offers to prepare a message — answer "yes" and the draft will appear here.</div>`;
     return;
   }
   kotak.innerHTML = draf.map((d) => `
     <div class="draf ${d.disetujui ? "disetujui" : ""}">
-      <div class="kepada">Ke: ${d.namaKepada}</div>
+      <div class="kepada">To: ${d.namaKepada}</div>
       <div class="isi">${escapeHtml(d.isi)}</div>
       <div class="aksi">
         ${d.disetujui
-          ? `<span style="color:var(--ok);font-size:13px">Disetujui. Kembali ke WorkBuddy dan minta Runut mengirimnya.</span>`
-          : `<button class="btn primary" data-setujui="${d.id}">Setujui draf ini</button>
-             <span style="color:var(--muted);font-size:13px">Klik setelah Anda membaca isinya.</span>`}
+          ? `<span style="color:var(--ok);font-size:13px">Approved. Go back to WorkBuddy and tell Runut to send it.</span>`
+          : `<button class="btn primary" data-setujui="${d.id}">Approve this draft</button>
+             <span style="color:var(--muted);font-size:13px">Click after you've read the content.</span>`}
       </div>
     </div>`).join("");
 
@@ -185,7 +185,7 @@ function renderDraf(draf) {
         body: JSON.stringify({ id }),
       });
       const d = await r.json();
-      if (!d.ok) { pesan(d.pesan || "Gagal menyetujui.", "bad"); b.disabled = false; return; }
+      if (!d.ok) { pesan(d.pesan || "Failed to approve.", "bad"); b.disabled = false; return; }
       pesan(d.pesan, "ok");
       await muat();
     });
@@ -195,7 +195,7 @@ function renderDraf(draf) {
 function renderAudit(entri) {
   const kotak = el("audit-daftar");
   if (!entri.length) {
-    kotak.innerHTML = `<div style="color:var(--muted);text-align:center;padding:12px 0">Belum ada aktivitas tercatat.</div>`;
+    kotak.innerHTML = `<div style="color:var(--muted);text-align:center;padding:12px 0">No activity recorded yet.</div>`;
     return;
   }
   kotak.innerHTML = entri.map((e) => `
