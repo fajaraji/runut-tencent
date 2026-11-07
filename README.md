@@ -60,6 +60,10 @@ Every run, failures included, is in [docs/hasil-uji.md](docs/hasil-uji.md).
 
 | Document | Link |
 | --- | --- |
+| **Submission pack (form fields)** | [docs/submission.md](docs/submission.md) — title, blurb, description, links |
+| **Cover image** | [docs/cover/runut-cover-380x216.png](docs/cover/runut-cover-380x216.png) — 16:9, 380 × 216 |
+| **Architecture diagram PPT** | [docs/runut-architecture.pptx](docs/runut-architecture.pptx) — 6 slides |
+| **Social post kit** | [docs/social-post-kit.md](docs/social-post-kit.md) — ready-to-publish LinkedIn/X/Threads posts with `#WorkBuddy` `#TencentCloudHackathon`, plus the post-link log |
 | **Getting started (non-technical)** | [docs/panduan-mulai.md](docs/panduan-mulai.md) — no terminal required |
 | Technical guide | [docs/panduan-teknis.md](docs/panduan-teknis.md) — CLI, architecture, limits |
 | Project description | [docs/deskripsi-proyek.md](docs/deskripsi-proyek.md) |
