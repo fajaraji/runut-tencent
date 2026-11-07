@@ -134,8 +134,15 @@ test("Jawaban karangan yang ditempeli sumber ditolak, jawaban bersumber diterima
   assert.ok(hasil.masalah.some((m) => m.masalah.includes("sumber tidak sah")));
   assert.ok(hasil.masalah.some((m) => m.masalah.includes("tanpa sumber")));
 
+  // catat_jawaban tanpa pencarian baru ditolak di pintu kode.
   const catat = andi.catatJawaban("Kenapa stok Makassar telat?", karangan, ["doc/notulen-ops-2026-10-20"]);
   assert.equal(catat.lolos, false);
+  assert.ok(catat.pesan.includes("panggilan pencarian baru"), "penolakan tanpa pencarian baru harus disebut");
+  // Setelah pencarian, jawaban karangan tetap ditolak oleh pemeriksa.
+  andi.cari("stok Makassar telat");
+  const catat2 = andi.catatJawaban("Kenapa stok Makassar telat?", karangan, ["doc/notulen-ops-2026-10-20"]);
+  assert.equal(catat2.lolos, false);
+  assert.ok(catat2.masalah.some((m) => m.masalah.includes("Tulungagung") || m.masalah.includes("sumber tidak sah")));
 });
 
 test("Baris celah catatan boleh tanpa kutipan, tapi tidak boleh membawa hal karangan", () => {
@@ -153,9 +160,11 @@ test("Baris celah catatan boleh tanpa kutipan, tapi tidak boleh membawa hal kara
 test("Jawaban lolos dikembalikan persis, jawaban gagal tidak diberikan untuk ditampilkan", () => {
   const { sebagai } = siapkan();
   const andi = sebagai("u-andi");
+  andi.cari("PO-2291 revisi");
   const benar = "PO-2291 direvisi jadi 900 karton [ops-sulawesi/004].";
   const lolos = andi.catatJawaban("Kenapa?", benar, ["ops-sulawesi/004"]);
   assert.equal(lolos.tampilkan_persis, benar);
+  // catat_jawaban kedua tanpa pencarian baru ditolak di pintu kode.
   const gagal = andi.catatJawaban("Kenapa?", "Truk mogok di Tulungagung pukul 17:45.", []);
   assert.equal(gagal.lolos, false);
   assert.equal(gagal.tampilkan_persis, undefined);
@@ -227,9 +236,13 @@ test("periksa_jawaban: kalimat baku dengan pemilik topik lolos, tapi tidak bisa 
 test("telusuri: task mengikuti proyek yang disebut atau yang dominan di bukti", () => {
   const { sebagai } = siapkan();
   const taskDari = (user: string, tanya: string) => (sebagai(user).telusuri(tanya).task ?? []).map((t) => t.id);
-  assert.deepEqual(taskDari("u-sari", "Kenapa WMS ditunda, dan apa yang masih open?"), ["T-301", "T-302", "T-303"]);
+  // WMS ditunda: T-301 (selesai) tidak ikut, hanya T-302 dan T-303 yang masih open/tertunda.
+  assert.deepEqual(taskDari("u-sari", "Kenapa WMS ditunda, dan apa yang masih open?"), ["T-302", "T-303"]);
   assert.ok(taskDari("u-tika", "Kapan Keripik Balado launching?").every((id) => id.startsWith("T-2")));
   assert.ok(taskDari("u-tika", "Kapan Keripik Balado launching?").length > 0);
+  // Tanya "semua status" mengembalikan task selesai juga.
+  const semua = taskDari("u-sari", "Tampilkan semua status task WMS");
+  assert.ok(semua.includes("T-301"), `T-301 harus muncul untuk pertanyaan "semua status": ${semua.join(", ")}`);
 });
 
 test("telusuri: proyek terlarang dan proyek yang tidak ada dijawab sama persis", () => {
@@ -301,4 +314,86 @@ test("Log audit utuh dan perubahan diam-diam ketahuan", () => {
   baris[0] = baris[0].replace("PO-2291", "PO-9999");
   writeFileSync(file, baris.join("\n") + "\n");
   assert.equal(verifikasi(file).utuh, false);
+});
+
+test("catat_jawaban ditolak tanpa panggilan pencarian baru sejak jawaban terakhir", () => {
+  const { sebagai } = siapkan();
+  const andi = sebagai("u-andi");
+  // Tanpa panggilan pencarian sama sekali.
+  const tanpaCari = andi.catatJawaban("Kenapa stok telat?", "PO-2291 direvisi jadi 900 karton [ops-sulawesi/004].", ["ops-sulawesi/004"]);
+  assert.equal(tanpaCari.lolos, false);
+  assert.ok(tanpaCari.pesan.includes("panggilan pencarian baru"));
+  // Setelah telusuri, jawaban yang benar lolos.
+  andi.telusuri("Kenapa stok di Makassar telat?");
+  const segar = andi.catatJawaban("Kenapa stok telat?", "PO-2291 direvisi jadi 900 karton [ops-sulawesi/004].", ["ops-sulawesi/004"]);
+  assert.equal(segar.lolos, true);
+  // catat_jawaban kedua tanpa pencarian baru ditolak, walau jawabannya sama.
+  const ulang = andi.catatJawaban("Kenapa stok telat?", "PO-2291 direvisi jadi 900 karton [ops-sulawesi/004].", ["ops-sulawesi/004"]);
+  assert.equal(ulang.lolos, false);
+  assert.ok(ulang.pesan.includes("panggilan pencarian baru"));
+  // Setelah cari baru, jawaban bisa dicatat lagi.
+  andi.cari("PO-2291 revisi");
+  const setelahCari = andi.catatJawaban("Kenapa stok telat?", "PO-2291 direvisi jadi 900 karton [ops-sulawesi/004].", ["ops-sulawesi/004"]);
+  assert.equal(setelahCari.lolos, true);
+});
+
+test("catat_jawaban dengan kalimat baku juga memerlukan pencarian baru", () => {
+  const { sebagai } = siapkan();
+  const andi = sebagai("u-andi");
+  // Kalimat baku "tidak ada data" tetap perlu pencarian baru.
+  const tanpaCari = andi.catatJawaban("Apa itu Proyek Kenari?", "Saya tidak menemukan data tentang itu. Silakan tanyakan ke atasan langsung Anda.", []);
+  assert.equal(tanpaCari.lolos, false);
+  assert.ok(tanpaCari.pesan.includes("panggilan pencarian baru"));
+  // Setelah telusuri (yang mengembalikan kosong), kalimat baku bisa dicatat.
+  andi.telusuri("Apa itu Proyek Kenari?");
+  const baku = andi.catatJawaban("Apa itu Proyek Kenari?", "Saya tidak menemukan data tentang itu. Silakan tanyakan ke atasan langsung Anda.", []);
+  assert.equal(baku.lolos, true);
+});
+
+test("perbaikan setelah pemeriksaan gagal boleh dicatat ulang tanpa pencarian baru", () => {
+  const { sebagai } = siapkan();
+  const andi = sebagai("u-andi");
+  const pertanyaan = "Kenapa stok telat?";
+  const benar = "PO-2291 direvisi jadi 900 karton [ops-sulawesi/004].";
+  andi.cari("PO-2291 revisi");
+  // Yang menolak adalah pemeriksa, bukan pintu bukti segar.
+  const salah = andi.catatJawaban(pertanyaan, "PO-2291 direvisi jadi 300 karton [ops-sulawesi/004].", ["ops-sulawesi/004"]);
+  assert.equal(salah.lolos, false);
+  assert.ok(!salah.pesan.includes("panggilan pencarian baru"), JSON.stringify(salah));
+  // Alur perbaikan di prompt: pertanyaan sama, tanpa panggilan alat tambahan.
+  // Runut Cepat hanya punya jatah empat panggilan, jadi tidak boleh ada telusuri lagi di sini.
+  const diperbaiki = andi.catatJawaban(pertanyaan, benar, ["ops-sulawesi/004"]);
+  assert.equal(diperbaiki.tampilkan_persis, benar);
+  // Setelah lolos, jawaban yang sama tidak boleh dicatat ulang dari ingatan percakapan.
+  const ulang = andi.catatJawaban(pertanyaan, benar, ["ops-sulawesi/004"]);
+  assert.equal(ulang.lolos, false);
+  assert.ok(ulang.pesan.includes("panggilan pencarian baru"));
+});
+
+test("penolakan pintu dan pertanyaan baru tidak membuka jalur perbaikan", () => {
+  const { sebagai } = siapkan();
+  const benar = "PO-2291 direvisi jadi 900 karton [ops-sulawesi/004].";
+  // Penolakan karena tidak ada pencarian BUKAN kegagalan pemeriksaan, jadi tidak boleh
+  // membuka jalur retry. Kalau terbuka, model bisa memicu satu penolakan lalu menjawab
+  // dari ingatan tanpa pernah memanggil alat bukti.
+  const a = sebagai("u-andi");
+  const tolak = a.catatJawaban("Kenapa stok telat?", benar, ["ops-sulawesi/004"]);
+  assert.equal(tolak.lolos, false);
+  assert.ok(tolak.pesan.includes("panggilan pencarian baru"));
+  const memaksa = a.catatJawaban("Kenapa stok telat?", benar, ["ops-sulawesi/004"]);
+  assert.equal(memaksa.lolos, false);
+  assert.ok(memaksa.pesan.includes("panggilan pencarian baru"));
+  a.cari("PO-2291 revisi");
+  assert.equal(a.catatJawaban("Kenapa stok telat?", benar, ["ops-sulawesi/004"]).tampilkan_persis, benar);
+
+  // Setelah pemeriksaan gagal, pertanyaan yang BERBEDA tetap butuh bukti segar.
+  const b = sebagai("u-andi");
+  b.cari("PO-2291 revisi");
+  const salah = b.catatJawaban("Pertanyaan satu?", "PO-2291 direvisi jadi 300 karton [ops-sulawesi/004].", ["ops-sulawesi/004"]);
+  assert.equal(salah.lolos, false);
+  const beda = b.catatJawaban("Pertanyaan dua?", benar, ["ops-sulawesi/004"]);
+  assert.equal(beda.lolos, false);
+  assert.ok(beda.pesan.includes("panggilan pencarian baru"));
+  b.cari("PO-2291 revisi");
+  assert.equal(b.catatJawaban("Pertanyaan dua?", benar, ["ops-sulawesi/004"]).tampilkan_persis, benar);
 });

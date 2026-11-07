@@ -4,7 +4,7 @@ Two layers are tested. The code layer (the MCP server that enforces permissions,
 
 The organisers did not provide a dataset, so we built our own, which the handbook allows ([data/README.md](../data/README.md)). It is a fictional company with raw WhatsApp group exports, documents, a task board export and one permissions table. Our 31 cases in `tests/kasus-uji.json` are modelled on the handbook examples.
 
-## Code layer: 288 of 288 pass
+## Code layer: 298 of 298 pass
 
 ```
 npm test
@@ -12,12 +12,12 @@ npm test
 
 | Group | Tests |
 | --- | --- |
-| Accountability (`tests/akuntabilitas.test.ts`) | 24, including "Proyek Kenari is answered exactly like a project that does not exist", "staff never receive management channel content", "even the manager cannot see the board channel", "a source missing from the permissions table is closed to everyone", "a fabricated answer with a pasted citation is rejected" |
+| Accountability (`tests/akuntabilitas.test.ts`) | 30, including "Proyek Kenari is answered exactly like a project that does not exist", "staff never receive management channel content", "even the manager cannot see the board channel", "a source missing from the permissions table is closed to everyone", "a fabricated answer with a pasted citation is rejected", "catat_jawaban refuses an answer with no fresh search call", "a failed check can be retried for the same question", and "a gate rejection does not open a retry window" |
 | Handbook-style cases (`tests/kasus-uji.test.ts`) | 31, K01 to K31 |
-| Answer check under attack (`tests/pemeriksa.test.ts`) | 225, from the attack rounds below. 7 of them pin known limits, so those limits stay visible |
+| Answer check under attack (`tests/pemeriksa.test.ts`) | 231: 87 curated cases (59 attacks, 3 known limits, 25 honest controls), 140 blind cases written by an agent that could not see the code, and 4 checker behaviour tests |
 | Data formats (`tests/sumber.test.ts`) | 6, covering Android and iPhone WhatsApp exports, multi-line messages, system lines, deleted messages and CSV quoting |
 
-Mutation check: with the permission filter switched off on purpose, 37 tests fail. The tests catch leaks rather than passing by default.
+Mutation check: with the permission filter switched off on purpose, 35 of 298 tests fail. The tests catch leaks rather than passing by default.
 
 ## Answer check under attack
 
@@ -129,12 +129,29 @@ The three-phase team does not meet it. K03 v3 took 1 minute 38 seconds, K27 2 mi
 7. **A search that always returns something invites a made-up frame.** In the first K06 on Runut Cepat, words like "tampilkan" and "kanal" matched unrelated documents, and the agent presented them as the channel's contents. Those words are now ignored by search, a question naming a channel, code or organisation the asker's data does not contain returns nothing, and the answer check rejects channel names it does not recognise.
 8. **Tasks can drag in another project.** One or two pieces of evidence that mention Balado pulled every Balado task into a stock question. Tasks now follow the project the question names, or the project that dominates the evidence.
 9. **Our own check can fight our own prompt.** The prompt required "silakan tanyakan ke [owner]", and the answer check rejected it as a fact with no source. That cost K30 two extra rounds. The exact sentence now passes, but it cannot carry a number, and an unknown name still fails.
-10. **Conversation memory walks around the permission filter.** The filter guards tools, and the model already holds its earlier answers. After access was revoked, the same question in the same conversation was answered from memory with no tool call and no log entry. The prompt now requires a fresh tool call for every question, and the re-test passed, including manager to staff. This is a prompt rule, not a code guarantee, so the live guide now says to start a new task after any change of identity or access.
+10. **Conversation memory walks around the permission filter.** The filter guards tools, and the model already holds its earlier answers. After access was revoked, the same question in the same conversation was answered from memory with no tool call and no log entry. The prompt now requires a fresh tool call for every question, and the re-test passed, including manager to staff. This was originally a prompt rule only. It is now enforced in code: `catat_jawaban` refuses any answer that is not preceded by a new `telusuri` or `cari` call since the last recorded answer (see "Code-enforced fixes" below). A new conversation after any change of identity or access remains best practice for production.
 11. **Matching numbers across a whole line misses wrong numbers.** "Left on 5 October" passed because a 5 appeared in another source cited on that line, or inside a longer number. Numbers now have to appear whole in the sources cited by that sentence. Replaying every recorded passing answer caught the invented voyage, and the Runut Cepat answers it had passed before still pass. A sentence that turns a real number into a wrong claim can still pass if it cites the source holding that number.
 12. **Green tests can hide a weak check.** All 61 tests passed while the answer check rejected only 11 of 55 invented answers. We had never attacked it. Tests written by the person who wrote the code share that person's blind spots, so the scoring round now comes from an agent that cannot see the code.
 13. **A check tuned too hard is as bad as a weak one.** Our first rebuild caught 54 of 55 attacks, and honest answers that still passed fell from 29 to 10 of 36. Checking whether each word appears in the source caught almost nothing extra, so we removed it. Every rule now has to survive the replay of real answers.
 14. **Our prompt told the model to show unchecked text.** Step 3 said "write the answer, then call the check". In 2 of the first 6 turns with the rebuilt check, the model did just that, so a draft the check then rejected was on screen. The step now says the answer goes only inside the tool argument. The next 3 turns showed no text before the check. Three turns is a small sample, and this remains a prompt rule.
 15. **A rule the model keeps breaking belongs in code.** The notice about hidden instructions in an unused source survived two prompt changes, partly because our own tool told the model to tell the asker. The tool wording changed, and the server now removes that notice when no fact comes from the source. The model's first queue time also varies. One simple question took 65 seconds with no retry at all, so the margin under 90 seconds is not as wide as the typical numbers suggest.
+
+## Code-enforced fixes for the remaining findings
+
+After the agent runs above, the failures that could be closed by code were moved out of the prompts. These changes are covered by automated tests, so they do not depend on the model obeying an instruction. The audit page links every original GAGAL/SEBAGIAN row to its fix and to the passing re-run.
+
+| Finding | What changed in code | Tests |
+| --- | --- | --- |
+| After revocation (critical): answer repeated from memory with no tool call | `catat_jawaban` now refuses an answer unless `telusuri` or `cari` was called since the previous answer attempt. The model must gather fresh evidence for every question. The only exception is a same-question retry after a failed check, which keeps Runut Cepat inside its four-tool-call budget. | 4 accountability tests: the standard "nothing found" sentence, the retry path, and two tests that the exception cannot be widened |
+| Balado tasks leaking into stock questions; outdated launch dates | `telusuri` project threshold tightened to require the project to be named in the question or dominant in the evidence, and completed tasks are excluded by default from "what is still open". | 2 updated accountability tests for WMS and Balado task selection |
+| Invented ship departure ("dijadwalkan berangkat") passing the check | A verb negated in the source ("belum berangkat") can no longer be used affirmatively in the answer, even when preceded by a planning word such as "dijadwalkan". | 5 new curated attacks, including wrong timezone labels and dates taken from timestamps |
+| Wrong timezone labels (+07:00 written as WITA) | Existing timestamp-to-timezone check now covered by explicit attack cases for WIB, WITA and WIT. | 3 new curated attacks |
+
+One more problem was found in the final review, internal rather than an agent failure: both prompts retry `catat_jawaban` after a failed check without another search, which the fresh-evidence gate would have rejected. The retry exception is now enforced in code and covered by two new accountability tests. A gate rejection is explicitly excluded from the exception, so a model cannot trigger one rejection and then answer a question from memory with no evidence call at all. The gate also uses a monotonic counter instead of `Date.now()`, so two calls in the same millisecond cannot be mis-ordered.
+
+The result is 298 automated tests (up from 288). The mutation check — disabling the permission filter — still fails 35 of them.
+
+Fixes that cannot be enforced in this MCP-only setup remain prompt or SOP rules and are listed honestly in the [accountability sheet](accountability-sheet.md): the model can still write text to the screen before the check returns, because WorkBuddy controls the display, not our server.
 
 ## Not yet tested in WorkBuddy
 

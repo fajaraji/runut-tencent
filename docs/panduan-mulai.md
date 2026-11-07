@@ -257,7 +257,7 @@ Honestly, because this is what you need to know before trusting it:
 
 ## If you want to see the technical side
 
-There's a separate guide for developers and hackathon judges: **[panduan-teknis.md](panduan-teknis.md)**. It covers terminal commands, how to run 288 automated tests, and the architecture.
+There's a separate guide for developers and hackathon judges: **[panduan-teknis.md](panduan-teknis.md)**. It covers terminal commands, how to run 298 automated tests, and the architecture.
 
 ---
 

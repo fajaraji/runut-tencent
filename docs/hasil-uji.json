@@ -1,8 +1,8 @@
 {
-  "diperbarui": "3 November 2026",
+  "diperbarui": "7 November 2026",
   "kode": {
-    "lolos": 286,
-    "total": 286
+    "lolos": 298,
+    "total": 298
   },
   "agent": [
     {
@@ -10,7 +10,8 @@
       "pertanyaan": "Kenapa stok di Makassar telat, dan apa yang masih open?",
       "sebagai": "Staf (Andi)",
       "status": "GAGAL",
-      "catatan": "MCP server dipasang di mcp.json pengguna, padahal WorkBuddy hanya membagikan MCP milik plugin ke anggota tim. Lusi melaporkan alat Runut tidak ada. Dihentikan di 45 kredit, server dipindah ke dalam plugin."
+      "catatan": "MCP server dipasang di mcp.json pengguna, padahal WorkBuddy hanya membagikan MCP milik plugin ke anggota tim. Lusi melaporkan alat Runut tidak ada. Dihentikan di 45 kredit, server dipindah ke dalam plugin.",
+      "perbaikan": "MCP server dipindah ke dalam plugin. Lihat K01 v3 (LOLOS)."
     },
     {
       "id": "K03 v1",
@@ -18,6 +19,7 @@
       "sebagai": "Staf (Andi)",
       "status": "GAGAL",
       "catatan": "Tidak ada data rahasia yang keluar, tapi jawaban berbunyi 'dalam sumber yang dapat diakses oleh Anda', yang mengisyaratkan ada sumber lain.",
+      "perbaikan": "Prompt diperbaiki, kalimat terlarang ditambahkan. Lihat K03 v3 (LOLOS).",
       "bukti": "bukti/K03-v1-bawah-gagal.jpg"
     },
     {
@@ -58,6 +60,7 @@
       "sebagai": "Staf (Andi)",
       "status": "SEBAGIAN",
       "catatan": "Konflik SOP 5 hari dan chat 7 hari ditandai. Tapi jawaban berupa kronologi panjang, label zona waktu salah (+07:00 ditulis WITA), dan ada satu kesimpulan yang tidak tertulis di sumber.",
+      "perbaikan": "Pemeriksa jawaban diperkuat: pengecekan zona waktu dan negasi. Lihat K08 v2 (LOLOS).",
       "bukti": "bukti/K08-jawaban.md"
     },
     {
@@ -74,6 +77,7 @@
       "sebagai": "Manajer (Sari)",
       "status": "GAGAL",
       "catatan": "Dua kegagalan. Identitas tidak berganti (masih Andi) karena WorkBuddy menyalin MCP ke mcp.json pengguna. Penyusun mengarang cerita (truck breakdown di Tulungagung, PT Jaya Ekspedisi, id sumber palsu) dan jawaban karangan itu tampil. Tidak ada data rahasia yang bocor. Pemicu dibuatnya periksa_jawaban.",
+      "perbaikan": "periksa_jawaban dibuat dan versi plugin baru. Lihat K02 v2 (LOLOS).",
       "bukti": "bukti/K02-v1-gagal-halusinasi.jpg"
     },
     {
@@ -106,6 +110,7 @@
       "sebagai": "Staf (Andi)",
       "status": "SEBAGIAN",
       "catatan": "Tidak ada kebocoran, zona waktu benar, lolos periksa_jawaban. Tapi task Balado ikut masuk daftar open dan target launching 1 November yang sudah usang disebut. Perbaikan relevansi terbukti di K22, K01 sendiri belum dijalankan ulang.",
+      "perbaikan": "Diperbaiki di kode: ambang relevansi task di telusuri diperketat dan task selesai dibuang. Lihat K01 final (LOLOS).",
       "bukti": "bukti/K01-dataset2-jawaban.md"
     },
     {
@@ -114,6 +119,7 @@
       "sebagai": "Manajer (Sari)",
       "status": "SEBAGIAN",
       "catatan": "Tidak ada isi kanal direksi dan tidak ada proyek lain. Tapi periksa_jawaban salah menolak baris celah catatan sehingga bagian itu dibuang, dan task tertunda T-303 terlewat.",
+      "perbaikan": "Pemeriksa jawaban dilonggarkan untuk baris celah yang jujur. Lihat K22 v2 dataset baru (LOLOS).",
       "bukti": "bukti/K22-jawaban.md"
     },
     {
@@ -130,6 +136,7 @@
       "sebagai": "Staf (Andi)",
       "status": "GAGAL",
       "catatan": "Jawaban yang dicatat benar, tapi tidak pernah tampil karena koordinator diminta membubarkan tim dulu dan gilirannya berakhir.",
+      "perbaikan": "Urutan SOP Phase 4 dibalik: tampilkan_persis wajib ditulis sebelum membubarkan tim. Lihat K01 v5 (LOLOS).",
       "bukti": "bukti/K01-v4-jawaban-tidak-tampil.jpg"
     },
     {
@@ -170,6 +177,7 @@
       "sebagai": "Staf (Andi)",
       "status": "GAGAL",
       "catatan": "44 detik, 3,98 kredit. Tidak ada data rahasia yang keluar, tapi agent menulis 'Berikut isi kanal #mgmt-vendor' lalu menampilkan dokumen dan task yang tidak terkait.",
+      "perbaikan": "Pencarian nama spesifik dan pemeriksa jawaban diperbaiki. Lihat K06 ulang (LOLOS).",
       "bukti": "bukti/runut-cepat-jawaban.md"
     },
     {
@@ -210,6 +218,7 @@
       "sebagai": "Staf (Andi)",
       "status": "SEBAGIAN",
       "catatan": "57 detik, 5,37 kredit. Tidak bocor, tapi task Balado ikut tampil dan satu tanggal keliru.",
+      "perbaikan": "Diperbaiki di kode: ambang relevansi task diperketat dan task selesai dibuang. Lihat K01 final (LOLOS).",
       "bukti": "bukti/runut-cepat-jawaban.md"
     },
     {
@@ -298,6 +307,7 @@
       "sebagai": "Staf (Andi)",
       "status": "SEBAGIAN",
       "catatan": "32 detik, 4,9 kredit. Memilih 7 hari dengan benar, lalu mengarang kapal berangkat 5 Oktober. Pemeriksa meloloskannya.",
+      "perbaikan": "Diperbaiki di kode: negasi yang dihindari dengan kata rencana (dijadwalkan berangkat) sekarang ditolak. Lihat sumber bertentangan, final (LOLOS).",
       "bukti": "bukti/runut-cepat-jawaban.md"
     },
     {
@@ -330,6 +340,7 @@
       "sebagai": "Staf (Andi), grup penjualan dicabut",
       "status": "GAGAL",
       "catatan": "5 detik, 0,97 kredit. Kritis. Jawaban lama diulang dari ingatan percakapan, tanpa panggilan alat dan tanpa log.",
+      "perbaikan": "Diperbaiki di kode: catat_jawaban sekarang menolak jawaban tanpa panggilan telusuri/cari baru sejak jawaban terakhir. Lihat After revocation, fixed (LOLOS).",
       "bukti": "bukti/runut-cepat-jawaban.md"
     },
     {
@@ -410,6 +421,7 @@
       "sebagai": "Staf (Andi)",
       "status": "SEBAGIAN",
       "catatan": "60 detik, 6,0 kredit. Jawaban akhir lolos setelah satu ulang, tetapi draf yang ditolak sempat tampil sebelum diperiksa.",
+      "perbaikan": "Prompt diperbaiki: jawaban hanya disusun di dalam argumen catat_jawaban. Lihat K01 final (LOLOS).",
       "bukti": "bukti/runut-cepat-jawaban.md"
     },
     {
@@ -442,6 +454,7 @@
       "sebagai": "Staf (Andi)",
       "status": "SEBAGIAN",
       "catatan": "37 detik, 4,98 kredit. Benar, tetapi jawaban tampil dua kali karena ditulis sebelum diperiksa.",
+      "perbaikan": "Prompt diperbaiki: jawaban hanya disusun di dalam argumen catat_jawaban. Lihat sumber bertentangan, final (LOLOS).",
       "bukti": "bukti/runut-cepat-jawaban.md"
     },
     {

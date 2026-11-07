@@ -35,7 +35,7 @@ server.registerTool(
   "telusuri",
   {
     description:
-      "Satu panggilan untuk mengumpulkan semua bukti sebuah pertanyaan: pesan, dokumen, task proyek terkait, dan pemilik topik, hanya yang boleh dilihat penanya. Pakai ini lebih dulu.",
+      "Satu panggilan untuk mengumpulkan semua bukti sebuah pertanyaan: pesan, dokumen, task proyek terkait, dan pemilik topik, hanya yang boleh dilihat penanya. Pakai ini lebih dulu, dan ulangi untuk SETIAP pertanyaan baru: catat_jawaban menolak jawaban yang tidak didahului panggilan pencarian baru. Pengecualian: perbaikan jawaban untuk pertanyaan yang SAMA setelah pemeriksaan gagal tidak perlu pencarian ulang.",
     inputSchema: { pertanyaan: z.string() },
   },
   async ({ pertanyaan }) => json(runut.telusuri(pertanyaan)),
@@ -123,7 +123,7 @@ server.registerTool(
 server.registerTool(
   "catat_jawaban",
   {
-    description: "Wajib dipanggil sekali di akhir: catat pertanyaan, jawaban final, dan id sumber yang dikutip ke log audit.",
+    description: "Wajib dipanggil sekali di akhir: catat pertanyaan, jawaban final, dan id sumber yang dikutip ke log audit. Harus didahului panggilan telusuri atau cari BARU sejak jawaban terakhir; kalau tidak, jawaban ditolak dan tidak boleh ditampilkan. Perbaikan untuk pertanyaan yang SAMA setelah pemeriksaan gagal boleh tanpa pencarian baru.",
     inputSchema: { pertanyaan: z.string(), jawaban: z.string(), sumber: z.array(z.string()) },
   },
   async ({ pertanyaan, jawaban, sumber }) => json(runut.catatJawaban(pertanyaan, jawaban, sumber)),

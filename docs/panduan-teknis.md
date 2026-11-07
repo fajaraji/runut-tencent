@@ -82,7 +82,7 @@ src/          MCP server: WhatsApp/CSV reader, permission filter, masking,
               draft-only messaging, hash-chained audit log
 workbuddy/    Two plugins: runut-tim (four agents) and runut-cepat (single agent)
 data/         Fictional dataset for PT Sinar Rasa Nusantara
-tests/        288 automated tests
+tests/        298 automated tests
 scripts/      Installer, identity switcher, approval console, panel, results page
 installer/    One-click installers and control panel HTML
 docs/         Documentation and screenshot evidence
@@ -138,7 +138,7 @@ The access filter runs **before** search, inside the MCP server. No prompt holds
 npm test
 ```
 
-288 tests: 24 accountability, 31 handbook-style cases (K01–K31), 225 attacks against the answer checker, 6 data format tests.
+298 tests: 30 accountability, 31 handbook-style cases (K01–K31), 231 attacks against the answer checker (87 curated + 140 blind cases written without seeing the code, plus 4 checker behaviour tests), 6 data format tests.
 
 **Mutation testing:** intentionally disabling the permission filter causes 35 tests to fail — proof that the tests actually catch leaks.
 

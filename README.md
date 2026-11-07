@@ -37,7 +37,8 @@ Both modes share one MCP server that enforces the rules in code.
 | Answer check | Code compares the numbers, dates, people and sources in each sentence with the cited evidence | Code |
 | Sending messages | The agent only writes drafts. A person approves in a separate console | Code |
 | Audit log | Each entry is hash-chained to the one before, so a quiet edit shows | Code |
-| Answer order and memory | The model is told not to show an answer before it passes the check, and not to repeat an old answer after access changes | Prompt only |
+| Fresh evidence per question | `catat_jawaban` refuses an answer unless a new search call was made since the previous answer, so a revoked permission cannot be answered from conversation memory. A failed check may be retried for the same question without a new search; anything else needs fresh evidence | Code |
+| Display order | The model is told not to show an answer before it passes the check, and to display the recorded text word for word | Prompt only, because WorkBuddy controls the screen |
 
 | Mode | Use | Time |
 | --- | --- | --- |
@@ -46,10 +47,11 @@ Both modes share one MCP server that enforces the rules in code.
 
 ## Results and known limits
 
-- 288 automated tests pass. With the permission filter switched off on purpose, 37 of them fail.
+- 298 automated tests pass. With the permission filter switched off on purpose, 35 of them fail.
 - In a blind test written by an agent that could not see the code, the answer check rejected 26 of 30 invented answers and passed 29 of 30 honest ones.
 - A wrong conclusion drawn from true facts can still pass the check.
-- After access was revoked, the model once repeated an old answer from memory. A prompt rule and opening a new task now cover this, and code does not guarantee it.
+- After access was revoked, the model once repeated an old answer from memory. This is now blocked in code: `catat_jawaban` refuses an answer with no fresh search call since the previous one. The only exception is a same-question retry after a failed answer check. Opening a new task after an identity or access change remains best practice.
+- The model can still write text to the screen before the answer check returns, because WorkBuddy controls the display rather than our server.
 - Sending messages is simulated in this prototype.
 
 Every run, failures included, is in [docs/hasil-uji.md](docs/hasil-uji.md).
@@ -77,7 +79,7 @@ Every run, failures included, is in [docs/hasil-uji.md](docs/hasil-uji.md).
 | `workbuddy/runut-tim/` | WorkBuddy expert team: Tata (lead), Lusi (source tracer), Yusuf (timeline writer), Riksa (citation auditor) |
 | `workbuddy/runut-cepat/` | Single agent for the 90-second live test. See [docs/surprise-test.md](docs/surprise-test.md) |
 | `data/` | Our own fictional dataset (PT Sinar Rasa Nusantara, a snack distributor): raw WhatsApp exports, documents, task board, permissions table. See [data/README.md](data/README.md) |
-| `tests/` | 288 automated tests, including 31 handbook-style cases and 225 attacks on the answer check |
+| `tests/` | 298 automated tests, including 31 handbook-style cases and 231 attacks on the answer check |
 | `scripts/` | Installer, identity switch, approval console, MCP smoke test, results page generator, browser control panel |
 | `installer/` | One-click installers for Windows and macOS, plus the control panel page |
 | `video/` | Source of the demo video: script, animated scenes, voice, music and render steps. The rendered file and screen captures are not in git |

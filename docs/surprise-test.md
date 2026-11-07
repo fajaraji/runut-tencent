@@ -19,7 +19,7 @@ Checker scores and limits are in [test results](hasil-uji.md). If an answer appe
 
 ## Stage rules
 
-**After switching identity or changing access rights, click New Task and summon Runut Cepat again.** The permission filter protects the tool, not conversation memory. In the first test, the agent repeated an old answer after access was revoked. The prompt has been fixed and the retest passed, but this remains a prompt-level rule. Only a new task guarantees that old answers are not in the conversation.
+**After switching identity or changing access rights, click New Task and summon Runut Cepat again.** The permission filter protects the tool, not conversation memory. In the first test, the agent repeated an old answer after access was revoked. This is now also blocked in code: `catat_jawaban` refuses an answer unless a new `telusuri` or `cari` call has been made since the last recorded answer, so an answer cannot be shown without fresh evidence. One deliberate exception: when the answer check rejects a draft, the same question may be recorded again without another search, so the fast agent stays inside its four-tool-call limit. Opening a new task is still recommended during the live test, because it removes the earlier answers from the conversation entirely.
 
 ## Possible scenarios from judges, and what we do
 

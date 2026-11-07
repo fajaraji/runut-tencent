@@ -53,11 +53,17 @@
     ["hitung","Selisih ETA adalah 2 hari [doc/po-2291-v2].","Berapa?"],
     ["status","Revisi SOP lead time sudah selesai [T-102].","Status?"],
     ["pemilik","Pemilik revisi SOP lead time adalah Sari Hidayat [T-102].","Siapa?"],
-    ["bocor-angka","- Tidak tercatat alasan 5000 karton dibatalkan (yang kemungkinan tahu: Dedi Pratama, dari [ops-sulawesi/004])","Kenapa?"]
+    ["bocor-angka","- Tidak tercatat alasan 5000 karton dibatalkan (yang kemungkinan tahu: Dedi Pratama, dari [ops-sulawesi/004])","Kenapa?"],
+    ["rencana-fakta","Kapal dijadwalkan berangkat 5 Oktober [ops-sulawesi/002].","Kapan kapal berangkat?"],
+    ["zona-salah-wib","Kapal belum berangkat pukul 15:30 WIB [ops-sulawesi/002].","Jam berapa?"],
+    ["zona-salah-wit","900 karton tiba pukul 08:20 WIT [ops-sulawesi/005].","Jam berapa?"],
+    ["tanggal-dari-stempel","Kapal berangkat 6 Oktober pukul 15:30 [ops-sulawesi/002].","Kapan?"],
+    ["jam-dari-tanggal","Kapal berangkat pukul 06:10 [ops-sulawesi/002].","Jam berapa?"]
   ],
   "batas": [
     ["salah-tanggal","Kapal berangkat 12 Oktober [doc/po-2291-v2].","Kapan?"],
-    ["klaim-tanpa-dukungan","Gudang Makassar kebakaran sehingga stok rusak [ops-sulawesi/005].","Kenapa?"]
+    ["klaim-tanpa-dukungan","Gudang Makassar kebakaran sehingga stok rusak [ops-sulawesi/005].","Kenapa?"],
+    ["tanggal-event-salah","Kapal berangkat 12 Oktober [ops-sulawesi/005].","Kapan kapal berangkat?"]
   ],
   "kontrol": [
     ["jujur","900 karton PO-2291 tiba di gudang Makassar pada 12 Oktober 2026 [ops-sulawesi/005].","Kapan?"],

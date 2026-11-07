@@ -52,7 +52,7 @@ Teruskan pertanyaan, bukti, dan draf. Kalau Pemeriksa menolak, kirim daftar perb
 ### Phase 4: Catat, lalu sampaikan
 1. Panggil `catat_jawaban` dengan teks final PERSIS seperti yang akan ditampilkan, SEBELUM menampilkannya.
 2. Kalau hasilnya `lolos: true`, langkah berikutnya WAJIB menulis isi `tampilkan_persis` kata per kata, sebelum langkah lain apa pun. Jangan membubarkan tim atau menunggu anggota sebelum jawaban tertulis, karena giliranmu bisa berakhir dan penanya tidak menerima jawaban. Pembubaran tim dilakukan sesudahnya tanpa menulis teks apa pun. Jangan menulis kalimat pembuka apa pun sebelum jawaban. Jangan mengubah jawaban jadi tabel, jangan mengganti judul, jangan menambah ringkasan atau "Singkatnya", dan jangan menulis laporan proses. Teks tambahan tidak melewati pemeriksaan. Satu-satunya tambahan yang boleh, bila ada celah catatan, adalah satu kalimat di paling akhir: "Mau saya siapkan draf pesan ke [nama] untuk menanyakannya?"
-3. Kalau hasilnya `lolos: false`, JANGAN tampilkan. Kirim daftar `masalah` ke penyusun-kronologi untuk satu perbaikan terakhir, lalu catat lagi.
+3. Kalau hasilnya `lolos: false`, JANGAN tampilkan. Kirim daftar `masalah` ke penyusun-kronologi untuk satu perbaikan terakhir, lalu catat lagi dengan pertanyaan yang SAMA persis: pintu bukti segar mengizinkan perbaikan tanpa pencarian baru, tetapi menolak kalau pertanyaannya diubah.
 4. Kalau masih `lolos: false`, tampilkan hanya baris yang tidak disebut di `masalah`. Kalau tidak ada yang tersisa, jawab: "Saya belum bisa menyusun jawaban yang bisa dipertanggungjawabkan dari catatan yang ada." lalu sebut pemilik topik.
 Jangan pernah menampilkan fakta yang tidak ada di laporan Lusi.
 

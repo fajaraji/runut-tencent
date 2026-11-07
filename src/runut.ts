@@ -123,6 +123,17 @@ export class Runut {
   dataDir: string;
   logDir: string;
   private ambilId: () => string;
+  // Pintu bukti segar. Penghitung monoton dipakai, bukan Date.now(), supaya dua panggilan
+  // dalam milidetik yang sama tidak pernah tertukar urutannya. Setiap pertanyaan butuh
+  // panggilan telusuri/cari baru sejak upaya catat sebelumnya, jadi model tidak bisa mengulang
+  // jawaban lama dari ingatan percakapan setelah hak akses berubah di tengah percakapan.
+  // Satu pengecualian: perbaikan untuk pertanyaan yang SAMA setelah PEMERIKSA gagal boleh
+  // dicatat ulang tanpa pencarian baru, karena buktinya sudah segar untuk pertanyaan itu.
+  private langkah = 0;
+  private pencarianTerakhir = -1;
+  private upayaTerakhir = -1;
+  private pertanyaanTerakhir: string | null = null;
+  private periksaGagalTerakhir = false;
 
   // Identitas bisa berupa fungsi supaya bisa diganti manusia di tengah demo tanpa restart.
   // Model tetap tidak punya alat untuk mengubahnya.
@@ -225,6 +236,7 @@ export class Runut {
   }
 
   cari(query: string, opsi: { batas?: number; urut?: "relevansi" | "waktu"; dataPribadi?: boolean } = {}) {
+    this.pencarianTerakhir = ++this.langkah;
     const terlihat = this.itemTerlihat();
     const kata = token(query).flatMap((t) => [t, ...(SINONIM[t] ?? [])]);
     const korpus = `${terlihat.map((i) => `${i.sumber} ${i.penulis} ${i.teks}`).join(" ")} ${this.orang().map((o) => o.nama).join(" ")}`.toLowerCase();
@@ -256,16 +268,31 @@ export class Runut {
   // Satu panggilan untuk seluruh bukti: pencarian, task proyek terkait, dan pemilik topik.
   // Dipakai agent cepat supaya uji live selesai dalam 90 detik.
   telusuri(pertanyaan: string) {
+    this.pencarianTerakhir = ++this.langkah;
     const { hasil } = this.cari(pertanyaan, { batas: 12, urut: "waktu" });
     const semuaTask = this.itemTerlihat().filter((i) => i.jenis === "task");
     const proyekDari = (i: Item) => i.sumber.replace("Task board ", "").toLowerCase();
     const sebutan = (p: string) => hasil.filter((h) => `${h.sumber} ${h.teks}`.toLowerCase().includes(p)).length;
     const proyek = [...new Set(semuaTask.map(proyekDari))];
-    // Satu dua bukti yang menyinggung proyek lain tidak boleh menarik semua task proyek itu.
+    // Proyek terkait: yang disebut di pertanyaan, atau yang dominan di bukti (>=50% dari
+    // sebutan terbanyak). Ambang lebih ketat dari versi lama (yang memakai *2>=terkuat)
+    // supaya task Balado tidak ikut ketika pertanyaan tentang PO-2291.
     const disebut = proyek.filter((p) => pertanyaan.toLowerCase().includes(p));
+    const totalSebutan = proyek.reduce((n, p) => n + sebutan(p), 0) || 1;
     const terkuat = Math.max(0, ...proyek.map(sebutan));
-    const terkait = disebut.length ? disebut : proyek.filter((p) => sebutan(p) > 0 && sebutan(p) * 2 >= terkuat);
-    const task = semuaTask.filter((i) => terkait.includes(proyekDari(i))).map((i) => this.keluarkan(i, false));
+    const terkait = disebut.length
+      ? disebut
+      : proyek.filter((p) => {
+          const s = sebutan(p);
+          return s > 0 && s >= terkuat / 2 && s / totalSebutan >= 0.25;
+        });
+    // Task selesai tidak relevan untuk "apa yang masih open" — keluarkan hanya yang
+    // belum selesai, kecuali pertanyaan secara eksplisit menanyakan status semua task.
+    const tanyakanSemua = /\b(?:semua|status|daftar)\b/i.test(pertanyaan);
+    const task = semuaTask
+      .filter((i) => terkait.includes(proyekDari(i)))
+      .filter((i) => tanyakanSemua || !/status: selesai/.test(i.teks))
+      .map((i) => this.keluarkan(i, false));
     // Penanya tidak pernah diarahkan untuk bertanya ke dirinya sendiri.
     const penanya = this.pengguna().nama;
     const calonPemilik = this.pemilikTopik(pertanyaan);
@@ -533,6 +560,9 @@ export class Runut {
 
     // Negasi tidak boleh terbalik: sumber "belum berangkat" tidak mendukung "kapal berangkat",
     // dan sumber "sudah tiba" tidak mendukung "belum tiba". Rencana bukan klaim bahwa sudah terjadi.
+    // Tetapi: jika sumber menegasi sebuah kata kerja ("belum berangkat"), jawaban tidak boleh
+    // memakai kata kerja itu sama sekali dalam bentuk afirmatif — termasuk dengan kata rencana
+    // seperti "dijadwalkan berangkat", karena sumber sudah melaporkan keadaannya.
     const kataSumber = teksSumber.match(/\p{L}+/gu) ?? [];
     const kataKalimat = bersih.toLowerCase().match(/\p{L}+/gu) ?? [];
     const negatif = new Set(kataSumber.filter((_, j) => NEGASI.has(kataSumber[j - 1])));
@@ -543,6 +573,8 @@ export class Runut {
       const depan = kataKalimat[j - 1];
       if (!NEGASI.has(depan) && !RENCANA.has(depan) && negatif.has(w) && !positif.has(w)) tambah(`negasi terbalik: sumber menyatakan belum atau tidak ${w}`);
       if (NEGASI.has(depan) && sudah.has(w) && !negatif.has(w)) tambah(`negasi terbalik: sumber menyatakan sudah ${w}`);
+      // Kata kerja yang dinegasikan di sumber tidak boleh muncul afirmatif walau dengan kata rencana.
+      if (RENCANA.has(depan) && negatif.has(w) && !positif.has(w)) tambah(`kata "${w}" dinegasikan di sumber ("belum ${w}"), tidak boleh dipakai afirmatif walau dengan "${depan}"`);
     });
 
     // Status tugas harus sama dengan kolom statusnya.
@@ -552,10 +584,34 @@ export class Runut {
   }
 
   catatJawaban(pertanyaan: string, jawabanAsli: string, sumber: string[]) {
+    // Pintu kode: setiap pertanyaan butuh bukti yang diambil di giliran ini. Mencegah model
+    // mengulang jawaban lama dari ingatan percakapan setelah hak akses berubah — kasus
+    // "After revocation" yang sempat GAGAL. Pengecualian yang disengaja: kalau upaya sebelumnya
+    // gagal di PEMERIKSA, pertanyaan yang SAMA boleh dicatat ulang tanpa pencarian baru. Tanpa
+    // itu alur perbaikan di prompt macet dan Runut Cepat kehabisan jatah 4 panggilan alat.
+    // Penolakan di pintu ini TIDAK membuka jalur perbaikan: kalau tidak, model bisa memicu satu
+    // penolakan lalu menjawab dari ingatan tanpa pernah memanggil alat bukti.
+    const segar = this.pencarianTerakhir > this.upayaTerakhir;
+    const perbaikan = this.periksaGagalTerakhir && this.pertanyaanTerakhir === pertanyaan;
+    if (!segar && !perbaikan) {
+      this.upayaTerakhir = ++this.langkah;
+      this.pertanyaanTerakhir = pertanyaan;
+      this.periksaGagalTerakhir = false;
+      this.log("catat_jawaban", { pertanyaan, sumber }, { jawaban: jawabanAsli, lolos: false, alasan: "tidak ada panggilan pencarian baru sejak jawaban terakhir" });
+      return {
+        tercatat: true,
+        lolos: false,
+        masalah: [{ kalimat: "", masalah: "Tidak ada panggilan telusuri atau cari baru sejak jawaban terakhir. Panggil salah satu dulu sebelum mencatat jawaban." }],
+        pesan: "Jawaban ini TIDAK dicatat karena tidak ada panggilan pencarian baru. Panggil telusuri atau cari dulu dengan pertanyaan ini, lalu catat lagi.",
+      };
+    }
     const jawaban = buangCatatanInstruksi(jawabanAsli);
     const cek = this.periksaSumber(sumber);
     const isi = this.periksaJawaban(jawaban, pertanyaan);
     const lolos = cek.tidak_sah.length === 0 && isi.lolos;
+    this.upayaTerakhir = ++this.langkah;
+    this.pertanyaanTerakhir = pertanyaan;
+    this.periksaGagalTerakhir = !lolos;
     this.log("catat_jawaban", { pertanyaan, sumber }, { jawaban, lolos, sumber_tidak_sah: cek.tidak_sah, masalah: isi.masalah });
     return lolos
       ? {

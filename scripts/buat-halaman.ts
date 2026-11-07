@@ -20,7 +20,7 @@ const cek = verifikasi(salinanLog);
 const hasil = JSON.parse(readFileSync(join(akar, "docs", "hasil-uji.json"), "utf8")) as {
   diperbarui: string;
   kode: { lolos: number; total: number };
-  agent: { id: string; pertanyaan: string; sebagai: string; status: string; catatan: string; bukti?: string }[];
+  agent: { id: string; pertanyaan: string; sebagai: string; status: string; catatan: string; perbaikan?: string; bukti?: string }[];
 };
 
 const esc = (s: unknown) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
@@ -37,9 +37,12 @@ const barisLog = entri
 
 const barisUji = hasil.agent
   .map(
-    (k) => `<tr><td>${esc(k.id)}</td><td>${esc(k.pertanyaan)}</td><td>${esc(k.sebagai)}</td><td><span class="status ${k.status === "LOLOS" ? "ok" : k.status === "GAGAL" ? "gagal" : "lain"}">${esc(k.status)}</span></td><td>${esc(k.catatan)}${k.bukti ? ` <a href="${esc(k.bukti)}">bukti</a>` : ""}</td></tr>`,
+    (k) => `<tr><td>${esc(k.id)}</td><td>${esc(k.pertanyaan)}</td><td>${esc(k.sebagai)}</td><td><span class="status ${k.status === "LOLOS" ? "ok" : k.status === "GAGAL" ? "gagal" : "lain"}">${esc(k.status)}</span></td><td>${esc(k.catatan)}${k.bukti ? ` <a href="${esc(k.bukti)}">bukti</a>` : ""}${k.perbaikan ? `<div class="perbaikan"><b>Diperbaiki:</b> ${esc(k.perbaikan)}</div>` : ""}</td></tr>`,
   )
   .join("\n");
+
+const jumlahTemuan = hasil.agent.filter((k) => k.status !== "LOLOS").length;
+const jumlahDiperbaiki = hasil.agent.filter((k) => k.status !== "LOLOS" && k.perbaikan).length;
 
 const html = `<!doctype html>
 <html lang="id">
@@ -68,6 +71,8 @@ th { position:sticky; top:0; background:var(--card); font-weight:600; }
 td.hash, code { font-family:ui-monospace, Consolas, monospace; font-size:12px; }
 .status { font-weight:600; }
 .ok { color:var(--ok); } .gagal { color:var(--bad); } .lain { color:var(--warn); }
+.perbaikan { margin-top:6px; padding:6px 8px; border-left:2px solid var(--ok); background:color-mix(in srgb, var(--ok) 7%, transparent); color:var(--fg); font-size:12px; }
+.perbaikan b { color:var(--ok); }
 a { color:var(--accent); }
 footer { color:var(--muted); font-size:13px; margin-top:32px; }
 </style>
@@ -81,9 +86,11 @@ footer { color:var(--muted); font-size:13px; margin-top:32px; }
   <div><b class="${cek.utuh ? "ok" : "gagal"}">${cek.utuh ? "Utuh" : "Rusak di baris " + cek.rusakDi}</b><span>Rantai hash log audit (${cek.jumlah} entri)</span></div>
   <div><b>${hasil.kode.lolos}/${hasil.kode.total}</b><span>Uji otomatis lapisan kode</span></div>
   <div><b>${hasil.agent.filter((k) => k.status === "LOLOS").length}/${hasil.agent.length}</b><span>Uji agent di WorkBuddy yang lolos</span></div>
+  <div><b class="${jumlahDiperbaiki === jumlahTemuan ? "ok" : "lain"}">${jumlahDiperbaiki}/${jumlahTemuan}</b><span>Temuan GAGAL/SEBAGIAN yang punya perbaikan</span></div>
 </div>
 
 <h2>Hasil uji agent di WorkBuddy</h2>
+<p class="lead">Semua kegagalan dan hasil sebagian sengaja tetap ditampilkan. Baris <b>Diperbaiki</b> menautkan tiap temuan ke perbaikannya dan ke uji ulang yang lolos, supaya riwayat perbaikannya bisa diaudit. Sebagian perbaikan dijamin kode (pintu <code>catat_jawaban</code>, relevansi task, pemeriksa negasi), sebagian lain berupa prompt dan urutan SOP.</p>
 <div class="tabel"><table>
 <thead><tr><th>Kasus</th><th>Pertanyaan</th><th>Sebagai</th><th>Status</th><th>Catatan</th></tr></thead>
 <tbody>${barisUji}</tbody>

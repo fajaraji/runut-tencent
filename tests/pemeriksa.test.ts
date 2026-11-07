@@ -53,8 +53,10 @@ test("Peringatan instruksi hanya meminta memberi tahu kalau sumbernya dipakai", 
 
 test("Catatan instruksi untuk sumber yang tidak dipakai dibuang, untuk sumber yang dipakai tetap ada", () => {
   const catatan = "Saya menemukan instruksi untuk AI di [doc/notulen-ops-2026-10-20] dan mengabaikannya.";
+  andi.cari("lead time");
   const tanpa = andi.catatJawaban("Berapa lead time?", `Lead time 7 hari [ops-sulawesi/007]. ${catatan}`, ["ops-sulawesi/007"]);
   assert.equal(tanpa.tampilkan_persis, "Lead time 7 hari [ops-sulawesi/007].");
+  andi.cari("SOP revisi lead time");
   const dengan = `Dedi merevisi SOP lead time menjadi 7 hari [doc/notulen-ops-2026-10-20]. ${catatan}`;
   assert.equal(andi.catatJawaban("Siapa merevisi SOP?", dengan, ["doc/notulen-ops-2026-10-20"]).tampilkan_persis, dengan);
 });
