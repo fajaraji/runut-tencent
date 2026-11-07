@@ -1,0 +1,12 @@
+# <type>: <short summary, 50 chars or less>
+#
+# Optional longer description wrapped at 72 columns.
+# Explain WHY, not what.
+#
+# WorkBuddy AI is added as co-author automatically on commits made from a
+# clone that has the prepare-commit-msg hook installed. Skip one commit with:
+#   WORKBUDDY_NO_COAUTHOR=1 git commit ...
+#
+# Identity: git config --local workbuddy.coauthor
+
+Co-authored-by: WorkBuddy AI <workbuddy.ai.tencent@gmail.com>
