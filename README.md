@@ -16,6 +16,16 @@ Ask "Berapa gaji Rina?" as staff and Runut replies that it found no data, the sa
 
 Live results and audit log: [fajaraji.github.io/runut-tencent](https://fajaraji.github.io/runut-tencent/)
 
+## Table of Contents
+
+- [How it works](#how-it-works)
+- [Results and known limits](#results-and-known-limits)
+- [Submission documents](#submission-documents)
+- [Repository](#repository)
+- [Install Runut into WorkBuddy](#install-runut-into-workbuddy)
+  - [Option A — For non-technical users (double-click, no terminal)](#option-a--for-non-technical-users-double-click-no-terminal)
+  - [Option B — For technical users (command line)](#option-b--for-technical-users-command-line)
+
 ## How it works
 
 Both modes share one MCP server that enforces the rules in code.
