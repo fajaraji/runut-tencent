@@ -16,6 +16,14 @@ Ask "Berapa gaji Rina?" as staff and Runut replies that it found no data, the sa
 
 Live results and audit log: [fajaraji.github.io/runut-tencent](https://fajaraji.github.io/runut-tencent/)
 
+## Explore the implementation
+
+To inspect a single answer, start with the fictional company dataset, follow the WorkBuddy roles, then compare the result with the answer checks. The evaluation below includes both accepted and missed errors.
+
+- [Dataset and access model](data/README.md)
+- [Team workflow](workbuddy/runut-tim/README.md)
+- [Implementation and evaluation](docs/panduan-teknis.md)
+
 ## Table of Contents
 
 - [How it works](#how-it-works)

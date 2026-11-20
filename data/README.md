@@ -37,3 +37,5 @@ Sumber yang tidak tercantum di `izin.csv` tidak bisa dilihat siapa pun.
 - Nama ambigu: dua karyawan bernama Budi.
 - Data pribadi: nomor telepon di chat, NIK dan telepon di data karyawan, gaji di dokumen HR.
 - Catatan yang hilang: kolom "Alasan revisi" kosong, dan "nanti aku jelasin di call".
+
+Mulai dari [daftar orang](orang.json), lalu bandingkan isi [chat](chat) dengan [dokumen proyek](dokumen) untuk menelusuri sumber jawaban contoh.

@@ -6,4 +6,4 @@ Tim expert WorkBuddy untuk pertanyaan riwayat proyek. Koordinator (Tata) menjala
 2. Penyusun Kronologi (Yusuf) menulis jawaban tiga bagian dari bukti saja.
 3. Pemeriksa Sumber (Riksa) memeriksa setiap kalimat sebelum jawaban sampai ke penanya.
 
-Tim ini butuh MCP server Runut terpasang di WorkBuddy. Lihat README di akar repo untuk cara memasangnya.
+Tim ini butuh MCP server Runut terpasang di WorkBuddy. Ikuti [panduan pemasangan](../../README.md). Aturan koordinasi ada di [instruksi Tata](agents/runut-team-lead.md).
